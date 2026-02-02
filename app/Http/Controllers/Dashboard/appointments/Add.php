@@ -14,13 +14,14 @@ class Add extends Controller
     {
         try {
             $validator = Validator::make($request->all(), [
-                "index" => 'nullable|integer',
                 'tax_id' => 'nullable|integer',
                 'declaration'            => 'nullable|string|max:255',
                 'dependencies'             => 'nullable|string',
                 'declaration_fr'         => 'nullable|string|max:255',
                 'dependencies_fr'          => 'nullable|string',
                 'deadline'           => 'nullable|date',
+                'noticeDate'           => 'nullable|date',
+
             ]);
 
             if ($validator->fails()) {
@@ -30,8 +31,11 @@ class Add extends Controller
                     $validator->errors()
                 );
             }
+            $maxIndex = Appointment::max('index');
+            $data = $validator->validated();
+            $data['index'] = $maxIndex ? $maxIndex + 1 : 1;
 
-            Appointment::create($validator->validated());
+            Appointment::create($data);
 
             return Respons::success('تم الإنشاء بنجاح');
         } catch (\Exception $e) {

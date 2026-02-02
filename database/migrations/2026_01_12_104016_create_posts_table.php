@@ -15,12 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('image')->nullable();
             $table->integer('type'); // 2 مقال 1 حصري
-            $table->string('title');
+            $table->string('title')->nullable();
             $table->string('title2')->nullable();
-            $table->text('body');
-            $table->string('title_fr');
+            $table->text('body')->nullable();
+            $table->string('title_fr')->nullable();
             $table->string('title2_fr')->nullable();
-            $table->text('body_fr');
+            $table->text('body_fr')->nullable();
             $table->timestamps();
         });
     }

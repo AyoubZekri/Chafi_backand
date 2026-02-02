@@ -14,7 +14,6 @@ class Add extends Controller
     {
         try {
             $validator = Validator::make($request->all(), [
-                "index" => 'nullable|integer',
                 'pdf' => 'nullable|file|mimes:pdf,doc,docx|max:204800',
                 'published_date' => 'nullable|date',
                 'name' => 'nullable|string|max:255',
@@ -35,6 +34,9 @@ class Add extends Controller
                 $path = $request->file('pdf')->store('Law', 'public');
                 $data['pdf'] = $path;
             }
+
+            $maxIndex = Law::max('index'); // يرجع أكبر قيمة موجودة أو null
+            $data['index'] = $maxIndex ? $maxIndex + 1 : 1;
 
             Law::create($data);
 

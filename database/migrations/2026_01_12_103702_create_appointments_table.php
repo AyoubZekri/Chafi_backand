@@ -18,8 +18,9 @@ return new class extends Migration
             $table->string('declaration');
             $table->string('declaration_fr');
             $table->date('deadline')->nullable();
-            $table->binary('dependencies')->nullable();
-            $table->binary('dependencies_fr')->nullable();
+            $table->string('dependencies')->nullable();
+            $table->string('dependencies_fr')->nullable();
+            $table->date('noticeDate')->nullable();
             $table->timestamps();
         });
 

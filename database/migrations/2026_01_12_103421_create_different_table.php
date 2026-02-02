@@ -16,9 +16,9 @@ return new class extends Migration
             $table->integer('index');
             $table->integer('type'); // 1=FAQ, 2=link, 3=misc
             $table->string('title');
-            $table->text('body');
+            $table->text('body')->nullable();
             $table->string('title_fr');
-            $table->text('body_fr');
+            $table->text('body_fr')->nullable();
             $table->foreignId('law_id')->constrained('laws')->nullable()->default(null);
             $table->string('index_link')->nullable();
             $table->string('calcul')->nullable();

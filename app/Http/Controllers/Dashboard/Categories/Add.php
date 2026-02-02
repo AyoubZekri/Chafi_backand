@@ -14,7 +14,6 @@ class Add extends Controller
     {
         try {
             $validator = Validator::make($request->all(), [
-                "index" => 'nullable|integer',
                 'tax_id' => 'nullable|integer',
                 'type_cat' => 'nullable|integer',
                 'name' => 'nullable|string|max:255',
@@ -29,8 +28,11 @@ class Add extends Controller
                 );
             }
 
+            $maxIndex = Category::max('index');
+            $data = $validator->validated();
+            $data['index'] = $maxIndex ? $maxIndex + 1 : 1;
 
-            Category::create($validator->validated());
+            Category::create($data);
 
             return Respons::success('تم الإنشاء بنجاح');
         } catch (\Exception $e) {

@@ -26,17 +26,19 @@ class Show extends Controller
                 );
             }
 
-            $query = Institution::where('scope', $request->scope)->orderBy('index', 'asc');
+            $query = Institution::query();
+
+            if ($request->scope != 0) {
+                $query->where('scope', $request->scope);
+            }
 
             if ($request->filled('type_institution')) {
                 $query->where('type_institution', $request->type_institution);
             }
 
-            $data = $query->get();
+            $data = $query->orderBy('index', 'asc')->get();
 
-            return Respons::success(
-                 $data
-            );
+            return Respons::success($data);
         } catch (\Exception $e) {
             return Respons::error('غير موجودة', 404);
         }

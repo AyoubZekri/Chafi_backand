@@ -14,14 +14,13 @@ class Add extends Controller
     {
         try {
             $validator = Validator::make($request->all(), [
-                "index" => 'nullable|integer',
-                'type' => 'nullable|integer',
+                'type'          => 'nullable|integer',
                 'title'            => 'nullable|string|max:255',
                 'body'             => 'nullable|string',
                 'title_fr'         => 'nullable|string|max:255',
                 'body_fr'          => 'nullable|string',
                 'law_id'           => 'nullable|integer',
-                'index_link'       => 'nullable|integer',
+                'index_link'       => 'nullable|string',
                 'calcul'           => 'nullable|string|max:255',
             ]);
 
@@ -32,8 +31,10 @@ class Add extends Controller
                     $validator->errors()
                 );
             }
-
-            Different::create($validator->validated());
+            $maxIndex = Different::max('index');
+            $data = $validator->validated();
+            $data['index'] = $maxIndex ? $maxIndex + 1 : 1;
+            Different::create($data);
 
             return Respons::success('تم الإنشاء بنجاح');
         } catch (\Exception $e) {

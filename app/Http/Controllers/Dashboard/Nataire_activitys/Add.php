@@ -14,7 +14,6 @@ class Add extends Controller
     {
         try {
             $validator = Validator::make($request->all(), [
-                "index" => 'nullable|integer',
                 'name'            => 'nullable|string|max:255',
                 'name_fr'         => 'nullable|string|max:255',
             ]);
@@ -26,8 +25,11 @@ class Add extends Controller
                     $validator->errors()
                 );
             }
+            $maxIndex = NataireActivity::max('index');
+            $data = $validator->validated();
+            $data['index'] = $maxIndex ? $maxIndex + 1 : 1;
 
-            NataireActivity::create($validator->validated());
+            NataireActivity::create($data);
 
             return Respons::success('تم الإنشاء بنجاح');
         } catch (\Exception $e) {

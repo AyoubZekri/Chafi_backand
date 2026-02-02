@@ -31,6 +31,22 @@ class Edit extends Controller
             $data = $validator->validated();
 
             $NataireActivity = NataireActivity::find($data['id']);
+            if ($request->filled('index')) {
+
+                $newIndex = $data['index'];
+                $oldIndex = $NataireActivity->index;
+
+                $other = NataireActivity::where('index', $newIndex)
+                    ->where('id', '!=', $NataireActivity->id)
+                    ->first();
+
+                if ($other) {
+                    $other->update([
+                        'index' => $oldIndex
+                    ]);
+                }
+            }
+
             unset($data['id']);
 
             $NataireActivity->update($data);

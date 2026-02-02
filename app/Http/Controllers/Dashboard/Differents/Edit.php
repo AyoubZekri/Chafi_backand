@@ -21,7 +21,7 @@ class Edit extends Controller
                 'title_fr'         => 'nullable|string|max:255',
                 'body_fr'          => 'nullable|string',
                 'law_id'           => 'nullable|integer',
-                'index_link'       => 'nullable|integer',
+                'index_link'       => 'nullable|string',
                 'calcul'           => 'nullable|string|max:255',
             ]);
 
@@ -36,6 +36,22 @@ class Edit extends Controller
             $data = $validator->validated();
 
             $Different = Different::find($data['id']);
+            if ($request->filled('index')) {
+
+                $newIndex = $data['index'];
+                $oldIndex = $Different->index;
+
+                $other = Different::where('index', $newIndex)
+                    ->where('type', $Different->type)
+                    ->where('id', '!=', $Different->id)
+                    ->first();
+
+                if ($other) {
+                    $other->update([
+                        'index' => $oldIndex
+                    ]);
+                }
+            }
             unset($data['id']);
 
             $Different->update($data);

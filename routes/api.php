@@ -62,7 +62,7 @@ Route::post('/Register', [Rejester::class, 'Register']);
 
 
 
-Route::middleware('auth:sanctum')->group(function () {
+// Route::middleware('auth:sanctum')->group(function () {
     Route::put('/user/update', [GoogleAuth::class, 'update']);
     Route::post('/logout', [GoogleAuth::class, 'logout']);
     Route::delete('/user/delete', [GoogleAuth::class, 'destroy']);
@@ -105,7 +105,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('/NataireActivitys/add', [Nataire_activitysAdd::class, 'addNataireActivity']);
     Route::post('/NataireActivitys/Edit', [Nataire_activitysEdit::class, 'EditNataireActivity']);
-    Route::post('/NataireActivitys/Show', [Nataire_activitysShow::class, 'show']);
+    Route::get('/NataireActivitys/Show', [Nataire_activitysShow::class, 'show']);
     Route::post('/NataireActivitys/Delete', [Nataire_activitysDelete::class, 'delete']);
 
     Route::post('/Mypath/add', [MypathsAdd::class, 'addMypath']);
@@ -138,4 +138,4 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/user/TaxsAndApps/Show', [TaxsAndApps::class, 'show']);
 
 
-});
+// });

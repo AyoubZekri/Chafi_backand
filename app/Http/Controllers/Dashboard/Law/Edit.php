@@ -15,8 +15,8 @@ class Edit extends Controller
     {
         try {
             $validator = Validator::make($request->all(), [
-                "index" => 'nullable|integer',
                 'id'=> 'required|integer|exists:laws,id',
+                "index"=>"nullable|integer",
                 'pdf' => 'nullable|file|mimes:pdf,doc,docx|max:10240',
                 'published_date' => 'nullable|date',
                 'name' => 'nullable|string|max:255',
@@ -34,6 +34,22 @@ class Edit extends Controller
             $data = $validator->validated();
 
             $law = Law::findOrFail($data['id']);
+
+            if ($request->filled('index')) {
+
+                $newIndex = $data['index'];
+                $oldIndex = $law->index;
+
+                $otherLaw = Law::where('index', $newIndex)
+                    ->where('id', '!=', $law->id)
+                    ->first();
+
+                if ($otherLaw) {
+                    $otherLaw->update([
+                        'index' => $oldIndex
+                    ]);
+                }
+            }
 
             if ($request->hasFile('pdf')) {
                 if ($law->pdf && Storage::disk('public')->exists($law->pdf)) {

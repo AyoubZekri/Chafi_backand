@@ -37,6 +37,21 @@ class Edit extends Controller
             $data = $validator->validated();
 
             $Activity = Activity::find($data['id']);
+            if ($request->filled('index')) {
+
+                $newIndex = $data['index'];
+                $oldIndex = $Activity->index;
+
+                $other = Activity::where('index', $newIndex)
+                    ->where('id', '!=', $Activity->id)
+                    ->first();
+
+                if ($other) {
+                    $other->update([
+                        'index' => $oldIndex
+                    ]);
+                }
+            }
             unset($data['id']);
 
             $Activity->update($data);

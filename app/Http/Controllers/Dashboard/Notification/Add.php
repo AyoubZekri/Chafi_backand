@@ -14,7 +14,6 @@ class Add extends Controller
     {
         try {
             $validator = Validator::make($request->all(), [
-                "index" => 'nullable|integer',
                 'timer' => 'nullable|date',
                 'tax_id' => 'nullable|integer',
                 'title' => 'nullable|string|max:255',
@@ -32,8 +31,9 @@ class Add extends Controller
                 );
             }
 
+          
 
-          Notification::create($validator->validated());
+            Notification::create($validator->validated());
 
             return Respons::success('تم الإنشاء بنجاح');
         } catch (\Exception $e) {

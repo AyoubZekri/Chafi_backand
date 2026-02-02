@@ -14,7 +14,6 @@ class Add extends Controller
     {
         try {
             $validator = Validator::make($request->all(), [
-                "index" => 'nullable|integer',
                 'type_institution' => 'nullable|integer',
                 'scope'            => 'nullable|integer',
                 'title'            => 'nullable|string|max:255',
@@ -34,7 +33,12 @@ class Add extends Controller
                 );
             }
 
-            Institution::create($validator->validated());
+            $maxIndex = Institution::where('type_institution', $request->type_institution)
+                ->max('index');
+            $data = $validator->validated();
+
+            $data['index'] = $maxIndex ? $maxIndex + 1 : 1;
+            Institution::create($data);
 
             return Respons::success('تم الإنشاء بنجاح');
         } catch (\Exception $e) {

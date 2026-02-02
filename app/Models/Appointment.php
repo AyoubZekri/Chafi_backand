@@ -10,6 +10,6 @@ class Appointment extends Model
     use HasFactory;
 
     protected $fillable = [
-        "index",'tax_id','declaration',"declaration_fr",'deadline','dependencies',"dependencies_fr"
+        "index",'tax_id','declaration',"declaration_fr",'noticeDate','deadline','dependencies',"dependencies_fr"
     ];
 }

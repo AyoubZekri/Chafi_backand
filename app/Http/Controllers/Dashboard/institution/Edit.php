@@ -40,6 +40,24 @@ class Edit extends Controller
             $institution = Institution::find($data['id']);
             unset($data['id']);
 
+            if ($request->filled('index')) {
+
+                $newIndex = $data['index'];
+                $oldIndex = $institution->index;
+
+                $otherInstitution = Institution::where('index', $newIndex)
+                    ->where('type_institution', $institution->type_institution)
+                    ->where('id', '!=', $institution->id)
+                    ->first();
+
+                if ($otherInstitution) {
+                    $otherInstitution->update([
+                        'index' => $oldIndex
+                    ]);
+                }
+            }
+
+
             $institution->update($data);
 
             return Respons::success($institution,'تم التحديث بنجاح');

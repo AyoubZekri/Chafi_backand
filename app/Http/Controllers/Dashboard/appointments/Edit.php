@@ -35,6 +35,22 @@ class Edit extends Controller
             $data = $validator->validated();
 
             $Different = Appointment::find($data['id']);
+
+            if ($request->filled('index')) {
+
+                $newIndex = $data['index'];
+                $oldIndex = $Different->index;
+
+                $other = Appointment::where('index', $newIndex)
+                    ->where('id', '!=', $Different->id)
+                    ->first();
+
+                if ($other) {
+                    $other->update([
+                        'index' => $oldIndex
+                    ]);
+                }
+            }
             unset($data['id']);
 
             $Different->update($data);
