@@ -14,18 +14,21 @@ class Mypath extends Model
         'activity_id','tax_id','activit_special'
     ];
 
+    // Mypath.php
+
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function activity()
     {
-        return $this->belongsTo(Activity::class);
+        return $this->belongsTo(Activity::class, 'activity_id');
     }
 
-    public function natareActivity()
+    public function nataire_activitys()
     {
-        return $this->belongsTo(NataireActivity::class);
+        return $this->belongsTo(Activity::class, 'nataire_activity_id');
     }
+
 }

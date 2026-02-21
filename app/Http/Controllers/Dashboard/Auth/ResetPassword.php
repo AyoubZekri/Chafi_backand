@@ -33,7 +33,7 @@ class ResetPassword extends Controller
             $user->password = Hash::make($request->password);
             $user->save();
 
-            return Respons::success();
+            return Respons::success($user);
         } catch (\Exception $e) {
             return Respons::error('حدث خطأ أثناء تغيير كلمة المرور', 500, $e->getMessage());
         }

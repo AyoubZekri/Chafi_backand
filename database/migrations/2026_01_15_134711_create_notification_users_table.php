@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users');
             $table->foreignId('notification_id')->constrained('notifications');
             $table->boolean('is_read')->default(false);
+            $table->boolean('is_delete')->default(false);
             $table->timestamps();
         });
     }

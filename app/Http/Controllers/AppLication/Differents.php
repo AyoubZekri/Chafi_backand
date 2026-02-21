@@ -25,19 +25,26 @@ class Differents extends Controller
                 );
             }
 
-            $userId = auth()->id(); 
-
-                $data = Different::where('type', $request->type)
-                    ->orderBy('index', 'asc')
+            $userId = auth()->id();
+                    $data = Different::query()
+                    ->where('differents.type', $request->type)
+                    ->orderBy('differents.index', 'asc')
+                    ->leftJoin('laws', 'laws.id', '=', 'differents.law_id')
                     ->with(['reads' => function($q) use ($userId) {
                         $q->where('user_id', $userId);
                     }])
+
+                    ->select(
+                        'differents.*',
+                        'laws.pdf as pdf'
+                    )
                     ->get()
-                    ->map(function($item) {
+                        ->map(function($item) {
                         $item->is_read = $item->reads->count() > 0;
-                        unset($item->reads); 
+                        unset($item->reads);
                         return $item;
                     });
+
 
             return Respons::success(
                  $data

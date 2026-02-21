@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('nataire_activity_id')->constrained('nataire_activitys');
             $table->foreignId('activity_id')->constrained('activitys');
             $table->foreignId('tax_id')->nullable();
-            $table->string('activit_special')->nullable();
+            $table->tinyInteger('activit_special')->nullable();
             $table->timestamps();
         });
     }

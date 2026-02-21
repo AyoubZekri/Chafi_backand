@@ -4,7 +4,7 @@ namespace App\Function;
 
 class Respons
 {
-    public static function success($data, $message = 'Success', $code = 200)
+    public static function success($data = null, $message = 'Success', $code = 200)
     {
         $response = [
             'status' => 1,

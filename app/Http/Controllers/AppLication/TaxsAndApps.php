@@ -25,25 +25,30 @@ class TaxsAndApps extends Controller
                 );
             }
 
-            $userId = auth()->id(); 
+            $userId = auth()->id();
 
             $data = TaxAndApp::where('cat_id', $request->cat_id)
                 ->orderBy('index', 'asc')
-                ->with(['reads' => function($q) use ($userId) {
-                    $q->where('user_id', $userId);
-                }])
+                ->with([
+                    'reads' => function ($q) use ($userId) {
+                        $q->where('user_id', $userId);
+                    },
+                    'law:id,pdf'
+                ])
                 ->get()
-                ->map(function($item) {
-                    $item->is_read = $item->reads->count() > 0;
-                    unset($item->reads); 
+                ->map(function ($item) {
+                    $item->is_read = $item->reads->isNotEmpty();
+                    $item->pdf = $item->law?->pdf;
+                    unset($item->reads, $item->law);
                     return $item;
-            });
+                });
+
 
             return Respons::success(
                  $data
             );
         } catch (\Exception $e) {
-            return Respons::error('غير موجودة', 404);
+            return Respons::error('غير موجودة', 404,$e);
         }
     }
 

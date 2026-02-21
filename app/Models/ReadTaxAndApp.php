@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class ReadTaxAndApp extends Model
 {
     use HasFactory;
+    protected $table = "read_taxs_and_apps";
+
 
     protected $fillable = ['tax_and_app_id','id_read','user_id'];
 

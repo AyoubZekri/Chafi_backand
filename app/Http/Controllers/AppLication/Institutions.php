@@ -25,25 +25,32 @@ class Institutions extends Controller
                 );
             }
 
-            $userId = auth()->id(); 
+            $userId = auth()->id();
 
-            $data = Institution::where('scope', $request->scope)
-                ->orderBy('index', 'asc')
+            $data = Institution::query()
+                ->where('institutions.scope', $request->scope)
+                ->orderBy('institutions.index', 'asc')
+                ->leftJoin('laws', 'laws.id', '=', 'institutions.law_id')
                 ->with(['reads' => function($q) use ($userId) {
                     $q->where('user_id', $userId);
                 }])
+
+                ->select(
+                    'institutions.*',
+                    'laws.pdf as pdf'
+                )
                 ->get()
                 ->map(function($item) {
-                    $item->is_read = $item->reads->count() > 0;
-                    unset($item->reads); 
-                    return $item;
+                $item->is_read = $item->reads->count() > 0;
+                unset($item->reads);
+                return $item;
             });
 
             return Respons::success(
                  $data
             );
         } catch (\Exception $e) {
-            return Respons::error('غير موجودة', 404);
+            return Respons::error('غير موجودة', 404,$e);
         }
     }
 

@@ -21,6 +21,7 @@ class Institution extends Model
 
     public function reads()
     {
-        return $this->hasMany(ReadInstitution::class);
+        return $this->hasMany(ReadInstitution::class, 'institution_id', 'id');
     }
+
 }
