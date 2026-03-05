@@ -19,6 +19,10 @@ use App\Http\Controllers\Dashboard\appointments\Show as AppointmentsShow;
 use App\Http\Controllers\Dashboard\Auth\Login;
 use App\Http\Controllers\Dashboard\Auth\Rejester;
 use App\Http\Controllers\Dashboard\Auth\ResetPassword;
+use App\Http\Controllers\Dashboard\Bonusesandcompensation\Add as BonusesandcompensationAdd;
+use App\Http\Controllers\Dashboard\Bonusesandcompensation\delete as BonusesandcompensationDelete;
+use App\Http\Controllers\Dashboard\Bonusesandcompensation\Edit as BonusesandcompensationEdit;
+use App\Http\Controllers\Dashboard\Bonusesandcompensation\Show as BonusesandcompensationShow;
 use App\Http\Controllers\Dashboard\Categories\Add as CategoriesAdd;
 use App\Http\Controllers\Dashboard\Categories\Delete as CategoriesDelete;
 use App\Http\Controllers\Dashboard\Categories\Edit as CategoriesEdit;
@@ -116,6 +120,12 @@ Route::post('/admin/ResetPassword', [ResetPassword::class, 'ResetPassword']);
     Route::post('/Notification/Delete', [NotificationDelete::class, 'delete']);
 
     Route::get('/User/Show', [UserController::class, 'show']);
+
+    Route::post('/bonusesandcompensations/add', [BonusesandcompensationAdd::class, 'add']);
+    Route::post('/bonusesandcompensations/Edit', [BonusesandcompensationEdit::class, 'Edit']);
+    Route::get('/bonusesandcompensations/Show', [BonusesandcompensationShow::class, 'show']);
+    Route::post('/bonusesandcompensations/Delete', [BonusesandcompensationDelete::class, 'delete']);
+
 
 
     //user
