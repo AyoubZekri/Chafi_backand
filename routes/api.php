@@ -55,6 +55,7 @@ use App\Http\Controllers\Dashboard\Posts\Add as PostsAdd;
 use App\Http\Controllers\Dashboard\Posts\Delete as PostsDelete;
 use App\Http\Controllers\Dashboard\Posts\Edit as PostsEdit;
 use App\Http\Controllers\Dashboard\Posts\Show as PostsShow;
+use App\Http\Controllers\Dashboard\Stats;
 use App\Http\Controllers\Dashboard\taxs_and_apps\Add as Taxs_and_appsAdd;
 use App\Http\Controllers\Dashboard\taxs_and_apps\Delete as Taxs_and_appsDelete;
 use App\Http\Controllers\Dashboard\taxs_and_apps\Edit as Taxs_and_appsEdit;
@@ -99,6 +100,7 @@ Route::post('/admin/ResetPassword', [ResetPassword::class, 'ResetPassword']);
     Route::post('/Appointments/add', [AppointmentsAdd::class, 'addappointments']);
     Route::post('/Appointments/Edit', [AppointmentsEdit::class, 'Editappointments']);
     Route::post('/Appointments/Delete', [AppointmentsDelete::class, 'delete']);
+    Route::post('/Appointments/SendNotification', [AppointmentsAdd::class, 'SendNotification']);
 
     Route::post('/Activitys/add', [ActivitysAdd::class, 'addActivitys']);
     Route::post('/Activitys/Edit', [ActivitysEdit::class, 'EditActivitys']);
@@ -126,6 +128,8 @@ Route::post('/admin/ResetPassword', [ResetPassword::class, 'ResetPassword']);
     Route::get('/bonusesandcompensations/Show', [BonusesandcompensationShow::class, 'show']);
     Route::post('/bonusesandcompensations/Delete', [BonusesandcompensationDelete::class, 'delete']);
 
+    Route::get('/stats', [Stats::class, 'stats']);
+    Route::get('/addUserEnter', [Stats::class, 'addUserEnter']);
 
 
     //user
@@ -147,6 +151,7 @@ Route::post('/admin/ResetPassword', [ResetPassword::class, 'ResetPassword']);
   });
     Route::post('/Notification/send', [NotificationAdd::class, 'SendNotification']);
 
+    Route::get('/addGuestEnter', [Stats::class, 'addGuestEnter']);
 
     Route::post('/Post/Show', [PostsShow::class, 'show']);
     Route::post('/institution/Show', [Show::class, 'show']);

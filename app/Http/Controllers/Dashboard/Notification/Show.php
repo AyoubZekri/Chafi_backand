@@ -25,7 +25,7 @@ class Show extends Controller
                     );
                 }
 
-                $query = Notification::query();
+                $query = Notification::query()->where("Status",true);
 
                 if ($request->filled('tax_id')) {
 

@@ -31,7 +31,7 @@ class Notification
      * @param array $userIds
      * @return array
      */
-    public function sendNotification(string $fcmToken, string $title, string $body, int $userId,int $Notid, array $data = []): array
+    public function sendNotification(string $fcmToken, string $title, string $body): array
     {
         try {
             $notification = FirebaseNotification::create($title, $body);
@@ -39,15 +39,12 @@ class Notification
             // دمج البيانات الإضافية مع الإشعار
             $message = CloudMessage::withTarget('token', $fcmToken)
                 ->withNotification($notification)
-                ->withData($data);
+                ->withData([
+                    'pagename' => $title,
+                    'type' => "general"
+                ]);
 
             $this->messaging->send($message);
-
-            NotificationUsers::create([
-                'notification_id' => $Notid,
-                'is_read' => false,
-                'user_id' => $userId,
-            ]);
 
             return ['status' => true, 'message' => 'تم الإرسال والحفظ بنجاح'];
         } catch (MessagingException $e) {

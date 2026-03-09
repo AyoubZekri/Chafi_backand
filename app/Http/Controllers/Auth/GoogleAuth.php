@@ -57,7 +57,8 @@ class GoogleAuth extends Controller
         $user = User::where('email', $firebase->email)->first();
 
         if ($user) {
-
+            $user->token = $request->token;
+            $user->save();
             if ($user->isUser()) {
                 $token = $user->createToken('auth_token')->plainTextToken;
                 DB::commit();
@@ -84,6 +85,7 @@ class GoogleAuth extends Controller
                 'name' => $firebase->displayName ?? "no name",
                 'email' => $firebase->email,
                 "username"=>$request->username,
+                "token"=>$request->token,
                 "role"=>"user",
                 "numperPhone"=>$request->numperPhone,
                 "wilaya"=>$request->wilaya,
@@ -146,8 +148,11 @@ class GoogleAuth extends Controller
 
         $user = User::where('email', $firebase->email)->first();
 
-        if ($user) {
 
+
+        if ($user) {
+            $user->token = $request->token;
+            $user->save();
             if ($user->isUser()) {
                 $token = $user->createToken('auth_token')->plainTextToken;
                 DB::commit();

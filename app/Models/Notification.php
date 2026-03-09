@@ -10,7 +10,7 @@ class Notification extends Model
     use HasFactory;
 
     protected $fillable = [
-        "tax_id",'title','title_fr','timer','content','content_fr','type_notification'
+        "tax_id",'title','title_fr','Status','timer','content','content_fr','type_notification'
     ];
 
     public function notifications()
