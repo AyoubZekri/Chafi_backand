@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('activitys', function (Blueprint $table) {
             $table->id();
             $table->integer('index');
-            $table->foreignId('nataire_activitys_id')->constrained('nataire_activitys');
+            $table->foreignId('nataire_activitys_id')->constrained('nataire_activitys')->onDelete('cascade')->onUpdate("cascade");
             $table->string('name');
             $table->text('body');
             $table->string('name_fr');

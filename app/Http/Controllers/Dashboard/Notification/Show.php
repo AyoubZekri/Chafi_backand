@@ -25,7 +25,7 @@ class Show extends Controller
                     );
                 }
 
-                $query = Notification::query()->where("Status",true);
+                $query = Notification::query();
 
                 if ($request->filled('tax_id')) {
 
@@ -37,7 +37,7 @@ class Show extends Controller
 
                 }
 
-                $data = $query->get();
+                $data = $query->where("is_delete", false)->get();
 
                 return Respons::success($data);
 

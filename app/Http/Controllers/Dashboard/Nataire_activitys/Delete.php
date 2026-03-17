@@ -26,8 +26,9 @@ class Delete extends Controller
             }
 
             $cat = NataireActivity::find($request->id);
+            $cat->is_delete = true;
+            $cat->save();
 
-            $cat->delete();
 
             return Respons::success('تم الحذف بنجاح');
         } catch (\Exception $e) {

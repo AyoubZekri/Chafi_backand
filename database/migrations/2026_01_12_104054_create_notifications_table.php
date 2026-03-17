@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('type_notification')->nullable();
             $table->integer('tax_id')->nullable();
             $table->date('timer')->nullable();
+            $table->boolean('is_delete')->default(false);
             $table->timestamps();
         });
 

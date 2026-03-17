@@ -13,7 +13,7 @@ class Show extends Controller
     public function show()
     {
         try {
-            $data = NataireActivity::orderBy('index', 'asc')->get();
+            $data = NataireActivity::where("is_delete", false)->orderBy('index', 'asc')->get();
             return Respons::success(
                  $data
             );

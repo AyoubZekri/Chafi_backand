@@ -11,7 +11,7 @@ class Mypath extends Model
 
     protected $fillable = [
         'user_id','person_type','nataire_activity_id',
-        'activity_id','tax_id','activit_special'
+        'activity_id','tax_id','activit_special',
     ];
 
     // Mypath.php

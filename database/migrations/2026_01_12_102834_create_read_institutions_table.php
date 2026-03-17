@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('read_institutions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('institution_id')->constrained('institutions');
-            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('institution_id')->constrained('institutions')->onDelete('cascade')->onUpdate("cascade");
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade')->onUpdate("cascade");
             $table->boolean('id_read')->default(false);
             $table->timestamps();
         });

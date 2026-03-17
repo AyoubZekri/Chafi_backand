@@ -12,8 +12,7 @@ use Kreait\Firebase\Factory;
 use Kreait\Firebase\Exception\Auth\UserNotFound;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
-use stdClass;
-
+use Intervention\Image\Image;
 
 class GoogleAuth extends Controller
 {
@@ -78,7 +77,8 @@ class GoogleAuth extends Controller
         } else {
             $imageContents = Http::get($firebase->photoUrl)->body();
             $fileName = 'user/' . uniqid() . '.jpg';
-            Storage::disk('public')->put($fileName, $imageContents);
+            $image = Image::make($imageContents)->encode('jpg', 80);
+            Storage::disk('public')->put($fileName,$image);
 
             $profilePath = $fileName;
             $user = User::create([

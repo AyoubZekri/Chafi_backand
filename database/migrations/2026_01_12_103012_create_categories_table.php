@@ -16,7 +16,7 @@ return new class extends Migration
             $table->integer('index');
             $table->string('name');
             $table->string('name_fr');
-            $table->foreignId('tax_id')->nullable();
+            $table->integer('tax_id')->nullable();
             $table->integer('type_cat'); // تطبيقات او نضام جبائي
             $table->timestamps();
         });

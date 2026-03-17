@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('appointments', function (Blueprint $table) {
             $table->id();
             $table->integer('index');
-            $table->foreignId('tax_id')->nullable();
+            $table->integer('tax_id')->nullable();
             $table->string('declaration');
             $table->string('declaration_fr');
             $table->date('deadline')->nullable();

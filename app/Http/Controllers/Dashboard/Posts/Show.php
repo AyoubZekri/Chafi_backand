@@ -31,7 +31,7 @@ class Show extends Controller
                 $query->where('id', $request->id);
             }
 
-            $data = $query->get();
+            $data = $query->orderBy('created_at', 'desc') ->get();
 
             return Respons::success(
                  $data

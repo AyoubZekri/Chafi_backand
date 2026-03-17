@@ -14,12 +14,20 @@ return new class extends Migration
         Schema::create('taxs_and_apps', function (Blueprint $table) {
             $table->id();
             $table->integer('index');
-            $table->foreignId('cat_id')->constrained('categories');
+            $table->foreignId('cat_id')
+                ->nullable()          // مهم جداً
+                ->constrained('categories')
+                ->nullOnDelete()
+                ->nullOnUpdate();
             $table->string('title');
             $table->text('body');
             $table->string('title_fr');
             $table->text('body_fr');
-            $table->foreignId('law_id')->constrained('laws')->nullable()->default(null);
+            $table->foreignId('law_id')
+                ->nullable()
+                ->constrained('laws')
+                ->nullOnDelete()
+                ->nullOnUpdate();
             $table->string('index_link')->nullable();
             $table->string('calcul')->nullable();
             $table->timestamps();

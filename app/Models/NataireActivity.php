@@ -11,7 +11,7 @@ class NataireActivity extends Model
 
     protected $table = 'nataire_activitys';
 
-    protected $fillable = ["index",'name',"name_fr"];
+    protected $fillable = ["index",'name',"name_fr",'is_delete'];
 
     public function mypaths()
     {

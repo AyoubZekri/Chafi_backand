@@ -12,7 +12,7 @@ class Activity extends Model
     protected $table = 'activitys';
 
     protected $fillable = [
-        "nataire_activitys_id","index",'name','body','name_fr','body_fr','tax_id','status_tax','code_activity'
+        "nataire_activitys_id","index",'name','body','name_fr','body_fr','tax_id','status_tax','is_delete','code_activity'
     ];
 
     public function mypaths()

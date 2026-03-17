@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('mypaths', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade')->onUpdate("cascade");
             $table->integer('person_type');
-            $table->foreignId('nataire_activity_id')->constrained('nataire_activitys');
-            $table->foreignId('activity_id')->constrained('activitys');
+            $table->foreignId('nataire_activity_id')->nullable()->constrained('nataire_activitys')->onDelete('set null')->onUpdate('set null');
+            $table->foreignId('activity_id')->nullable()->constrained('activitys')->onDelete('set null')->onUpdate('set null');
             $table->foreignId('tax_id')->nullable();
             $table->tinyInteger('activit_special')->nullable();
             $table->timestamps();

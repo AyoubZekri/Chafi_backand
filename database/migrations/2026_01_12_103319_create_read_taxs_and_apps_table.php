@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('read_taxs_and_apps', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('tax_and_app_id')->constrained('taxs_and_apps');
-            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('tax_and_app_id')->constrained('taxs_and_apps')->onDelete('cascade')->onUpdate("cascade");
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade')->onUpdate("cascade");
             $table->boolean('id_read')->default(false);
             $table->timestamps();
         });

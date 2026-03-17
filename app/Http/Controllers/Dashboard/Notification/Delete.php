@@ -26,8 +26,9 @@ class Delete extends Controller
             }
 
             $Notification = Notification::find($request->id);
+            $Notification->is_delete = true;
+            $Notification->save();
 
-            $Notification->delete();
 
             return Respons::success('تم الحذف بنجاح');
         } catch (\Exception $e) {

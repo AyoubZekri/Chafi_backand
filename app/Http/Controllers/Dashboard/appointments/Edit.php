@@ -22,6 +22,8 @@ class Edit extends Controller
                 'declaration_fr'         => 'nullable|string|max:255',
                 'dependencies_fr'          => 'nullable|string',
                 'deadline'           => 'nullable|date',
+                'noticeDate'           => 'nullable|date',
+
             ]);
 
             if ($validator->fails()) {

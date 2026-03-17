@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('read_differents', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('different_id')->constrained('differents');
-            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('different_id')->constrained('differents')->onDelete('cascade')->onUpdate("cascade");
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade')->onUpdate("cascade");
             $table->boolean('id_read')->default(false);
             $table->timestamps();
         });

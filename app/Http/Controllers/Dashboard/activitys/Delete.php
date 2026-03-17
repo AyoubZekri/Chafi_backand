@@ -26,8 +26,8 @@ class Delete extends Controller
             }
 
             $cat = Activity::find($request->id);
-
-            $cat->delete();
+            $cat->is_delete = true;
+            $cat->save();
 
             return Respons::success('تم الحذف بنجاح');
         } catch (\Exception $e) {

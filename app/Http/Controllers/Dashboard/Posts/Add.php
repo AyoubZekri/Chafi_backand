@@ -18,10 +18,10 @@ class Add extends Controller
                 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
                 'title' => 'nullable|string|max:255',
                 'title2' => 'nullable|string|max:255',
-                'body' => 'nullable|string|max:255',
-                'title_fr' => 'nullable|string|max:255', 
+                'body' => 'nullable|string',
+                'title_fr' => 'nullable|string|max:255',
                 'title2_fr' => 'nullable|string|max:255',
-                'body_fr' => 'nullable|string|max:255',
+                'body_fr' => 'nullable|string',
             ]);
 
             if ($validator->fails()) {

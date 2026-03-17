@@ -25,8 +25,22 @@ class Show extends Controller
                 );
             }
 
-        $data = Activity::with('NataireActivity')
-            ->where('nataire_activitys_id', $request->nataire_activitys_id)
+            $query =Activity::query();
+
+            if ($request->filled('nataire_activitys_id')) {
+
+                 $query->where('nataire_activitys_id', $request->nataire_activitys_id);
+
+            }
+
+            $query->whereHas('NataireActivity', function($q) {
+               $q->where('is_delete', false);
+            });
+
+        $data = $query->where("is_delete", false)
+            ->with(['NataireActivity' => function($q) {
+                $q->where('is_delete', false);
+            }])
             ->orderBy('index', 'asc')
             ->get()
             ->map(function($item) {
@@ -38,20 +52,16 @@ class Show extends Controller
                     'body_fr' => $item->body_fr,
                     'tax_id' => $item->tax_id,
                     'nataire_activitys_id' => $item->nataire_activitys_id,
-
                     'status_tax' => $item->status_tax,
                     'code_activity' => $item->code_activity,
                     'index' => $item->index,
                     'updated_at' => $item->updated_at,
                     'created_at' => $item->created_at,
-
-                    // أسماء النظام مباشرة مع النشاط
                     'nataire_name' => $item->NataireActivity?->name,
                     'nataire_name_fr' => $item->NataireActivity?->name_fr,
                 ];
             });
-
-            return Respons::success(
+                return Respons::success(
                  $data
             );
         } catch (\Exception $e) {
