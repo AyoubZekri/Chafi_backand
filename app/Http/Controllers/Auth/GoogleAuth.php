@@ -89,6 +89,11 @@ class GoogleAuth extends Controller
                 }
             } catch (\Exception $e) {
                 $profilePath = null;
+                return response()->json([
+                'status' => 0,
+                'message' => $e
+            ]);
+
             }
         }
         $user = User::create([
