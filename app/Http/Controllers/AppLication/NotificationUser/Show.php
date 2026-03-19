@@ -38,7 +38,6 @@ public function show(Request $request)
                 });
         })
         ->select([
-            'notifications.id',
             'notifications.title',
             'notifications.content',
             'notifications.title_fr',
