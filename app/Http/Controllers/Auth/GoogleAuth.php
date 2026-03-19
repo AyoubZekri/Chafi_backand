@@ -75,7 +75,6 @@ class GoogleAuth extends Controller
                 ], 403);
             }
         } else {
-            $fileName = 'user/' . uniqid() . '.jpg';
             $profilePath = null;
 
             if ($firebase->photoUrl) {
