@@ -46,6 +46,7 @@ public function show(Request $request)
             'notifications.type_notification',
             'notifications.tax_id',
             'notifications.timer',
+            'notification_users.id',
             'notification_users.is_read',
             'notification_users.created_at',
             'notification_users.updated_at',
