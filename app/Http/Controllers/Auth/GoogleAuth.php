@@ -78,24 +78,22 @@ class GoogleAuth extends Controller
             $fileName = 'user/' . uniqid() . '.jpg';
             $profilePath = null;
 
-         if ($firebase->photoUrl) {
-            try {
-                $response = Http::get($firebase->photoUrl);
+            if ($firebase->photoUrl) {
+                try {
+                    $response = Http::timeout(5)->get($firebase->photoUrl);
 
-                if ($response->successful()) {
-                    $image = Image::make($response->body())->encode('jpg', 80);
-                    Storage::disk('public')->put($fileName, $image);
-                    $profilePath = $fileName;
+                    if ($response->successful()) {
+                        $fileName = 'user/' . uniqid() . '.jpg';
+                        Storage::disk('public')->put($fileName, $response->body());
+                        $profilePath = $fileName;
+                    }
+                } catch (\Exception $e) {
+                    return response()->json([
+                        'status' => 0,
+                        'message' => $e->getMessage()
+                    ]);
                 }
-            } catch (\Exception $e) {
-                $profilePath = null;
-                return response()->json([
-                'status' => 0,
-                'message' => $e
-            ]);
-
             }
-        }
         $user = User::create([
                 'name' => $firebase->displayName ?? "no name",
                 'email' => $firebase->email,
