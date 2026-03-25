@@ -17,7 +17,7 @@ class Stats extends Controller
     {
         $today = Carbon::today();
 
-        $user = User::where('role',"admin")->count();
+        $user = User::where('role',"user")->count();
         $totalUsersEnter = ModelsStats::sum('numper_enter');
         $totalGuestsEnter = ModelsStats::sum('numper_enter_Guest');
         $totalUsersEntertoday= ModelsStats::whereDate('created_at', $today)->sum('numper_enter');
