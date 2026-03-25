@@ -22,14 +22,14 @@ class Stats extends Controller
         $totalGuestsEnter = ModelsStats::sum('numper_enter_Guest');
         $totalUsersEntertoday= ModelsStats::whereDate('created_at', $today)->sum('numper_enter');
         $totalGuestsEntertoday = ModelsStats::whereDate('created_at', $today)->sum('numper_enter_Guest');
-        $tax1 = Mypath::where('tax_id', 1)->count();
-        $tax2 = Mypath::where('tax_id', 2)->count();
-        $tax3 = Mypath::where('tax_id', 3)->count();
+        $tax1 = Mypath::where('tax_id', 0)->count();
+        $tax2 = Mypath::where('tax_id', 1)->count();
+        $tax3 = Mypath::where('tax_id', 2)->count();
         $total = Mypath::count();
 
-        $tax1Percent = $total > 0 ? (Mypath::where('tax_id', 1)->count() * 100) / $total : 0;
-        $tax2Percent = $total > 0 ? (Mypath::where('tax_id', 2)->count() * 100) / $total: 0;
-        $tax3Percent = $total > 0 ? (Mypath::where('tax_id', 3)->count() * 100) / $total: 0;
+        $tax1Percent = $total > 0 ? (Mypath::where('tax_id', 0)->count() * 100) / $total : 0;
+        $tax2Percent = $total > 0 ? (Mypath::where('tax_id', 1)->count() * 100) / $total: 0;
+        $tax3Percent = $total > 0 ? (Mypath::where('tax_id', 2)->count() * 100) / $total: 0;
 
         // تقريب النسب
         $tax1Percent = round($tax1Percent, 2);

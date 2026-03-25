@@ -27,48 +27,48 @@ public function show(Request $request)
         ->unique()
         ->toArray();
 
-$query = DB::table('notification_users')
-    ->where('notification_users.user_id', auth()->id())
-    ->where(function ($q) {
-        $q->where('notification_users.is_delete', false)
-          ->orWhereNull('notification_users.is_delete');
-    })
-    ->join('notifications', function ($join) {
-        $join->on('notification_users.notification_id', '=', 'notifications.id')
-             ->where('notifications.Status', 1);
-    })
-    ->select([
-        'notification_users.id',
-        'notifications.title',
-        'notifications.content',
-        'notifications.title_fr',
-        'notifications.content_fr',
-        'notifications.type_notification',
-        'notifications.tax_id',
-        'notifications.timer',
-        'notification_users.is_read',
-        'notification_users.created_at',
-        'notification_users.updated_at',
-    ]);
-    // فلترة الإشعارات حسب مسارات المستخدم
-    $query->where(function ($q) use ($userTaxIds) {
-        $q->whereNull('notifications.tax_id') // إشعارات عامة
-          ->orWhereIn('notifications.tax_id', $userTaxIds); // فقط اللي يطابق مسار المستخدم
-    });
+    $query = DB::table('notification_users')
+        ->where('notification_users.user_id', auth()->id())
+        ->where(function ($q) {
+            $q->where('notification_users.is_delete', false)
+            ->orWhereNull('notification_users.is_delete');
+        })
+        ->join('notifications', function ($join) {
+            $join->on('notification_users.notification_id', '=', 'notifications.id')
+                ->where('notifications.Status', 1);
+        })
+        ->select([
+            'notification_users.id',
+            'notifications.title',
+            'notifications.content',
+            'notifications.title_fr',
+            'notifications.content_fr',
+            'notifications.type_notification',
+            'notifications.tax_id',
+            'notifications.timer',
+            'notification_users.is_read',
+            'notification_users.created_at',
+            'notification_users.updated_at',
+        ]);
+        // فلترة الإشعارات حسب مسارات المستخدم
+        $query->where(function ($q) use ($userTaxIds) {
+            $q->whereNull('notifications.tax_id') // إشعارات عامة
+            ->orWhereIn('notifications.tax_id', $userTaxIds); // فقط اللي يطابق مسار المستخدم
+        });
 
-    // فلترة إضافية لو جا tax_id من الفرونت
-    if ($request->filled('tax_id')) {
-        if ((int)$request->tax_id === 4) {
-            $query->whereNull('notifications.tax_id');
-        } else {
-            $query->where('notifications.tax_id', $request->tax_id);
+        // فلترة إضافية لو جا tax_id من الفرونت
+        if ($request->filled('tax_id')) {
+            if ((int)$request->tax_id === 4) {
+                $query->whereNull('notifications.tax_id');
+            } else {
+                $query->where('notifications.tax_id', $request->tax_id);
+            }
         }
+
+        $data = $query->orderByDesc('notification_users.created_at')->get();
+
+        return Respons::success($data);
     }
-
-    $data = $query->orderByDesc('notification_users.created_at')->get();
-
-    return Respons::success($data);
-}
     public static function IsRead(Request $request)
     {
         try {
