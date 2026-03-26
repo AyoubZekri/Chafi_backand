@@ -44,7 +44,7 @@ class Stats extends Controller
 
         $today = now()->toDateString();
 
-        $dashboard = ModelsStats::select(
+        $dashboardData = ModelsStats::select(
                 'state',
                 DB::raw('SUM(CASE WHEN type_user = 1 THEN 1 ELSE 0 END) as totalUser'),
                 DB::raw('SUM(CASE WHEN type_user = 2 THEN 1 ELSE 0 END) as totalG'),
@@ -52,22 +52,27 @@ class Stats extends Controller
                 DB::raw("SUM(CASE WHEN type_user = 2 AND open_date = '{$today}' THEN 1 ELSE 0 END) as dailyG")
             )
             ->groupBy('state')
-            ->get()
-            ->map(function ($item) {
-                $totalCount = $item->totalUser + $item->totalG;
-                $dailyCount = $item->dailyUser + $item->dailyG;
-                $dailyPercent = $totalCount > 0 ? round(($dailyCount * 100) / $totalCount, 2) : 0;
+            ->get();
 
-                return [
-                    'state' => $item->state,
-                    'dailyUser' => $item->dailyUser,
-                    'dailyG' => $item->dailyG,
-                    'totalUser' => $item->totalUser,
-                    'totalG' => $item->totalG,
-                    'daily_percent' => $dailyPercent,
-                ];
-            });
-            return Respons::success([
+        $totalAllUsers = $dashboardData->sum(fn($item) => $item->totalUser + $item->totalG);
+        $dailyAllUsers = $dashboardData->sum(fn($item) => $item->dailyUser + $item->dailyG);
+
+        $dashboard = $dashboardData->map(function ($item) use ($totalAllUsers, $dailyAllUsers) {
+            $totalCount = $totalAllUsers; // ← مجموع كل الولايات
+            $dailyCount = $item->dailyUser + $item->dailyG;
+
+            $dailyPercent = $totalCount > 0 ? round(($dailyCount * 100) / $totalCount, 2) : 0;
+
+            return [
+                'state' => $item->state,
+                'dailyUser' => $item->dailyUser,
+                'dailyG' => $item->dailyG,
+                'totalUser' => $item->totalUser,
+                'totalG' => $item->totalG,
+                'daily_percent' => $dailyPercent, // نسبة دخول اليوم مقابل الاجمالي لكل الولايات
+            ];
+        });
+         return Respons::success([
             "totalUsersEnter" => $item->totalUser,
             "totalGuestsEnter" =>  $item->totalG,
             "totalUsersEntertoday" =>  $item->dailyUser,
