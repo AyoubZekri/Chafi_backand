@@ -11,7 +11,11 @@ class Stats extends Model
     use HasFactory;
 
     protected $fillable = [
-        "numper_enter",
-        "numper_enter_Guest",
+        // "numper_enter",
+        // "numper_enter_Guest",
+        "device_id",
+        "type_user",
+        "state",
+        "open_date"
     ];
 }

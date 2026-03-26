@@ -129,7 +129,7 @@ Route::post('/admin/ResetPassword', [ResetPassword::class, 'ResetPassword']);
     Route::post('/bonusesandcompensations/Delete', [BonusesandcompensationDelete::class, 'delete']);
 
     Route::get('/stats', [Stats::class, 'stats']);
-    Route::get('/addUserEnter', [Stats::class, 'addUserEnter']);
+    Route::post('/addUserEnter', [Stats::class, 'addUserEnter']);
 
 
     //user
@@ -151,7 +151,7 @@ Route::post('/admin/ResetPassword', [ResetPassword::class, 'ResetPassword']);
   });
     Route::post('/Notification/send', [NotificationAdd::class, 'SendNotification']);
 
-    Route::get('/addGuestEnter', [Stats::class, 'addGuestEnter']);
+    Route::post('/addGuestEnter', [Stats::class, 'addGuestEnter']);
 
     Route::post('/Post/Show', [PostsShow::class, 'show']);
     Route::post('/institution/Show', [Show::class, 'show']);

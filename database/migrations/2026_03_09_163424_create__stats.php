@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('stats', function (Blueprint $table) {
             $table->id();
-            $table->integer('numper_enter')->nullable();
+            // $table->integer('numper_enter')->nullable();
             $table->timestamps();
         });
     }
@@ -23,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('stats');
+        // Schema::dropIfExists('stats');
     }
 };
