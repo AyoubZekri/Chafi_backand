@@ -70,7 +70,7 @@
 
     <footer>
         © <?php echo date('Y'); ?> Chafi <br>
-        Contact: support@chafi.net
+        Contact: chafidz012@gmail.com
     </footer>
 </div>
 
