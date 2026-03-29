@@ -134,16 +134,12 @@
 <div class="mt-12 flex items-center gap-4 text-sm text-secondary">
 <div class="flex -space-x-3 space-x-reverse">
 <div class="w-10 h-10 rounded-full border-2 border-surface bg-slate-200 overflow-hidden">
-<img class="w-full h-full object-cover" data-alt="portrait of a professional algerian businessman smiling with a blurred office background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAC1W9McaMJudk1xVSz1UOA21qD9FFnSC8757V2mgWyL0jd9lm2MOQpWFlVwaOsjsXOjvHzc_L1uhT2O8sn-wjvIFDkFxmie1XaHrlUi0vq9ApTvDngEGw7alcaHeuqoITU1ZbaZFH5XKYR942DgGZrE_LAHokjDDjhyU6LKZdCfY5W0xFVzJJ3u_dkdJbTI_FiFHNg3HtHxU2s1_Q-hW47SrPR8A4W_EtuwfCWo0G8qds092WZ4lLuRoEsO1lbCW0pkUJRmq9cfI08"/>
 </div>
 <div class="w-10 h-10 rounded-full border-2 border-surface bg-slate-300 overflow-hidden">
-<img class="w-full h-full object-cover" data-alt="professional woman in corporate attire with warm confident expression" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBSYoI-Aaz--KHseWQQss2ol1DRagWVSmy7U9btMAVgr8zY5Ra6_rOOg5YEh8pl4qEVTVDtfrPcN9MoXnOuuzKWEvX5u0BmZvYyH8mqw5UfmWlfgaZRumEUpO3IYxfZSTajLyqxb8tBSDadYthRx3SqtdggXlsFoL0bZR4GU_I02wwttC9EVcRDl9vMiS54MuT0xdZeT4eyQJZ80-K01udARURTxDIi8O98cM8t0EPq12azqMPZFXLy3U_lB3_l03L_OrOPQq8MDqEK"/>
 </div>
 <div class="w-10 h-10 rounded-full border-2 border-surface bg-slate-400 overflow-hidden">
-<img class="w-full h-full object-cover" data-alt="close up headshot of a young entrepreneur in a modern setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBIbjCcUGP0IFUNCxV85vxPywODcT8e2CPqPAAbXtbFRgtk7n5QIsMGQYrxOu0vUtREHoNg9TeUeFFRrg8oW8rmjcQflcQHv2fpllKwCwVmubGKwYnIJuvqEJiMpZthqUFAYW3kSudhiqe0WB6b51uRP_hyeM3rePAkIrfDGZ9TFEE2JOI2i-fVEdCfGJ3Uih8XCCJxlNHzGSLkEWf5Yvaz7X5deL1JVKPIuj0VsCVb7SoxHpO25jn1Ltlw8SM_sLGetSGw7b-fuYmo"/>
 </div>
 </div>
-<p>انضم إلى +5000 مستخدم في الجزائر</p>
 </div>
 </div>
 <div class="md:col-span-5 relative group">
