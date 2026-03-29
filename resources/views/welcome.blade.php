@@ -108,24 +108,65 @@
 </div>
 </nav> --}}
 <!-- Hero Section -->
+<section class="relative pt-32 pb-20 md:pt-48 md:pb-32 px-6 overflow-hidden">
+<!-- Asymmetric Background Decorative Elements -->
+<div class="absolute top-0 right-0 -translate-y-1/2 translate-x-1/4 w-[600px] h-[600px] bg-primary/5 rounded-full blur-3xl"></div>
+<div class="absolute bottom-0 left-0 translate-y-1/4 -translate-x-1/4 w-[400px] h-[400px] bg-secondary/5 rounded-full blur-3xl"></div>
 <div class="max-w-7xl mx-auto grid md:grid-cols-12 gap-12 items-center">
-  <!-- النص -->
-  <div class="md:col-span-6 z-10">
-    <span class="inline-block py-1 px-4 rounded-full bg-primary-fixed text-on-primary-fixed-variant text-xs font-bold mb-6 tracking-widest uppercase">الابتكار الجبائي الجزائري</span>
-    <h1 class="text-4xl md:text-6xl font-extrabold text-on-surface leading-[1.2] mb-6 font-headline">
-      شافي: رفيقك الذكي في <br/>
-      <span class="text-primary-container">عالم الجباية بالجزائر</span>
-    </h1>
-    <p class="text-lg md:text-xl text-secondary max-w-2xl mb-10 leading-relaxed font-body">
-      تطبيق يساعد المواطنين والمهنيين على فهم وإدارة الضرائب بكل بساطة وشفافية، بفضل تكنولوجيا متطورة وفهم عميق للقوانين المحلية.
-    </p>
-  </div>
-
-  <!-- الصورة -->
-  <div class="md:col-span-6 relative z-10">
-    <img class="w-full rounded-2xl shadow-2xl object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCsUlGH_rBqqhOFfBIDhVKCT4khlndFL6PfwKbR6vGMpN8tKIOTOCCN0vYEwhi1OpJNWJsyAsrBtSuKBv_wUPRTEHYUiUKOgUb4ZlaNK3bpAA9zi7D1MjNdF_k8efJfrAT8_nYWaqLV-QuuYIkYZbKpPOc2Wkclwm8NmS6KE_DKfRqlQwmPePSFPCfYpeCpkocUgmL1deu7fAKJR900yc06VMsJ7z4paI7cUiNbxgw3iXXeq7zMw5cV2-b65tnyPqeWix99RGrC-r08" alt="صورة توضيحية لتطبيق شافي"/>
-  </div>
-</div></section>
+<div class="md:col-span-7 z-10">
+<span class="inline-block py-1 px-4 rounded-full bg-primary-fixed text-on-primary-fixed-variant text-xs font-bold mb-6 tracking-widest uppercase">الابتكار الجبائي الجزائري</span>
+<h1 class="text-4xl md:text-6xl font-extrabold text-on-surface leading-[1.2] mb-6 font-headline">
+                    شافي: رفيقك الذكي في <br/>
+<span class="text-primary-container">عالم الجباية بالجزائر</span>
+</h1>
+<p class="text-lg md:text-xl text-secondary max-w-2xl mb-10 leading-relaxed font-body">
+                    تطبيق يساعد المواطنين والمهنيين على فهم وإدارة الضرائب بكل بساطة وشفافية، بفضل تكنولوجيا متطورة وفهم عميق للقوانين المحلية.
+                </p>
+{{-- <div class="flex flex-col sm:flex-row gap-4">
+<button class="bg-gradient-to-r from-primary to-primary-container text-on-primary px-8 py-4 rounded-xl font-bold text-lg shadow-lg hover:shadow-primary/20 transition-all flex items-center justify-center gap-2">
+                        ابدأ الآن مجانًا
+                        <span class="material-symbols-outlined">arrow_back</span>
+</button>
+<button class="bg-surface-container-highest text-on-surface-variant px-8 py-4 rounded-xl font-bold text-lg hover:bg-surface-container-high transition-all">
+                        اكتشف المزيد
+                    </button>
+</div> --}}
+<div class="mt-12 flex items-center gap-4 text-sm text-secondary">
+<div class="flex -space-x-3 space-x-reverse">
+<div class="w-10 h-10 rounded-full border-2 border-surface bg-slate-200 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="portrait of a professional algerian businessman smiling with a blurred office background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAC1W9McaMJudk1xVSz1UOA21qD9FFnSC8757V2mgWyL0jd9lm2MOQpWFlVwaOsjsXOjvHzc_L1uhT2O8sn-wjvIFDkFxmie1XaHrlUi0vq9ApTvDngEGw7alcaHeuqoITU1ZbaZFH5XKYR942DgGZrE_LAHokjDDjhyU6LKZdCfY5W0xFVzJJ3u_dkdJbTI_FiFHNg3HtHxU2s1_Q-hW47SrPR8A4W_EtuwfCWo0G8qds092WZ4lLuRoEsO1lbCW0pkUJRmq9cfI08"/>
+</div>
+<div class="w-10 h-10 rounded-full border-2 border-surface bg-slate-300 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="professional woman in corporate attire with warm confident expression" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBSYoI-Aaz--KHseWQQss2ol1DRagWVSmy7U9btMAVgr8zY5Ra6_rOOg5YEh8pl4qEVTVDtfrPcN9MoXnOuuzKWEvX5u0BmZvYyH8mqw5UfmWlfgaZRumEUpO3IYxfZSTajLyqxb8tBSDadYthRx3SqtdggXlsFoL0bZR4GU_I02wwttC9EVcRDl9vMiS54MuT0xdZeT4eyQJZ80-K01udARURTxDIi8O98cM8t0EPq12azqMPZFXLy3U_lB3_l03L_OrOPQq8MDqEK"/>
+</div>
+<div class="w-10 h-10 rounded-full border-2 border-surface bg-slate-400 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="close up headshot of a young entrepreneur in a modern setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBIbjCcUGP0IFUNCxV85vxPywODcT8e2CPqPAAbXtbFRgtk7n5QIsMGQYrxOu0vUtREHoNg9TeUeFFRrg8oW8rmjcQflcQHv2fpllKwCwVmubGKwYnIJuvqEJiMpZthqUFAYW3kSudhiqe0WB6b51uRP_hyeM3rePAkIrfDGZ9TFEE2JOI2i-fVEdCfGJ3Uih8XCCJxlNHzGSLkEWf5Yvaz7X5deL1JVKPIuj0VsCVb7SoxHpO25jn1Ltlw8SM_sLGetSGw7b-fuYmo"/>
+</div>
+</div>
+<p>انضم إلى +5000 مستخدم في الجزائر</p>
+</div>
+</div>
+<div class="md:col-span-5 relative group">
+<div class="relative z-10 rounded-2xl overflow-hidden shadow-2xl border-4 border-white transform rotate-2 group-hover:rotate-0 transition-transform duration-500">
+<img class="w-full aspect-[4/5] object-cover" data-alt="modern financial management dashboard on a tablet screen showing green graphs and clean tax data layouts" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCsUlGH_rBqqhOFfBIDhVKCT4khlndFL6PfwKbR6vGMpN8tKIOTOCCN0vYEwhi1OpJNWJsyAsrBtSuKBv_wUPRTEHYUiUKOgUb4ZlaNK3bpAA9zi7D1MjNdF_k8efJfrAT8_nYWaqLV-QuuYIkYZbKpPOc2Wkclwm8NmS6KE_DKfRqlQwmPePSFPCfYpeCpkocUgmL1deu7fAKJR900yc06VMsJ7z4paI7cUiNbxgw3iXXeq7zMw5cV2-b65tnyPqeWix99RGrC-r08"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent"></div>
+</div>
+<!-- Floating Decorative Cards -->
+<div class="absolute -bottom-6 -right-6 md:-right-12 z-20 bg-surface-container-lowest p-6 rounded-2xl shadow-xl max-w-[200px]">
+<div class="flex items-center gap-3 mb-2">
+<span class="w-8 h-8 rounded-lg bg-emerald-100 text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-sm">trending_up</span>
+</span>
+<span class="text-xs font-bold">دقة الحساب</span>
+</div>
+<div class="h-2 w-full bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[98%]"></div>
+</div>
+<p class="text-[10px] text-secondary mt-2">تغطية كاملة للقانون المالي 2026</p>
+</div>
+</div>
+</div>
+</section>
 <!-- Features Section: Bento Grid -->
 <section class="py-24 bg-surface-container-low px-6" id="features">
 <div class="max-w-7xl mx-auto">
