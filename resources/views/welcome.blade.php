@@ -1,102 +1,92 @@
 <!DOCTYPE html>
-
-<html dir="rtl" lang="ar"><head>
+<html dir="rtl" lang="ar">
+<head>
 <meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Chafi - شافي | رفيقك الذكي في عالم الجباية بالجزائر</title>
+
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;family=Tajawal:wght@400;500;700;800&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+
 <script id="tailwind-config">
-      tailwind.config = {
-        darkMode: "class",
-        theme: {
-          extend: {
-            colors: {
-              "background": "#f8f9fa",
-              "error": "#ba1a1a",
-              "primary": "#2563eb",
-              "secondary-fixed-dim": "#b4c7ec",
-              "inverse-primary": "#70db9d",
-              "inverse-surface": "#2e3132",
-              "on-secondary-container": "#4c5e7d",
-              "outline": "#6e7a70",
-              "surface-tint": "#006d40",
-              "surface-dim": "#d9dadb",
-              "surface": "#f8f9fa",
-              "surface-variant": "#e1e3e4",
-              "error-container": "#ffdad6",
-              "on-tertiary-fixed": "#251a00",
-              "tertiary-fixed-dim": "#ebc162",
-              "on-error-container": "#93000a",
-              "tertiary-fixed": "#ffdf9d",
-              "on-primary-fixed-variant": "#00522f",
-              "on-primary-fixed": "#002110",
-              "tertiary": "#765800",
-              "surface-bright": "#f8f9fa",
-              "surface-container": "#edeeef",
-              "on-secondary-fixed-variant": "#354766",
-              "secondary": "#4d5f7f",
-              "on-secondary": "#ffffff",
-              "on-tertiary": "#ffffff",
-              "surface-container-lowest": "#ffffff",
-              "primary-container": "#008751",
-              "on-error": "#ffffff",
-              "on-surface-variant": "#3e4a41",
-              "on-tertiary-fixed-variant": "#5b4300",
-              "on-background": "#191c1d",
-              "secondary-container": "#c5d8fd",
-              "surface-container-low": "#f3f4f5",
-              "on-secondary-fixed": "#061b38",
-              "primary-fixed": "#8df8b7",
-              "primary-fixed-dim": "#70db9d",
-              "surface-container-highest": "#e1e3e4",
-              "inverse-on-surface": "#f0f1f2",
-              "on-primary": "#ffffff",
-              "on-primary-container": "#fdfff9",
-              "outline-variant": "#bdcabe",
-              "surface-container-high": "#e7e8e9",
-              "secondary-fixed": "#d6e3ff",
-              "on-surface": "#191c1d",
-              "tertiary-container": "#937017",
-              "on-tertiary-container": "#fffdff"
-            },
-            fontFamily: {
-              "headline": ["Tajawal", "Manrope", "sans-serif"],
-              "body": ["Tajawal", "Inter", "sans-serif"],
-              "label": ["Tajawal", "Inter", "sans-serif"]
-            },
-            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
-          },
-        },
+tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      colors: {
+        "background": "#eff6ff",
+        "error": "#1e3a8a",
+        "primary": "#2563eb",
+        "secondary-fixed-dim": "#93c5fd",
+        "inverse-primary": "#bfdbfe",
+        "inverse-surface": "#1e40af",
+        "on-secondary-container": "#3b82f6",
+        "outline": "#60a5fa",
+        "surface-tint": "#3b82f6",
+        "surface-dim": "#dbeafe",
+        "surface": "#eff6ff",
+        "surface-variant": "#dbeafe",
+        "error-container": "#bfdbfe",
+        "on-tertiary-fixed": "#1e3a8a",
+        "tertiary-fixed-dim": "#93c5fd",
+        "on-error-container": "#1e40af",
+        "tertiary-fixed": "#bfdbfe",
+        "on-primary-fixed-variant": "#1e3a8a",
+        "on-primary-fixed": "#1e3a8a",
+        "tertiary": "#3b82f6",
+        "surface-bright": "#eff6ff",
+        "surface-container": "#dbeafe",
+        "on-secondary-fixed-variant": "#1e40af",
+        "secondary": "#3b82f6",
+        "on-secondary": "#ffffff",
+        "on-tertiary": "#ffffff",
+        "surface-container-lowest": "#ffffff",
+        "primary-container": "#93c5fd",
+        "on-error": "#ffffff",
+        "on-surface-variant": "#1e40af",
+        "on-tertiary-fixed-variant": "#1e40af",
+        "on-background": "#1e3a8a",
+        "secondary-container": "#bfdbfe",
+        "surface-container-low": "#dbeafe",
+        "on-secondary-fixed": "#1e40af",
+        "primary-fixed": "#bfdbfe",
+        "primary-fixed-dim": "#93c5fd",
+        "surface-container-highest": "#dbeafe",
+        "inverse-on-surface": "#e0f2fe",
+        "on-primary": "#ffffff",
+        "on-primary-container": "#dbeafe",
+        "outline-variant": "#60a5fa",
+        "surface-container-high": "#dbeafe",
+        "secondary-fixed": "#dbeafe",
+        "on-surface": "#1e3a8a",
+        "tertiary-container": "#93c5fd",
+        "on-tertiary-container": "#ffffff"
+      },
+      fontFamily: {
+        "headline": ["Tajawal", "Manrope", "sans-serif"],
+        "body": ["Tajawal", "Inter", "sans-serif"],
+        "label": ["Tajawal", "Inter", "sans-serif"]
       }
-    </script>
+    }
+  }
+}
+</script>
+
 <style>
-      body {
-        font-family: 'Tajawal', sans-serif;
-        background-color: #f8f9fa;
-        color: #191c1d;
-      }
-      .material-symbols-outlined {
-        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-      }
-      .glass-nav {
-        background: rgba(255, 255, 255, 0.8);
-        backdrop-filter: blur(20px);
-      }
-    </style>
- <!-- SEO Meta -->
-<meta name="description" content="شافي هو تطبيق ذكي يساعدك على فهم وحساب الضرائب في الجزائر بسهولة وشفافية.">
-<meta name="keywords" content="الجباية الجزائر, حساب الضرائب, قانون المالية الجزائر, Chafi">
-
-<!-- Canonical -->
-<link rel="canonical" href="https://chafi.net/">
-
-<meta property="og:title" content="Chafi - شافي">
-<meta property="og:description" content="رفيقك الذكي في عالم الجباية بالجزائر">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://chafi.net/">
+body {
+  font-family: 'Tajawal', sans-serif;
+  background-color: #eff6ff;
+  color: #1e3a8a;
+}
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+.glass-nav {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(20px);
+}
+</style>
 
 </head>
 <body class="bg-surface text-on-surface overflow-x-hidden">
