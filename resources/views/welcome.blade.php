@@ -13,59 +13,60 @@
         darkMode: "class",
         theme: {
           extend: {
-colors: {
-  "background": "#f8f9fa",
-  "error": "#ba1a1a",
-  "primary": "#2563eb",
+            colors: {
+            "background": "#f8f9fa",
+            "error": "#ba1a1a",
+            "primary": "#2563eb",
 
-  // 🔵 بدل الأخضر
-  "surface-tint": "#2563eb",
-  "primary-container": "#2563eb",
-  "primary-fixed": "#2563eb",
-  "primary-fixed-dim": "#2563eb",
-  "inverse-primary": "#2563eb",
+            // 🔵 بدل الأخضر
+            "surface-tint": "#2563eb",
+            "primary-container": "#2563eb",
+            "primary-fixed": "#2563eb",
+            "primary-fixed-dim": "#2563eb",
+            "inverse-primary": "#2563eb",
 
-  // الباقي خليه
-  "secondary-fixed-dim": "#b4c7ec",
-  "inverse-surface": "#2e3132",
-  "on-secondary-container": "#4c5e7d",
-  "outline": "#6e7a70",
-  "surface-dim": "#d9dadb",
-  "surface": "#f8f9fa",
-  "surface-variant": "#e1e3e4",
-  "error-container": "#ffdad6",
-  "on-tertiary-fixed": "#251a00",
-  "tertiary-fixed-dim": "#ebc162",
-  "on-error-container": "#93000a",
-  "tertiary-fixed": "#ffdf9d",
-  "on-primary-fixed-variant": "#00522f",
-  "on-primary-fixed": "#002110",
-  "tertiary": "#765800",
-  "surface-bright": "#f8f9fa",
-  "surface-container": "#edeeef",
-  "on-secondary-fixed-variant": "#354766",
-  "secondary": "#4d5f7f",
-  "on-secondary": "#ffffff",
-  "on-tertiary": "#ffffff",
-  "surface-container-lowest": "#ffffff",
-  "on-error": "#ffffff",
-  "on-surface-variant": "#3e4a41",
-  "on-tertiary-fixed-variant": "#5b4300",
-  "on-background": "#191c1d",
-  "secondary-container": "#c5d8fd",
-  "surface-container-low": "#f3f4f5",
-  "on-secondary-fixed": "#061b38",
-  "surface-container-highest": "#e1e3e4",
-  "inverse-on-surface": "#f0f1f2",
-  "on-primary": "#ffffff",
-  "on-primary-container": "#fdfff9",
-  "outline-variant": "#bdcabe",
-  "surface-container-high": "#e7e8e9",
-  "secondary-fixed": "#d6e3ff",
-  "on-surface": "#191c1d",
-  "tertiary-container": "#937017",
-  "on-tertiary-container": "#fffdff"
-}            fontFamily: {
+            // الباقي خليه
+            "secondary-fixed-dim": "#b4c7ec",
+            "inverse-surface": "#2e3132",
+            "on-secondary-container": "#4c5e7d",
+            "outline": "#6e7a70",
+            "surface-dim": "#d9dadb",
+            "surface": "#f8f9fa",
+            "surface-variant": "#e1e3e4",
+            "error-container": "#ffdad6",
+            "on-tertiary-fixed": "#251a00",
+            "tertiary-fixed-dim": "#ebc162",
+            "on-error-container": "#93000a",
+            "tertiary-fixed": "#ffdf9d",
+            "on-primary-fixed-variant": "#00522f",
+            "on-primary-fixed": "#002110",
+            "tertiary": "#765800",
+            "surface-bright": "#f8f9fa",
+            "surface-container": "#edeeef",
+            "on-secondary-fixed-variant": "#354766",
+            "secondary": "#4d5f7f",
+            "on-secondary": "#ffffff",
+            "on-tertiary": "#ffffff",
+            "surface-container-lowest": "#ffffff",
+            "on-error": "#ffffff",
+            "on-surface-variant": "#3e4a41",
+            "on-tertiary-fixed-variant": "#5b4300",
+            "on-background": "#191c1d",
+            "secondary-container": "#c5d8fd",
+            "surface-container-low": "#f3f4f5",
+            "on-secondary-fixed": "#061b38",
+            "surface-container-highest": "#e1e3e4",
+            "inverse-on-surface": "#f0f1f2",
+            "on-primary": "#ffffff",
+            "on-primary-container": "#fdfff9",
+            "outline-variant": "#bdcabe",
+            "surface-container-high": "#e7e8e9",
+            "secondary-fixed": "#d6e3ff",
+            "on-surface": "#191c1d",
+            "tertiary-container": "#937017",
+            "on-tertiary-container": "#fffdff"
+            }
+            fontFamily: {
               "headline": ["Tajawal", "Manrope", "sans-serif"],
               "body": ["Tajawal", "Inter", "sans-serif"],
               "label": ["Tajawal", "Inter", "sans-serif"]
@@ -104,14 +105,14 @@ colors: {
 </head>
 <body class="bg-surface text-on-surface overflow-x-hidden">
 <!-- TopNavBar -->
-<nav class="fixed top-0 w-full z-50 glass-nav border-b border-emerald-900/5 transition-all duration-300">
+<nav class="fixed top-0 w-full z-50 glass-nav border-b border-primary/10 transition-all duration-300">
 <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
 <div class="flex items-center gap-8">
-<a class="text-2xl font-bold tracking-tighter text-emerald-800 dark:text-emerald-300 font-headline" href="#">Chafi شافي</a>
+<a class="text-2xl font-bold tracking-tighter text-primary dark:text-primary font-headline" href="#">Chafi شافي</a>
 <div class="hidden md:flex gap-6 items-center">
-<a class="text-slate-600 hover:text-emerald-600 transition-colors font-medium text-sm" href="#">Tax Guide</a>
-<a class="text-slate-600 hover:text-emerald-600 transition-colors font-medium text-sm" href="#features">Features</a>
-<a class="text-slate-600 hover:text-emerald-600 transition-colors font-medium text-sm" href="#founder">Founder</a>
+<a class="text-slate-600 hover:text-primary transition-colors font-medium text-sm" href="#">Tax Guide</a>
+<a class="text-slate-600 hover:text-primary transition-colors font-medium text-sm" href="#features">Features</a>
+<a class="text-slate-600 hover:text-primary transition-colors font-medium text-sm" href="#founder">Founder</a>
 
 </div>
 </div>
@@ -165,7 +166,7 @@ colors: {
 <!-- Floating Decorative Cards -->
 <div class="absolute -bottom-6 -right-6 md:-right-12 z-20 bg-surface-container-lowest p-6 rounded-2xl shadow-xl max-w-[200px]">
 <div class="flex items-center gap-3 mb-2">
-<span class="w-8 h-8 rounded-lg bg-emerald-100 text-primary flex items-center justify-center">
+<span class="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center">
 <span class="material-symbols-outlined text-sm">trending_up</span>
 </span>
 <span class="text-xs font-bold">دقة الحساب</span>
