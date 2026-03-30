@@ -86,6 +86,18 @@
         backdrop-filter: blur(20px);
       }
     </style>
+ <!-- SEO Meta -->
+<meta name="description" content="شافي هو تطبيق ذكي يساعدك على فهم وحساب الضرائب في الجزائر بسهولة وشفافية.">
+<meta name="keywords" content="الجباية الجزائر, حساب الضرائب, قانون المالية الجزائر, Chafi">
+
+<!-- Canonical -->
+<link rel="canonical" href="https://chafi.net/">
+
+<meta property="og:title" content="Chafi - شافي">
+<meta property="og:description" content="رفيقك الذكي في عالم الجباية بالجزائر">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://chafi.net/">
+
 </head>
 <body class="bg-surface text-on-surface overflow-x-hidden">
 {{-- <!-- TopNavBar -->
