@@ -106,16 +106,16 @@
 <div class="flex items-center gap-8">
 <a class="text-2xl font-bold tracking-tighter text-emerald-800 dark:text-emerald-300 font-headline" href="#">Chafi شافي</a>
 <div class="hidden md:flex gap-6 items-center">
+<a class="text-slate-600 hover:text-emerald-600 transition-colors font-medium text-sm" href="#">Tax Guide</a>
 <a class="text-slate-600 hover:text-emerald-600 transition-colors font-medium text-sm" href="#features">Features</a>
 <a class="text-slate-600 hover:text-emerald-600 transition-colors font-medium text-sm" href="#founder">Founder</a>
-<a class="text-slate-600 hover:text-emerald-600 transition-colors font-medium text-sm" href="#">Tax Guide</a>
-<a class="text-slate-600 hover:text-emerald-600 transition-colors font-medium text-sm" href="#">Pricing</a>
+
 </div>
 </div>
 <div class="flex items-center gap-4">
-<button class="bg-gradient-to-r from-primary to-primary-container text-on-primary px-6 py-2.5 rounded-xl font-bold text-sm scale-95 active:scale-90 transition-transform shadow-md">
+{{-- <button class="bg-gradient-to-r from-primary to-primary-container text-on-primary px-6 py-2.5 rounded-xl font-bold text-sm scale-95 active:scale-90 transition-transform shadow-md">
                     Get Started
-                </button>
+                </button> --}}
 </div>
 </div>
 </nav>
