@@ -131,7 +131,6 @@ Route::post('/admin/ResetPassword', [ResetPassword::class, 'ResetPassword']);
     Route::get('/stats', [Stats::class, 'stats']);
     Route::post('/addUserEnter', [Stats::class, 'addUserEnter']);
 
-
     //user
 
     Route::post('/NotificationUser/Delete', [NotificationUserDelete::class, 'delete']);
