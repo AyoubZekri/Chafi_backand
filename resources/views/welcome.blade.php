@@ -151,7 +151,7 @@
             </div>
 
             <div class="badge">
-                BACKEND API v1.2
+                BACKEND API v1.0
             </div>
 
             <h1 class="text-4xl font-extrabold text-slate-900 mb-6 tracking-tight">مشروع شافي</h1>
@@ -161,7 +161,7 @@
                 جميع الواجهات الرسومية متاحة عبر تطبيق الهاتف والويب.
             </p>
 
-            <div class="space-y-4">
+            <!-- <div class="space-y-4">
                 <div class="bg-slate-50/50 border border-slate-100 p-5 rounded-2xl flex items-center justify-between group transition-colors hover:bg-white">
                     <div class="flex items-center gap-4">
                         <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-sm border border-slate-100">
@@ -177,13 +177,13 @@
                     <div class="status-dot"></div>
                 </div>
 
-                <a href="/api" class="flex items-center justify-center gap-3 w-full py-5 bg-slate-900 text-white rounded-2xl font-bold hover:bg-blue-700 transition-all shadow-xl shadow-slate-200 active:scale-95">
+               <a href="/api" class="flex items-center justify-center gap-3 w-full py-5 bg-slate-900 text-white rounded-2xl font-bold hover:bg-blue-700 transition-all shadow-xl shadow-slate-200 active:scale-95">
                     <span>التوجه إلى التوثيق</span>
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                     </svg>
-                </a>
-            </div>
+                </a> 
+            </div> -->
 
             <footer class="mt-12 text-slate-400 text-sm font-medium">
                 &copy; {{ date('Y') }} Chafi Team. All rights reserved.

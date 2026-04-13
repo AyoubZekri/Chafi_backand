@@ -71,7 +71,7 @@ Route::post('/admin/ResetPassword', [ResetPassword::class, 'ResetPassword']);
 
 
 
-  Route::middleware('auth:sanctum')->group(function () {
+  // Route::middleware('auth:sanctum')->group(function () {
     Route::post('/user/update', [GoogleAuth::class, 'update']);
     Route::get('/logout', [GoogleAuth::class, 'logout']);
     Route::delete('/user/delete', [GoogleAuth::class, 'destroy']);
@@ -147,7 +147,7 @@ Route::post('/admin/ResetPassword', [ResetPassword::class, 'ResetPassword']);
     Route::post('/user/Institution/Show', [Institutions::class, 'show']);
     Route::post('/user/TaxsAndApps/Show', [TaxsAndApps::class, 'show']);
 
-  });
+  // });
     Route::post('/Notification/send', [NotificationAdd::class, 'SendNotification']);
 
     Route::post('/addGuestEnter', [Stats::class, 'addGuestEnter']);
