@@ -30,7 +30,7 @@ class Institutions extends Controller
         $data = Institution::query()
             ->where('scope', $request->scope)
             ->orderBy('index', 'asc')
-            ->with('laws.law') // بدون تعقيد
+            // ->with('laws.law') // بدون تعقيد
             // ->with([
             //     'reads' => function($q) use ($userId) {
             //         $q->where('user_id', $userId);
