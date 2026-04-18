@@ -13,8 +13,9 @@ class Institutions extends Controller
     public function show(Request $request)
     {
         try {
+
             $validator = Validator::make($request->all(), [
-                'scope'            => 'required|integer',
+                'scope' => 'required|integer',
             ]);
 
             if ($validator->fails()) {
@@ -28,49 +29,42 @@ class Institutions extends Controller
             $userId = auth()->id();
 
             $data = Institution::query()
-                ->where('institutions.scope', $request->scope)
-                ->orderBy('institutions.index', 'asc')
-                ->leftJoin('laws', 'laws.id', '=', 'institutions.law_id')
-            ->with([
-                'laws' => function ($q) {
-                    $q->orderBy('index_link', 'asc')
-                    ->with(['law:id,pdf']); // نجيب pdf من جدول laws
-                },
+                ->where('scope', $request->scope)
+                ->orderBy('index', 'asc')
+                ->with([
+                    // pivot laws + relation law (for pdf)
+                    'laws.law:id,pdf',
 
-                'reads' => function($q) use ($userId) {
-                    $q->where('user_id', $userId);
-                }
-            ])
-
-                ->select(
-                    'institutions.*',
-                    'laws.pdf as pdf'
-                )
+                    // read status
+                    'reads' => function ($q) use ($userId) {
+                        $q->where('user_id', $userId);
+                    }
+                ])
                 ->get()
-                ->map(function($item) {
-                $item->is_read = $item->reads->count() > 0;
-                unset($item->reads);
-                $item->laws = $item->laws->map(function ($law) {
-                    return [
-                        'law_id'     => $law->law_id,
-                        'name_ar'    => $law->name_ar,
-                        'name_fr'    => $law->name_fr,
-                        'index_link' => $law->index_link,
-                        'pdf'        => $law->law->pdf ?? null,
-                    ];
+                ->map(function ($item) {
+
+                    // is_read
+                    $item->is_read = $item->reads->isNotEmpty();
+                    unset($item->reads);
+
+                    // format laws
+                    $item->laws = $item->laws->map(function ($law) {
+                        return [
+                            'law_id'     => $law->law_id,
+                            'name_ar'    => $law->name_ar,
+                            'name_fr'    => $law->name_fr,
+                            'index_link' => $law->index_link,
+                            'pdf'        => $law->law?->pdf,
+                        ];
+                    });
+
+                    return $item;
                 });
 
-                return $item;
-            });
+            return Respons::success($data);
 
-            return Respons::success(
-                 $data
-            );
         } catch (\Exception $e) {
-            return Respons::error('غير موجودة', 404,$e);
+            return Respons::error('غير موجودة', 404, $e->getMessage());
         }
     }
-
-
-
 }
