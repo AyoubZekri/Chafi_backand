@@ -18,6 +18,11 @@ class Different extends Model
         return $this->belongsTo(Law::class);
     }
 
+    public function laws()
+    {
+        return $this->hasMany(DifferentLaw::class, 'different_id');
+    }
+
     public function reads()
     {
         return $this->hasMany(ReadDifferent::class);

@@ -25,7 +25,7 @@ class Show extends Controller
                 );
             }
 
-            $data = Different::where('type', $request->type)->orderBy('index', 'asc')->get();
+            $data = Different::with('laws')->where('type', $request->type)->orderBy('index', 'asc')->get();
 
             return Respons::success(
                  $data

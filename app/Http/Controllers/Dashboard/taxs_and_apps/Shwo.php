@@ -39,7 +39,7 @@ class Shwo extends Controller
                 });
             }
 
-            $data = $query->orderBy('index', 'asc')->get();
+            $data = $query->with('laws')->orderBy('index', 'asc')->get();
 
             return Respons::success($data);
         } catch (\Exception $e) {

@@ -25,6 +25,12 @@ class TaxAndApp extends Model
         return $this->belongsTo(Law::class);
     }
 
+
+    public function laws()
+    {
+        return $this->hasMany(LawTaxAndApp::class, 'taxs_and_app_id');
+    }
+
     public function reads()
     {
         return $this->hasMany(ReadTaxAndApp::class);

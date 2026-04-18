@@ -6,6 +6,7 @@ use App\Function\Respons;
 use App\Http\Controllers\Controller;
 use App\Models\Different;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class Add extends Controller
@@ -20,6 +21,12 @@ class Add extends Controller
                 'title_fr'         => 'nullable|string|max:255',
                 'body_fr'          => 'nullable|string',
                 'law_id'           => 'nullable|integer',
+                'laws' => 'nullable|array',
+                'laws.*.law_id' => 'nullable|integer',
+                'laws.*.name_ar' => 'nullable|string',
+                'laws.*.name_fr' => 'nullable|string',
+                'laws.*.index_link' => 'nullable|integer',
+
                 'index_link'       => 'nullable|string',
                 'calcul'           => 'nullable|string|max:255',
             ]);
@@ -31,13 +38,28 @@ class Add extends Controller
                     $validator->errors()
                 );
             }
+            DB::beginTransaction();
+
             $maxIndex = Different::max('index');
             $data = $validator->validated();
+            $laws = $data['laws'] ?? [];
+            unset($data['laws']);
             $data['index'] = $maxIndex ? $maxIndex + 1 : 1;
-            Different::create($data);
+            $Different = Different::create($data);
+                foreach ($laws as $law) {
+                    $Different->laws()->create([
+                        'law_id'        => $law['law_id'],
+                        'name_ar'       => $law['name_ar'] ?? null,
+                        'name_fr'       => $law['name_fr'] ?? null,
+                        'index_link'    => $law['index_link'] ?? null,
+                    ]);
+                }
+        DB::commit();
 
+            DB::commit();
             return Respons::success('تم الإنشاء بنجاح');
         } catch (\Exception $e) {
+            DB::rollback();
             return Respons::error(
                 'حدث خطأ أثناء الإنشاء',
                 500,

@@ -30,18 +30,35 @@ class TaxsAndApps extends Controller
             $data = TaxAndApp::where('cat_id', $request->cat_id)
                 ->orderBy('index', 'asc')
                 ->with([
-                    'reads' => function ($q) use ($userId) {
-                        $q->where('user_id', $userId);
+                    'laws' => function ($q) {
+                        $q->orderBy('index_link', 'asc')
+                        ->with(['law:id,pdf']); // نجيب pdf من جدول laws
                     },
-                    'law:id,pdf'
+
+                    'reads' => function($q) use ($userId) {
+                        $q->where('user_id', $userId);
+                    }
                 ])
+                ->select(
+                    'institutions.*',
+                    'laws.pdf as pdf'
+                )
                 ->get()
-                ->map(function ($item) {
-                    $item->is_read = $item->reads->isNotEmpty();
-                    $item->pdf = $item->law?->pdf;
-                    unset($item->reads, $item->law);
-                    return $item;
+                ->map(function($item) {
+                $item->is_read = $item->reads->count() > 0;
+                unset($item->reads);
+                $item->laws = $item->laws->map(function ($law) {
+                    return [
+                        'law_id'     => $law->law_id,
+                        'name_ar'    => $law->name_ar,
+                        'name_fr'    => $law->name_fr,
+                        'index_link' => $law->index_link,
+                        'pdf'        => $law->law->pdf ?? null,
+                    ];
                 });
+
+                return $item;
+            });
 
 
             return Respons::success(

@@ -19,6 +19,11 @@ class Institution extends Model
         return $this->belongsTo(Law::class);
     }
 
+    public function laws()
+    {
+        return $this->hasMany(InstitutionLaw::class, 'institution_id');
+    }
+
     public function reads()
     {
         return $this->hasMany(ReadInstitution::class, 'institution_id', 'id');

@@ -36,8 +36,10 @@ class Show extends Controller
                 $query->where('type_institution', $request->type_institution);
             }
 
-            $data = $query->orderBy('index', 'asc')->get();
-
+            $data = $query->with('laws')
+                ->orderBy('index', 'asc')
+                ->get();
+                
             return Respons::success($data);
         } catch (\Exception $e) {
             return Respons::error('غير موجودة', 404);
