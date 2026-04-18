@@ -29,20 +29,12 @@ class TaxsAndApps extends Controller
 
             $data = TaxAndApp::where('cat_id', $request->cat_id)
                 ->orderBy('index', 'asc')
+                ->with('laws.law') 
                 ->with([
-                    'laws' => function ($q) {
-                        $q->orderBy('index_link', 'asc')
-                        ->with(['law:id,pdf']); // نجيب pdf من جدول laws
-                    },
-
                     'reads' => function($q) use ($userId) {
                         $q->where('user_id', $userId);
                     }
                 ])
-                ->select(
-                    'institutions.*',
-                    'laws.pdf as pdf'
-                )
                 ->get()
                 ->map(function($item) {
                 $item->is_read = $item->reads->count() > 0;
