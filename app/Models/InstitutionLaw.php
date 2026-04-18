@@ -15,4 +15,9 @@ class InstitutionLaw extends Pivot
         'institution_id',
         'index_link',
     ];
+
+    public function law()
+    {
+        return $this->belongsTo(Law::class);
+    }
 }

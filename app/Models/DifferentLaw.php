@@ -15,4 +15,10 @@ class DifferentLaw extends Pivot
         'different_id',
         'index_link',
     ];
+
+
+    public function law()
+    {
+        return $this->belongsTo(Law::class);
+    }
 }
