@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name_ar');
             $table->string('name_fr');
-            $table->foreignId('law_id')->constrained('laws')->onDelete('set null');
+            $table->foreignId('law_id')->nullable()->constrained('laws')->onDelete('set null');
             $table->foreignId('institution_id')->constrained('institutions')->onDelete('cascade');
             $table->string('index_link')->nullable();
             $table->timestamps();
