@@ -47,7 +47,7 @@ class Institutions extends Controller
                         'name_ar'    => $law->name_ar,
                         'name_fr'    => $law->name_fr,
                         'index_link' => $law->index_link,
-                        'pdf'        => optional($law->law)->pdf,
+                        'pdf'        => $law->law->pdf ?? null,
                     ];
                 });
 
