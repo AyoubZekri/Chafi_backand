@@ -136,8 +136,10 @@ Route::post('/admin/ResetPassword', [ResetPassword::class, 'ResetPassword']);
     Route::post('/NotificationUser/Delete', [NotificationUserDelete::class, 'delete']);
     Route::post('/NotificationUser/IsRead', [NotificationUserShow::class, 'IsRead']);
     Route::post('/NotificationUser/Show', [NotificationUserShow::class, 'show']);
-    Route::post('/isread/{table}', [IsRead::class, 'IsRead']);
+       Route::middleware('auth:sanctum')->group(function () {
 
+    Route::post('/isread/{table}', [IsRead::class, 'IsRead']);
+});
 
     Route::post('/Mypath/add', [MypathsAdd::class, 'addMypath']);
     Route::post('/Mypath/Edit', [MypathsEdit::class, 'EditMypath']);
