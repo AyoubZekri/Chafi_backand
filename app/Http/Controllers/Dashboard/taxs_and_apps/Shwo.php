@@ -39,7 +39,25 @@ class Shwo extends Controller
                 });
             }
 
-            $data = $query->with('laws')->orderBy('index', 'asc')->get();
+            $data = $query->with('laws.law') // بدون تعقيد
+                ->orderBy('index', 'asc')
+                ->get()
+                ->map(function($item) {
+                $item->is_read = $item->reads->count() > 0;
+                unset($item->reads);
+                $item->laws = $item->laws->map(function ($law) {
+                    return [
+                        'law_id'     => $law->law_id,
+                        'name_ar'    => $law->name_ar,
+                        'name_fr'    => $law->name_fr,
+                        'index_link' => $law->index_link,
+                        'pdf'        => $law->law->pdf ?? null,
+                    ];
+                });
+
+                return $item;
+            });
+
 
             return Respons::success($data);
         } catch (\Exception $e) {
