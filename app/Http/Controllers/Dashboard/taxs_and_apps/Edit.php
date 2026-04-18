@@ -90,7 +90,7 @@ class Edit extends Controller
 
             foreach ($laws as $law) {
                 $insertData[] = [
-                    'tax_and_app_id' => $TaxAndApp->id,
+                    'taxs_and_app_id' => $TaxAndApp->id,
                     'law_id'         => $law['law_id'],
                     'name_ar'        => $law['name_ar'] ?? null,
                     'name_fr'        => $law['name_fr'] ?? null,
