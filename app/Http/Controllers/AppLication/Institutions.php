@@ -27,41 +27,32 @@ class Institutions extends Controller
 
             $userId = auth()->id();
 
-            $data = Institution::query()
-                ->where('institutions.scope', $request->scope)
-                ->orderBy('institutions.index', 'asc')
+        $data = Institution::query()
+            ->where('scope', $request->scope)
+            ->orderBy('index', 'asc')
+            ->with('laws.law') // بدون تعقيد
             ->with([
-                'laws' => function ($q) {
-                    $q->orderBy('index_link', 'asc')
-                    ->with(['law:id,pdf']); // نجيب pdf من جدول laws
-                },
-
                 'reads' => function($q) use ($userId) {
                     $q->where('user_id', $userId);
                 }
             ])
-
-                ->select(
-                    'institutions.*',
-                    'laws.pdf as pdf'
-                )
-                ->get()
-                ->map(function($item) {
+            ->get()
+            ->map(function($item) {
                 $item->is_read = $item->reads->count() > 0;
                 unset($item->reads);
+
                 $item->laws = $item->laws->map(function ($law) {
                     return [
                         'law_id'     => $law->law_id,
                         'name_ar'    => $law->name_ar,
                         'name_fr'    => $law->name_fr,
                         'index_link' => $law->index_link,
-                        'pdf'        => $law->law->pdf ?? null,
+                        'pdf'        => optional($law->law)->pdf,
                     ];
                 });
 
                 return $item;
             });
-
             return Respons::success(
                  $data
             );

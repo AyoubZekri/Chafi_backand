@@ -11,9 +11,9 @@ class Law extends Model
 
     protected $fillable = ['name',"index",'name_fr','published_date','pdf'];
 
-    public function institutions()
+    public function institutionLaws()
     {
-        return $this->hasMany(Institution::class);
+        return $this->hasMany(InstitutionLaw::class, 'law_id');
     }
 
     public function taxAndApps()
