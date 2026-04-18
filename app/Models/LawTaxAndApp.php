@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Relations\Pivot;
+use Illuminate\Database\Eloquent\Model;
 
-class LawTaxAndApp extends Pivot
+class LawTaxAndApp extends Model
 {
     protected $table = 'law_taxs_and_app';
 
