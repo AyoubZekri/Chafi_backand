@@ -28,8 +28,6 @@ class Show extends Controller
             $data = Different::with('laws.law')
             ->where('type', $request->type)->orderBy('index', 'asc')->get()                
             ->map(function($item) {
-                $item->is_read = $item->reads->count() > 0;
-                unset($item->reads);
                     $item->setRelation('laws', $item->laws->map(function ($law) {
                         return [
                             'law_id'     => $law->law_id,
