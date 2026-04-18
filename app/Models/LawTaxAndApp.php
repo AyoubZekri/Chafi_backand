@@ -16,7 +16,7 @@ class LawTaxAndApp extends Pivot
         'index_link',
     ];
 
-        public function law()
+    public function law()
     {
         return $this->belongsTo(Law::class);
     }
