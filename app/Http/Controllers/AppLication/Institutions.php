@@ -27,35 +27,35 @@ class Institutions extends Controller
 
             $userId = auth()->id();
 
-        $data = Institution::query()
-            ->where('scope', $request->scope)
-            ->orderBy('index', 'asc')
-            ->with('laws.law') // بدون تعقيد
-            ->with([
-                'reads' => function($q) use ($userId) {
-                    $q->where('user_id', $userId);
-                }
-            ])
-            ->get()
-            ->map(function($item) {
-                $item->is_read = $item->reads->count() > 0;
-                unset($item->reads);
+            $data = Institution::query()
+                ->where('scope', $request->scope)
+                ->orderBy('index', 'asc')
+                ->with('laws.law')
+                ->with([
+                    'reads' => function($q) use ($userId) {
+                        $q->where('user_id', $userId);
+                    }
+                ])
+                ->get()
+                ->map(function($item) {
 
-                $item->laws = $item->laws->map(function ($law) {
-                    return [
-                        'law_id'     => $law->law_id,
-                        'name_ar'    => $law->name_ar,
-                        'name_fr'    => $law->name_fr,
-                        'index_link' => $law->index_link,
-                        'pdf'        => $law->law->pdf ?? null,
-                    ];
+                    $item->is_read = $item->reads->count() > 0;
+                    unset($item->reads);
+
+                    $item->setRelation('laws', $item->laws->map(function ($law) {
+                        return [
+                            'law_id'     => $law->law_id,
+                            'name_ar'    => $law->name_ar,
+                            'name_fr'    => $law->name_fr,
+                            'index_link' => $law->index_link,
+                            'pdf'        => optional($law->law)->pdf,
+                        ];
+                    }));
+
+                    return $item;
                 });
 
-                return $item;
-            });
-            return Respons::success(
-                 $data
-            );
+         return Respons::success($data);            
         } catch (\Exception $e) {
             return Respons::error('غير موجودة', 404,$e);
         }
