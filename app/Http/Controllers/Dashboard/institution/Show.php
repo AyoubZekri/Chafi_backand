@@ -42,15 +42,16 @@ class Show extends Controller
                 ->map(function($item) {
                 $item->is_read = $item->reads->count() > 0;
                 unset($item->reads);
-                $item->laws = $item->laws->map(function ($law) {
-                    return [
-                        'law_id'     => $law->law_id,
-                        'name_ar'    => $law->name_ar,
-                        'name_fr'    => $law->name_fr,
-                        'index_link' => $law->index_link,
-                        'pdf'        => $law->law->pdf ?? null,
-                    ];
-                });
+                    $item->setRelation('laws', $item->laws->map(function ($law) {
+                        return [
+                            'law_id'     => $law->law_id,
+                            'name_ar'    => $law->name_ar,
+                            'name_fr'    => $law->name_fr,
+                            'index_link' => $law->index_link,
+                            'pdf'        => optional($law->law)->pdf,
+                        ];
+                    }));
+
 
                 return $item;
             });
