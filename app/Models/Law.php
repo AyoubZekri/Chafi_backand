@@ -9,6 +9,8 @@ class Law extends Model
 {
     use HasFactory;
 
+    protected $table = 'laws';
+
     protected $fillable = ['name',"index",'name_fr','published_date','pdf'];
 
     public function institutionLaws()
