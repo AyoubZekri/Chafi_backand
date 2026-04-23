@@ -15,6 +15,7 @@ class Institutions extends Controller
         try {
             $validator = Validator::make($request->all(), [
                 'scope'            => 'required|integer',
+                'type_institution' => 'nullable|integer',
             ]);
 
             if ($validator->fails()) {
@@ -27,8 +28,17 @@ class Institutions extends Controller
 
             $userId = auth()->id();
 
-            $data = Institution::query()
-                ->where('scope', $request->scope)
+            $query = Institution::query();
+
+            if ($request->scope != 0) {
+                $query->where('scope', $request->scope);
+            }
+
+            if ($request->filled('type_institution')) {
+                $query->where('type_institution', $request->type_institution);
+            }
+
+            $data = $query
                 ->orderBy('index', 'asc')
                 ->with('laws.law')
                 ->with([
@@ -55,7 +65,7 @@ class Institutions extends Controller
                     return $item;
                 });
 
-         return Respons::success($data);            
+         return Respons::success($data);
         } catch (\Exception $e) {
             return Respons::error('غير موجودة', 404,$e);
         }
