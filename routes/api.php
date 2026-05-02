@@ -71,7 +71,7 @@ Route::post('/admin/ResetPassword', [ResetPassword::class, 'ResetPassword']);
 
 
 
-  // Route::middleware('auth:sanctum')->group(function () {
+Route::middleware('auth:sanctum')->group(function () {
     Route::post('/user/update', [GoogleAuth::class, 'update']);
     Route::delete('/user/delete', [GoogleAuth::class, 'destroy']);
     Route::post('/admin/ResetPasswordWithtoken', [ResetPassword::class, 'ResetPassword']);
@@ -129,16 +129,16 @@ Route::post('/admin/ResetPassword', [ResetPassword::class, 'ResetPassword']);
 
     Route::get('/stats', [Stats::class, 'stats']);
     Route::post('/addUserEnter', [Stats::class, 'addUserEnter']);
+    Route::post('/addFeedback', [Stats::class, 'addFeedback']);
+
 
     //user
 
     Route::post('/NotificationUser/Delete', [NotificationUserDelete::class, 'delete']);
     Route::post('/NotificationUser/IsRead', [NotificationUserShow::class, 'IsRead']);
     Route::post('/NotificationUser/Show', [NotificationUserShow::class, 'show']);
-Route::middleware('auth:sanctum')->group(function () {
     Route::get('/logout', [GoogleAuth::class, 'logout']);
     Route::post('/isread/{table}', [IsRead::class, 'IsRead']);
-});
 
     Route::post('/Mypath/add', [MypathsAdd::class, 'addMypath']);
     Route::post('/Mypath/Edit', [MypathsEdit::class, 'EditMypath']);
@@ -148,7 +148,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/user/Institution/Show', [Institutions::class, 'show']);
     Route::post('/user/TaxsAndApps/Show', [TaxsAndApps::class, 'show']);
 
-  // });
+ });
     Route::post('/Notification/send', [NotificationAdd::class, 'SendNotification']);
 
     Route::post('/addGuestEnter', [Stats::class, 'addGuestEnter']);

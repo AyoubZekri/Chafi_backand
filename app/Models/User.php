@@ -40,6 +40,16 @@ class User extends Authenticatable
         return $this->hasMany(Mypath::class);
     }
 
+    public function stats()
+    {
+        return $this->hasMany(Stats::class);
+    }
+
+    public function feedback()
+    {
+        return $this->hasMany(Feedback::class);
+    }
+
     public function readDifferent()
     {
         return $this->hasMany(ReadDifferent::class);

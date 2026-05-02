@@ -13,8 +13,11 @@ class UserController extends Controller
     public function show()
     {
         try {
-            $query = User::where('role', 'user');
-            $data = $query->get();
+            $data = User::where('role', 'user')
+                ->withCount(['stats'])
+                ->with('feedback')
+                ->get();
+
             return Respons::success(
                  $data
             );

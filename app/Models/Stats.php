@@ -16,6 +16,8 @@ class Stats extends Model
         "device_id",
         "type_user",
         "state",
-        "open_date"
+        "open_date",
+        "type_stats",
+        "user_id"
     ];
 }
