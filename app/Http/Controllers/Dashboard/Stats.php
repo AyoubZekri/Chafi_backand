@@ -140,8 +140,8 @@ class Stats extends Controller
 
             $allUsersGuestsData = ModelsStats::select(
                 'open_date as date',
-                DB::raw('SUM(CASE WHEN type_user = 1 THEN 1 ELSE 0 END) as users_count'),
-                DB::raw('SUM(CASE WHEN type_user = 2 THEN 1 ELSE 0 END) as guests_count')
+                DB::raw('SUM(CASE WHEN type_user = 1 AND type_stats = 4 THEN 1 ELSE 0 END) as users_count'),
+                DB::raw('SUM(CASE WHEN type_user = 2 AND type_stats = 4 THEN 1 ELSE 0 END) as guests_count')
             )
                 ->groupBy('open_date')
                 ->orderBy('open_date', 'ASC')
