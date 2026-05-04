@@ -12,9 +12,9 @@ return new class extends Migration {
     {
         Schema::table('stats', function (Blueprint $table) {
             $table->string('device_id')->after('id');
-            $table->string('state')->after('device_id');
+            $table->string('state')->nullable()->after('device_id');
             $table->integer('type_user')->nullable(); //1 user //2Guest
-            $table->date('open_date')->after('state');
+            $table->date('open_date')->nullable()->after('state');
             $table->unique(['device_id', 'open_date']);
         });
     }

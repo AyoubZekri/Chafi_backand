@@ -89,19 +89,46 @@ class Stats extends Controller
             })->values();
         };
 
-        $chartDaily = $allChartData;
+        $limitToEight = function ($data, $isUsersGuests = false) {
+            $count = $data->count();
+            if ($count <= 8) {
+                return $data;
+            }
 
-        $chartWeekly = $formatData($allChartData->groupBy(function ($item) {
+            $chunkSize = ceil($count / 8);
+            return $data->chunk($chunkSize)->map(function ($chunk) use ($isUsersGuests) {
+                $last = $chunk->last();
+                if (!$isUsersGuests) {
+                    return [
+                        'date' => (string) $last['date'],
+                        'type_1' => (int) $chunk->sum('type_1'),
+                        'type_2' => (int) $chunk->sum('type_2'),
+                        'type_3' => (int) $chunk->sum('type_3'),
+                        'type_4' => (int) $chunk->sum('type_4'),
+                    ];
+                } else {
+                    return [
+                        'date' => (string) $last['date'],
+                        'users_count' => (int) $chunk->sum('users_count'),
+                        'guests_count' => (int) $chunk->sum('guests_count'),
+                    ];
+                }
+            })->values();
+        };
+
+        $chartDaily = $limitToEight($allChartData);
+
+        $chartWeekly = $limitToEight($formatData($allChartData->groupBy(function ($item) {
             return Carbon::parse($item->date)->startOfWeek()->format('Y-m-d');
-        }));
+        })));
 
-        $chartMonthly = $formatData($allChartData->groupBy(function ($item) {
+        $chartMonthly = $limitToEight($formatData($allChartData->groupBy(function ($item) {
             return Carbon::parse($item->date)->format('Y-m');
-        }));
+        })));
 
-        $chartYearly = $formatData($allChartData->groupBy(function ($item) {
+        $chartYearly = $limitToEight($formatData($allChartData->groupBy(function ($item) {
             return Carbon::parse($item->date)->format('Y');
-        }));
+        })));
 
         $chartStatsData = [
             'daily' => $chartDaily,
@@ -130,16 +157,16 @@ class Stats extends Controller
         };
 
         $chartUsersGuestsData = [
-            'daily' => $allUsersGuestsData,
-            'weekly' => $formatUsersGuestsData($allUsersGuestsData->groupBy(function ($item) {
+            'daily' => $limitToEight($allUsersGuestsData, true),
+            'weekly' => $limitToEight($formatUsersGuestsData($allUsersGuestsData->groupBy(function ($item) {
                 return Carbon::parse($item->date)->startOfWeek()->format('Y-m-d');
-            })),
-            'monthly' => $formatUsersGuestsData($allUsersGuestsData->groupBy(function ($item) {
+            })), true),
+            'monthly' => $limitToEight($formatUsersGuestsData($allUsersGuestsData->groupBy(function ($item) {
                 return Carbon::parse($item->date)->format('Y-m');
-            })),
-            'yearly' => $formatUsersGuestsData($allUsersGuestsData->groupBy(function ($item) {
+            })), true),
+            'yearly' => $limitToEight($formatUsersGuestsData($allUsersGuestsData->groupBy(function ($item) {
                 return Carbon::parse($item->date)->format('Y');
-            })),
+            })), true),
         ];
 
         $totalAllUsers = $dashboardData->sum(fn($item) => $item->totalUser + $item->totalG);
