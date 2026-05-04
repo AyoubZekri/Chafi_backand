@@ -234,19 +234,19 @@ class Stats extends Controller
             $data = $validator->validated();
             $today = Carbon::today()->toDateString();
 
-            $insertData = [
-                'state' => $data['state'] ?? "",
-                'type_user' => 1,
-                'user_id' => auth()->id(),
-            ];
-
-            if (isset($data['type_stats']) && $data['type_stats'] !== '') {
-                $insertData['type_stats'] = $data['type_stats'];
-            }
+            $type_stats = $data['type_stats'] ?? 0;
 
             $stats = ModelsStats::firstOrCreate(
-                ['device_id' => $data['device_id'] ?? "", 'open_date' => $today],
-                $insertData
+                [
+                    'device_id' => $data['device_id'] ?? "",
+                    'open_date' => $today,
+                    'type_stats' => $type_stats
+                ],
+                [
+                    'state' => $data['state'] ?? "",
+                    'type_user' => 1,
+                    'user_id' => auth()->id(),
+                ]
             );
 
             return Respons::success("ok");
@@ -271,18 +271,18 @@ class Stats extends Controller
             $data = $validator->validated();
             $today = Carbon::today()->toDateString();
 
-            $insertData = [
-                'state' => $data['state'] ?? "",
-                'type_user' => 2,
-            ];
-
-            if (isset($data['type_stats']) && $data['type_stats'] !== '') {
-                $insertData['type_stats'] = $data['type_stats'];
-            }
+            $type_stats = $data['type_stats'] ?? 0;
 
             $stats = ModelsStats::firstOrCreate(
-                ['device_id' => $data['device_id'] ?? "", 'open_date' => $today],
-                $insertData
+                [
+                    'device_id' => $data['device_id'] ?? "",
+                    'open_date' => $today,
+                    'type_stats' => $type_stats
+                ],
+                [
+                    'state' => $data['state'] ?? "",
+                    'type_user' => 2,
+                ]
             );
 
             return Respons::success("ok");
