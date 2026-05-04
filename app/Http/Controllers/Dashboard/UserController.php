@@ -19,10 +19,10 @@ class UserController extends Controller
                 ->get();
 
             return Respons::success(
-                 $data
+                $data
             );
         } catch (\Exception $e) {
-            return Respons::error('غير موجودة', 404);
+            return Respons::error($e, 404);
         }
     }
 
