@@ -57,10 +57,10 @@ class Stats extends Controller
 
             $dashboardData = ModelsStats::select(
                 'state',
-                DB::raw('SUM(CASE WHEN type_user = 1 THEN 1 ELSE 0 END) as totalUser'),
-                DB::raw('SUM(CASE WHEN type_user = 2 THEN 1 ELSE 0 END) as totalG'),
-                DB::raw("SUM(CASE WHEN type_user = 1 AND open_date = '{$today}' THEN 1 ELSE 0 END) as dailyUser"),
-                DB::raw("SUM(CASE WHEN type_user = 2 AND open_date = '{$today}' THEN 1 ELSE 0 END) as dailyG"),
+                DB::raw('SUM(CASE WHEN type_user = 1 AND type_stats = 0 THEN 1 ELSE 0 END) as totalUser'),
+                DB::raw('SUM(CASE WHEN type_user = 2 AND type_stats = 0 THEN 1 ELSE 0 END) as totalG'),
+                DB::raw("SUM(CASE WHEN type_user = 1 AND type_stats = 0 AND open_date = '{$today}' THEN 1 ELSE 0 END) as dailyUser"),
+                DB::raw("SUM(CASE WHEN type_user = 2 AND type_stats = 0 AND open_date = '{$today}' THEN 1 ELSE 0 END) as dailyG"),
 
             )
                 ->groupBy('state')
