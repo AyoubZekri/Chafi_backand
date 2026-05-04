@@ -63,6 +63,7 @@ class Stats extends Controller
                 DB::raw("SUM(CASE WHEN type_user = 2 AND type_stats = 0 AND open_date = '{$today}' THEN 1 ELSE 0 END) as dailyG"),
 
             )
+                ->where("type_stats", 0)
                 ->groupBy('state')
                 ->get();
 
