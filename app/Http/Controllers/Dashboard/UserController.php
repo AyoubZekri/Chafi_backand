@@ -15,7 +15,7 @@ class UserController extends Controller
         try {
             $data = User::where('role', 'user')
                 ->withCount(['stats'])
-                ->with('feedbacks')
+                ->with('feedback')
                 ->get();
 
             return Respons::success(
