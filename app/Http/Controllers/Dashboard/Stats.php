@@ -296,21 +296,33 @@ class Stats extends Controller
     {
         try {
             $validator = Validator::make($request->all(), [
-                'type' => 'required',
-                'rating' => 'nullable|integer|min:1|max:5',
-                'comment' => 'nullable|string',
+                'types' => 'required|array',
+                'types.*' => 'required|integer',
             ]);
 
             if ($validator->fails()) {
                 return Respons::error('بيانات غير صحيحة', 422, $validator->errors());
             }
 
-            $data = $validator->validated();
-            $data['user_id'] = auth()->id();
+            $userId = auth()->id();
 
-            Feedback::create($data);
+            Feedback::where('user_id', $userId)->delete();
 
-            return Respons::success("تمت إضافة الرأي بنجاح");
+            $data = [];
+
+            foreach ($request->types as $type) {
+                $data[] = [
+                    'user_id' => $userId,
+                    'type' => $type,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ];
+            }
+
+            Feedback::insert($data);
+
+            return Respons::success("تم تحديث رأيك بنجاح");
+
         } catch (\Exception $e) {
             return Respons::error($e->getMessage());
         }
