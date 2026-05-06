@@ -32,7 +32,7 @@ class Add extends Controller
             }
             $maxIndex = Appointment::max('index');
             $data = $validator->validated();
-            
+
             if (!empty($data['deadline'])) {
                 $data['deadline'] = '2000-' . $data['deadline'];
             }
@@ -47,7 +47,7 @@ class Add extends Controller
             return Respons::success('تم الإنشاء بنجاح');
         } catch (\Exception $e) {
             return Respons::error(
-                'حدث خطأ أثناء الإنشاء',
+                $e,
                 500,
                 $e->getMessage()
             );
