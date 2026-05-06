@@ -15,13 +15,12 @@ class Add extends Controller
         try {
             $validator = Validator::make($request->all(), [
                 'tax_id' => 'nullable|integer',
-                'declaration'            => 'nullable|string|max:255',
-                'dependencies'             => 'nullable|string',
-                'declaration_fr'         => 'nullable|string|max:255',
-                'dependencies_fr'          => 'nullable|string',
-                'deadline'           => 'nullable|date',
-                'noticeDate'           => 'nullable|date',
-
+                'declaration' => 'nullable|string|max:255',
+                'dependencies' => 'nullable|string',
+                'declaration_fr' => 'nullable|string|max:255',
+                'dependencies_fr' => 'nullable|string',
+                'deadline' => 'nullable|date_format:m-d',
+                'noticeDate' => 'nullable|date_format:m-d',
             ]);
 
             if ($validator->fails()) {
@@ -33,6 +32,14 @@ class Add extends Controller
             }
             $maxIndex = Appointment::max('index');
             $data = $validator->validated();
+            
+            if (!empty($data['deadline'])) {
+                $data['deadline'] = '2000-' . $data['deadline'];
+            }
+
+            if (!empty($data['noticeDate'])) {
+                $data['noticeDate'] = '2000-' . $data['noticeDate'];
+            }
             $data['index'] = $maxIndex ? $maxIndex + 1 : 1;
 
             Appointment::create($data);
@@ -51,9 +58,9 @@ class Add extends Controller
     {
         try {
             $validator = Validator::make($request->all(), [
-                "id"=>"required|integer|exists:appointments,id",
-                'title'=> 'nullable|string|max:255',
-                'body'=> 'nullable|string|max:255',
+                "id" => "required|integer|exists:appointments,id",
+                'title' => 'nullable|string|max:255',
+                'body' => 'nullable|string|max:255',
             ]);
 
             if ($validator->fails()) {
@@ -66,7 +73,7 @@ class Add extends Controller
 
             $Appointment = Appointment::find($request->id);
 
-            $tax_id =  $Appointment -> tax_id ;
+            $tax_id = $Appointment->tax_id;
 
             $service = new \App\Function\Notification();
 
@@ -80,7 +87,7 @@ class Add extends Controller
             foreach ($userTokens as $token) {
                 $service->sendNotification(
                     $token,
-                    $request->title ,
+                    $request->title,
                     $request->body
                 );
             }

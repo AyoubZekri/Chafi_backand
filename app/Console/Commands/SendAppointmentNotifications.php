@@ -17,8 +17,10 @@ class SendAppointmentNotifications extends Command
     {
         $today = Carbon::today()->toDateString(); // yyyy-mm-dd
 
-        $appointments = Appointment::whereDate('noticeDate', $today)->get();
-
+        $appointments = Appointment::whereRaw(
+            "DATE_FORMAT(noticeDate, '%m-%d') = ?",
+            [Carbon::now()->format('m-d')]
+        )->get();
         $service = new NotificationService();
 
         foreach ($appointments as $appointment) {

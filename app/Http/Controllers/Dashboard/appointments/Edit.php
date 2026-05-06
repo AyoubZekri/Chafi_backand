@@ -15,14 +15,14 @@ class Edit extends Controller
         try {
             $validator = Validator::make($request->all(), [
                 "index" => 'nullable|integer',
-                'id'               => 'required|integer|exists:appointments,id',
+                'id' => 'required|integer|exists:appointments,id',
                 'tax_id' => 'nullable|integer',
-                'declaration'            => 'nullable|string|max:255',
-                'dependencies'             => 'nullable|string',
-                'declaration_fr'         => 'nullable|string|max:255',
-                'dependencies_fr'          => 'nullable|string',
-                'deadline'           => 'nullable|date',
-                'noticeDate'           => 'nullable|date',
+                'declaration' => 'nullable|string|max:255',
+                'dependencies' => 'nullable|string',
+                'declaration_fr' => 'nullable|string|max:255',
+                'dependencies_fr' => 'nullable|string',
+                'deadline' => 'nullable|date_format:m-d',
+                'noticeDate' => 'nullable|date_format:m-d',
 
             ]);
 
@@ -37,7 +37,13 @@ class Edit extends Controller
             $data = $validator->validated();
 
             $Different = Appointment::find($data['id']);
+            if (!empty($data['deadline'])) {
+                $data['deadline'] = '2000-' . $data['deadline'];
+            }
 
+            if (!empty($data['noticeDate'])) {
+                $data['noticeDate'] = '2000-' . $data['noticeDate'];
+            }
             if ($request->filled('index')) {
 
                 $newIndex = $data['index'];
@@ -57,7 +63,7 @@ class Edit extends Controller
 
             $Different->update($data);
 
-            return Respons::success($Different,'تم التعديل بنجاح');
+            return Respons::success($Different, 'تم التعديل بنجاح');
         } catch (\Exception $e) {
             return Respons::error(
                 'حدث خطأ أثناء التعديل',
