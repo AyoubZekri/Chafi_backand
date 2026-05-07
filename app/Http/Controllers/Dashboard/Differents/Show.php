@@ -13,6 +13,7 @@ class Show extends Controller
     public function show(Request $request)
     {
         try {
+
             $validator = Validator::make($request->all(), [
                 'type' => 'required|integer',
                 'cat_id' => 'nullable|integer',
@@ -25,45 +26,53 @@ class Show extends Controller
                     $validator->errors()
                 );
             }
-            if ($request->type == 3 && !empty($request->cat_id)) {
-                $data = Different::with('laws.law')
-                    ->where('type', $request->type)->where('cat_id', $request->cat_id)->orderBy('index', 'asc')->get()
-                    ->map(function ($item) {
-                        $item->setRelation('laws', $item->laws->map(function ($law) {
-                            return [
-                                'law_id' => $law->law_id,
-                                'name_ar' => $law->name_ar,
-                                'name_fr' => $law->name_fr,
-                                'index_link' => $law->index_link,
-                                'pdf' => optional($law->law)->pdf,
-                            ];
-                        }));
-                        return $item;
-                    });
 
-            } else {
-                $data = Different::with('laws.law')
-                    ->where('type', $request->type)->orderBy('index', 'asc')->get()
-                    ->map(function ($item) {
-                        $item->setRelation('laws', $item->laws->map(function ($law) {
-                            return [
-                                'law_id' => $law->law_id,
-                                'name_ar' => $law->name_ar,
-                                'name_fr' => $law->name_fr,
-                                'index_link' => $law->index_link,
-                                'pdf' => optional($law->law)->pdf,
-                            ];
-                        }));
-                        return $item;
-                    });
+            $query = Different::with('laws.law')
+                ->where('type', $request->type);
+
+            if ($request->type == 3 && !empty($request->cat_id)) {
+                $query->where('cat_id', $request->cat_id);
             }
 
+            $data = $query
+                ->orderBy('index', 'asc')
+                ->get()
+                ->map(function ($item) {
 
-            return Respons::success(
-                $data
-            );
+                    return [
+                        'id' => $item->id,
+                        'cat_id' => $item->cat_id,
+
+                        'title' => $item->title,
+                        'title_fr' => $item->title_fr,
+
+                        'body' => $item->body,
+                        'body_fr' => $item->body_fr,
+
+                        'calcul' => $item->calcul,
+                        'index' => $item->index,
+
+                        'laws' => $item->laws->map(function ($law) {
+                            return [
+                                'law_id' => $law->law_id,
+                                'name_ar' => $law->name_ar,
+                                'name_fr' => $law->name_fr,
+                                'index_link' => $law->index_link,
+                                'pdf' => optional($law->law)->pdf,
+                            ];
+                        }),
+                    ];
+                });
+
+            return Respons::success($data);
+
         } catch (\Exception $e) {
-            return Respons::error('غير موجودة', 404);
+
+            return Respons::error(
+                'حدث خطأ',
+                500,
+                $e->getMessage()
+            );
         }
     }
 }
