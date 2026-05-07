@@ -51,6 +51,8 @@ class Show extends Controller
 
                         'calcul' => $item->calcul,
                         'index' => $item->index,
+                        'type' => $item->type,
+
 
                         'laws' => $item->laws->map(function ($law) {
                             return [
