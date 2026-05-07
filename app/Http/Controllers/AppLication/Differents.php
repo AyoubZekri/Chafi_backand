@@ -14,7 +14,8 @@ class Differents extends Controller
     {
         try {
             $validator = Validator::make($request->all(), [
-                'type'            => 'required|integer',
+                'type' => 'required|integer',
+                'cat_id' => 'nullable|integer',
             ]);
 
             if ($validator->fails()) {
@@ -24,31 +25,34 @@ class Differents extends Controller
                     $validator->errors()
                 );
             }
-
+            $query = Different::query();
+            if ($request->filled('cat_id')) {
+                $query->where('cat_id', $request->cat_id);
+            }
             $userId = auth()->id();
-                    $data = Different::query()
-                    ->where('differents.type', $request->type)
-                    ->orderBy('differents.index', 'asc')
-                    ->with('laws.law') // بدون تعقيد
-                    ->with([
-                        'reads' => function($q) use ($userId) {
-                            $q->where('user_id', $userId);
-                        }
-                    ])
+            $data = $query
+                ->where('differents.type', $request->type)
+                ->orderBy('differents.index', 'asc')
+                ->with('laws.law') // بدون تعقيد
+                ->with([
+                    'reads' => function ($q) use ($userId) {
+                        $q->where('user_id', $userId);
+                    }
+                ])
 
                 ->get()
-                ->map(function($item) {
+                ->map(function ($item) {
 
                     $item->is_read = $item->reads->count() > 0;
                     unset($item->reads);
 
                     $item->setRelation('laws', $item->laws->map(function ($law) {
                         return [
-                            'law_id'     => $law->law_id,
-                            'name_ar'    => $law->name_ar,
-                            'name_fr'    => $law->name_fr,
+                            'law_id' => $law->law_id,
+                            'name_ar' => $law->name_ar,
+                            'name_fr' => $law->name_fr,
                             'index_link' => $law->index_link,
-                            'pdf'        => optional($law->law)->pdf,
+                            'pdf' => optional($law->law)->pdf,
                         ];
                     }));
 
@@ -57,7 +61,7 @@ class Differents extends Controller
 
 
             return Respons::success(
-                 $data
+                $data
             );
         } catch (\Exception $e) {
             return Respons::error('غير موجودة', 404);
