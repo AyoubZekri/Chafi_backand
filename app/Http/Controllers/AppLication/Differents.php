@@ -62,6 +62,8 @@ class Differents extends Controller
 
                         'calcul' => $item->calcul,
                         'index' => $item->index,
+                        'index_link' => $item->index_link,
+                        'type' => $item->type,
 
                         'is_read' => $userId
                             ? $item->reads->isNotEmpty()
