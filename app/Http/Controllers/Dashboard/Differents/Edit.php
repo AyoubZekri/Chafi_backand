@@ -12,24 +12,25 @@ use Illuminate\Support\Facades\Validator;
 
 class Edit extends Controller
 {
-        public function EditDifferents(Request $request)
+    public function EditDifferents(Request $request)
     {
         try {
             $validator = Validator::make($request->all(), [
+                'cat_id' => 'nullable|integer',
                 "index" => 'nullable|integer',
-                'id'               => 'required|integer|exists:differents,id',
-                'title'            => 'nullable|string|max:255',
-                'body'             => 'nullable|string',
-                'title_fr'         => 'nullable|string|max:255',
-                'body_fr'          => 'nullable|string',
+                'id' => 'required|integer|exists:differents,id',
+                'title' => 'nullable|string|max:255',
+                'body' => 'nullable|string',
+                'title_fr' => 'nullable|string|max:255',
+                'body_fr' => 'nullable|string',
                 'laws' => 'nullable|array',
                 'laws.*.law_id' => 'required|integer',
                 'laws.*.name_ar' => 'nullable|string',
                 'laws.*.name_fr' => 'nullable|string',
                 'laws.*.index_link' => 'nullable|integer',
-                'law_id'           => 'nullable|integer',
-                'index_link'       => 'nullable|string',
-                'calcul'           => 'nullable|string|max:255',
+                'law_id' => 'nullable|integer',
+                'index_link' => 'nullable|string',
+                'calcul' => 'nullable|string|max:255',
             ]);
 
             if ($validator->fails()) {
@@ -47,8 +48,8 @@ class Edit extends Controller
             $Different = Different::find($data['id']);
             unset($data['id']);
 
-             // swap index logic (كما هو)
-             if ($request->filled('index')) {
+            // swap index logic (كما هو)
+            if ($request->filled('index')) {
                 $newIndex = $data['index'];
                 $oldIndex = $Different->index;
 
@@ -65,33 +66,33 @@ class Edit extends Controller
             }
             $Different->update($data);
 
-        if (!empty($laws)) {
+            if (!empty($laws)) {
 
-            // حذف القديم
-            $Different->laws()->delete();
+                // حذف القديم
+                $Different->laws()->delete();
 
-            // إدخال الجديد (bulk insert أفضل)
-            $insertData = [];
+                // إدخال الجديد (bulk insert أفضل)
+                $insertData = [];
 
-            foreach ($laws as $law) {
-                $insertData[] = [
-                    'different_id' => $Different->id,
-                    'law_id'         => $law['law_id'],
-                    'name_ar'        => $law['name_ar'] ?? null,
-                    'name_fr'        => $law['name_fr'] ?? null,
-                    'index_link'     => $law['index_link'] ?? null,
-                ];
+                foreach ($laws as $law) {
+                    $insertData[] = [
+                        'different_id' => $Different->id,
+                        'law_id' => $law['law_id'],
+                        'name_ar' => $law['name_ar'] ?? null,
+                        'name_fr' => $law['name_fr'] ?? null,
+                        'index_link' => $law['index_link'] ?? null,
+                    ];
+                }
+
+                DifferentLaw::insert($insertData);
             }
 
-            DifferentLaw::insert($insertData);
-        }
-
-        DB::commit();
+            DB::commit();
 
 
 
 
-            return Respons::success($Different,'تم التحديث بنجاح');
+            return Respons::success($Different, 'تم التحديث بنجاح');
         } catch (\Exception $e) {
 
             return Respons::error(

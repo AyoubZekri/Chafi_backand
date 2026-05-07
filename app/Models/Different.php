@@ -13,6 +13,10 @@ class Different extends Model
         'index','type','title','body','title_fr','body_fr','law_id','index_link','calcul'
     ];
 
+    public function categories_differents()
+    {
+        return $this->belongsTo(Categories_differents::class,'cat_id');
+    }
     public function law()
     {
         return $this->belongsTo(Law::class);

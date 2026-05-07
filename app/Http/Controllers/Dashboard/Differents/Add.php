@@ -15,20 +15,21 @@ class Add extends Controller
     {
         try {
             $validator = Validator::make($request->all(), [
-                'type'          => 'nullable|integer',
-                'title'            => 'nullable|string|max:255',
-                'body'             => 'nullable|string',
-                'title_fr'         => 'nullable|string|max:255',
-                'body_fr'          => 'nullable|string',
-                'law_id'           => 'nullable|integer',
+                'cat_id' => 'nullable|integer',
+                'type' => 'nullable|integer',
+                'title' => 'nullable|string|max:255',
+                'body' => 'nullable|string',
+                'title_fr' => 'nullable|string|max:255',
+                'body_fr' => 'nullable|string',
+                'law_id' => 'nullable|integer',
                 'laws' => 'nullable|array',
                 'laws.*.law_id' => 'nullable|integer',
                 'laws.*.name_ar' => 'nullable|string',
                 'laws.*.name_fr' => 'nullable|string',
                 'laws.*.index_link' => 'nullable|integer',
 
-                'index_link'       => 'nullable|string',
-                'calcul'           => 'nullable|string|max:255',
+                'index_link' => 'nullable|string',
+                'calcul' => 'nullable|string|max:255',
             ]);
 
             if ($validator->fails()) {
@@ -46,15 +47,15 @@ class Add extends Controller
             unset($data['laws']);
             $data['index'] = $maxIndex ? $maxIndex + 1 : 1;
             $Different = Different::create($data);
-                foreach ($laws as $law) {
-                    $Different->laws()->create([
-                        'law_id'        => $law['law_id'],
-                        'name_ar'       => $law['name_ar'] ?? null,
-                        'name_fr'       => $law['name_fr'] ?? null,
-                        'index_link'    => $law['index_link'] ?? null,
-                    ]);
-                }
-        DB::commit();
+            foreach ($laws as $law) {
+                $Different->laws()->create([
+                    'law_id' => $law['law_id'],
+                    'name_ar' => $law['name_ar'] ?? null,
+                    'name_fr' => $law['name_fr'] ?? null,
+                    'index_link' => $law['index_link'] ?? null,
+                ]);
+            }
+            DB::commit();
 
             DB::commit();
             return Respons::success('تم الإنشاء بنجاح');

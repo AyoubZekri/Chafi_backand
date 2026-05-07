@@ -14,7 +14,8 @@ class Show extends Controller
     {
         try {
             $validator = Validator::make($request->all(), [
-                'type'            => 'required|integer',
+                'type' => 'required|integer',
+                'cat_id' => 'nullable|integer',
             ]);
 
             if ($validator->fails()) {
@@ -24,25 +25,42 @@ class Show extends Controller
                     $validator->errors()
                 );
             }
+            if ($request->type == 3 && !empty($request->cat_id)) {
+                $data = Different::with('laws.law')
+                    ->where('type', $request->type)->where('cat_id', $request->cat_id)->orderBy('index', 'asc')->get()
+                    ->map(function ($item) {
+                        $item->setRelation('laws', $item->laws->map(function ($law) {
+                            return [
+                                'law_id' => $law->law_id,
+                                'name_ar' => $law->name_ar,
+                                'name_fr' => $law->name_fr,
+                                'index_link' => $law->index_link,
+                                'pdf' => optional($law->law)->pdf,
+                            ];
+                        }));
+                        return $item;
+                    });
 
-            $data = Different::with('laws.law')
-            ->where('type', $request->type)->orderBy('index', 'asc')->get()                
-            ->map(function($item) {
-                    $item->setRelation('laws', $item->laws->map(function ($law) {
-                        return [
-                            'law_id'     => $law->law_id,
-                            'name_ar'    => $law->name_ar,
-                            'name_fr'    => $law->name_fr,
-                            'index_link' => $law->index_link,
-                            'pdf'        => optional($law->law)->pdf,
-                        ];
-                    }));
-                return $item;
-            });
+            } else {
+                $data = Different::with('laws.law')
+                    ->where('type', $request->type)->orderBy('index', 'asc')->get()
+                    ->map(function ($item) {
+                        $item->setRelation('laws', $item->laws->map(function ($law) {
+                            return [
+                                'law_id' => $law->law_id,
+                                'name_ar' => $law->name_ar,
+                                'name_fr' => $law->name_fr,
+                                'index_link' => $law->index_link,
+                                'pdf' => optional($law->law)->pdf,
+                            ];
+                        }));
+                        return $item;
+                    });
+            }
 
 
             return Respons::success(
-                 $data
+                $data
             );
         } catch (\Exception $e) {
             return Respons::error('غير موجودة', 404);

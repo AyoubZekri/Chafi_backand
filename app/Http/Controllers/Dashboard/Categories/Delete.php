@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Dashboard\Categories;
 
 use App\Function\Respons;
 use App\Http\Controllers\Controller;
+use App\Models\Categories_differents;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -14,7 +15,8 @@ class Delete extends Controller
     {
         try {
             $validator = Validator::make($request->all(), [
-                'id' => 'required|integer|exists:categories,id',
+                'id' => 'required|integer',
+                'type' => 'nullable|integer',
             ]);
 
             if ($validator->fails()) {
@@ -24,9 +26,21 @@ class Delete extends Controller
                     $validator->errors()
                 );
             }
+            $data = $validator->validated();
+            if (!empty($data['type']) && $data['type'] == 2) {
+                $cat = Categories_differents::find($request->id);
 
-            $cat = Category::find($request->id);
+            } else {
+                $cat = Category::find($request->id);
 
+            }
+            if (!$cat) {
+                return Respons::error(
+                    'البيانات غير موجودة',
+                    422,
+                    'البيانات غير موجودة'
+                );
+            }
             $cat->delete();
 
             return Respons::success('تم الحذف بنجاح');

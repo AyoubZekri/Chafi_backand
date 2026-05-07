@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Dashboard\Categories;
 
 use App\Function\Respons;
 use App\Http\Controllers\Controller;
+use App\Models\Categories_differents;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -16,6 +17,7 @@ class Show extends Controller
             $validator = Validator::make($request->all(), [
                 'tax_id' => 'nullable|integer',
                 'type_cat' => 'nullable|integer',
+                'type' => 'nullable|integer',
             ]);
 
             if ($validator->fails()) {
@@ -25,18 +27,25 @@ class Show extends Controller
                     $validator->errors()
                 );
             }
+            if (!empty($request->type) && $request->type == 2) {
+                $query = Categories_differents::where('type_cat', $request->type_cat);
 
-            $query = Category::where('type_cat', $request->type_cat);
+                if ($request->filled('tax_id')) {
+                    $query->where('tax_id', $request->tax_id);
+                }
 
-            if ($request->filled('tax_id')) {
-                $query->where('tax_id', $request->tax_id);
+                $data = $query->orderBy('index', 'asc')->get();
+
+            } else {
+                $query = Category::where('type_cat', $request->type_cat);
+
+                if ($request->filled('tax_id')) {
+                    $query->where('tax_id', $request->tax_id);
+                }
+
+                $data = $query->orderBy('index', 'asc')->get();
             }
-
-            $data = $query->orderBy('index', 'asc')->get();
-
-            return Respons::success(
-                 $data
-            );
+            return Respons::success($data);
         } catch (\Exception $e) {
             return Respons::error('غير موجودة', 404);
         }
