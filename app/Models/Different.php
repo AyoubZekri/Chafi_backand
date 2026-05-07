@@ -10,12 +10,21 @@ class Different extends Model
     use HasFactory;
 
     protected $fillable = [
-        'index','type','title','body','title_fr','body_fr','law_id','index_link','calcul'
+        'cat_id',
+        'index',
+        'type',
+        'title',
+        'body',
+        'title_fr',
+        'body_fr',
+        'law_id',
+        'index_link',
+        'calcul'
     ];
 
     public function categories_differents()
     {
-        return $this->belongsTo(Categories_differents::class,'cat_id');
+        return $this->belongsTo(Categories_differents::class, 'cat_id');
     }
     public function law()
     {
