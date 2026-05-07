@@ -13,6 +13,7 @@ class Differents extends Controller
     public function show(Request $request)
     {
         try {
+
             $validator = Validator::make($request->all(), [
                 'type' => 'required|integer',
                 'cat_id' => 'nullable|integer',
@@ -25,46 +26,68 @@ class Differents extends Controller
                     $validator->errors()
                 );
             }
-            $query = Different::query();
+
+            $userId = auth()->id();
+
+            $query = Different::query()
+                ->where('type', $request->type)
+                ->with('laws.law');
+
             if ($request->filled('cat_id')) {
                 $query->where('cat_id', $request->cat_id);
             }
-            $userId = auth()->id();
-            $data = $query
-                ->where('differents.type', $request->type)
-                ->orderBy('differents.index', 'asc')
-                ->with('laws.law') // بدون تعقيد
-                ->with([
+
+            if ($userId) {
+                $query->with([
                     'reads' => function ($q) use ($userId) {
                         $q->where('user_id', $userId);
                     }
-                ])
+                ]);
+            }
 
+            $data = $query
+                ->orderBy('index', 'asc')
                 ->get()
-                ->map(function ($item) {
+                ->map(function ($item) use ($userId) {
 
-                    $item->is_read = $item->reads->count() > 0;
-                    unset($item->reads);
+                    return [
+                        'id' => $item->id,
+                        'cat_id' => $item->cat_id,
 
-                    $item->setRelation('laws', $item->laws->map(function ($law) {
-                        return [
-                            'law_id' => $law->law_id,
-                            'name_ar' => $law->name_ar,
-                            'name_fr' => $law->name_fr,
-                            'index_link' => $law->index_link,
-                            'pdf' => optional($law->law)->pdf,
-                        ];
-                    }));
+                        'title' => $item->title,
+                        'title_fr' => $item->title_fr,
 
-                    return $item;
+                        'body' => $item->body,
+                        'body_fr' => $item->body_fr,
+
+                        'calcul' => $item->calcul,
+                        'index' => $item->index,
+
+                        'is_read' => $userId
+                            ? $item->reads->isNotEmpty()
+                            : false,
+
+                        'laws' => $item->laws->map(function ($law) {
+                            return [
+                                'law_id' => $law->law_id,
+                                'name_ar' => $law->name_ar,
+                                'name_fr' => $law->name_fr,
+                                'index_link' => $law->index_link,
+                                'pdf' => optional($law->law)->pdf,
+                            ];
+                        }),
+                    ];
                 });
 
+            return Respons::success($data);
 
-            return Respons::success(
-                $data
-            );
         } catch (\Exception $e) {
-            return Respons::error('غير موجودة', 404);
+
+            return Respons::error(
+                'حدث خطأ',
+                500,
+                $e->getMessage()
+            );
         }
     }
 }
