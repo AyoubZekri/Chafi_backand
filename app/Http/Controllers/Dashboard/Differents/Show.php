@@ -52,8 +52,8 @@ class Show extends Controller
                         'calcul' => $item->calcul,
                         'index' => $item->index,
                         'type' => $item->type,
-
-
+                        'created_at' => $item->created_at,
+                        'updated_at' => $item->updated_at,
                         'laws' => $item->laws->map(function ($law) {
                             return [
                                 'law_id' => $law->law_id,
