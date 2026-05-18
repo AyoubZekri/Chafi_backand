@@ -21,7 +21,6 @@ class Show extends Controller
                 'type_cat' => 'nullable|integer',
                 'type' => 'nullable|integer',
                 'cat_id' => 'nullable|integer',
-
             ]);
 
             if ($validator->fails()) {
