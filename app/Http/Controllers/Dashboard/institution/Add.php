@@ -17,6 +17,7 @@ class Add extends Controller
             $validator = Validator::make($request->all(), [
                 'type_institution' => 'nullable|integer',
                 'scope'            => 'nullable|integer',
+                "cat_id"=>"nullable|integer",
                 'title'            => 'nullable|string|max:255',
                 'body'             => 'nullable|string',
                 'title_fr'         => 'nullable|string|max:255',

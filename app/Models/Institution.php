@@ -10,9 +10,24 @@ class Institution extends Model
     use HasFactory;
 
     protected $fillable = [
-        'type_institution',"index",'scope','title','body','title_fr','body_fr',
-        'law_id','index_link','calcul'
+        'type_institution',
+        "cat_id",
+        "index",
+        'scope',
+        'title',
+        'body',
+        'title_fr',
+        'body_fr',
+        'law_id',
+        'index_link',
+        'calcul'
     ];
+
+    public function categories_cat_insts()
+    {
+        return $this->belongsTo(Categories_cat_insts::class, 'cat_id');
+    }
+
 
     public function law()
     {

@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -13,8 +12,13 @@ return new class extends Migration
     {
         Schema::create('institutions', function (Blueprint $table) {
             $table->id();
-            $table->integer('type_institution');
-            $table->integer('scope');
+            $table->integer('type_institution')->nullable();
+            $table->foreignId('cat_id')
+                ->nullable()
+                ->constrained('categories_cat_insts')
+                ->nullOnDelete()
+                ->nullOnUpdate();
+            $table->integer('scope')->nullable();
             $table->integer('index');
             $table->string('title');
             $table->text('body');

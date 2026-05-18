@@ -14,8 +14,9 @@ class Institutions extends Controller
     {
         try {
             $validator = Validator::make($request->all(), [
-                'scope'            => 'required|integer',
+                'scope' => 'required|integer',
                 'type_institution' => 'nullable|integer',
+                'cat_id' => 'nullable|integer',
             ]);
 
             if ($validator->fails()) {
@@ -37,37 +38,42 @@ class Institutions extends Controller
             if ($request->filled('type_institution')) {
                 $query->where('type_institution', $request->type_institution);
             }
+            
+            if ($request->filled('cat_id')) {
+                $query->where('cat_id', $request->cat_id);
+            }
+
 
             $data = $query
                 ->orderBy('index', 'asc')
                 ->with('laws.law')
                 ->with([
-                    'reads' => function($q) use ($userId) {
+                    'reads' => function ($q) use ($userId) {
                         $q->where('user_id', $userId);
                     }
                 ])
                 ->get()
-                ->map(function($item) {
+                ->map(function ($item) {
 
                     $item->is_read = $item->reads->count() > 0;
                     unset($item->reads);
 
                     $item->setRelation('laws', $item->laws->map(function ($law) {
                         return [
-                            'law_id'     => $law->law_id,
-                            'name_ar'    => $law->name_ar,
-                            'name_fr'    => $law->name_fr,
+                            'law_id' => $law->law_id,
+                            'name_ar' => $law->name_ar,
+                            'name_fr' => $law->name_fr,
                             'index_link' => $law->index_link,
-                            'pdf'        => optional($law->law)->pdf,
+                            'pdf' => optional($law->law)->pdf,
                         ];
                     }));
 
                     return $item;
                 });
 
-         return Respons::success($data);
+            return Respons::success($data);
         } catch (\Exception $e) {
-            return Respons::error('غير موجودة', 404,$e);
+            return Respons::error('غير موجودة', 404, $e);
         }
     }
 

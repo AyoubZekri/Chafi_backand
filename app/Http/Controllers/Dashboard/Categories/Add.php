@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Dashboard\Categories;
 
 use App\Function\Respons;
 use App\Http\Controllers\Controller;
+use App\Models\Categories_cat_insts;
 use App\Models\Categories_differents;
+use App\Models\Categories_institutions;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -20,7 +22,7 @@ class Add extends Controller
                 'name' => 'nullable|string|max:255',
                 'name_fr' => 'nullable|string|max:255',
                 'type' => 'nullable|integer',
-
+                'cat_id' => 'nullable|integer',
             ]);
 
             if ($validator->fails()) {
@@ -36,12 +38,27 @@ class Add extends Controller
             if (!empty($data['type']) && $data['type'] == 2) {
                 unset($data['type']);
                 unset($data['tax_id']);
+                unset($data['cat_id']);
                 $maxIndex = Categories_differents::max('index');
                 $data['index'] = $maxIndex ? $maxIndex + 1 : 1;
-
                 Categories_differents::create($data);
+            } else if (!empty($data['type']) && $data['type'] == 3) {
+                unset($data['cat_id']);
+                unset($data['type']);
+                unset($data['tax_id']);
+                $maxIndex = Categories_institutions::max('index');
+                $data['index'] = $maxIndex ? $maxIndex + 1 : 1;
+                Categories_institutions::create($data);
+            } else if (!empty($data['type']) && $data['type'] == 4) {
+                unset($data['type']);
+                unset($data['tax_id']);
+                unset($data['type_cat']);
+                $maxIndex = Categories_cat_insts::max('index');
+                $data['index'] = $maxIndex ? $maxIndex + 1 : 1;
+                Categories_cat_insts::create($data);
             } else {
                 unset($data['type']);
+                unset($data['cat_id']);
                 $maxIndex = Category::max('index');
                 $data['index'] = $maxIndex ? $maxIndex + 1 : 1;
                 Category::create($data);

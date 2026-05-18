@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Dashboard\Categories;
 
 use App\Function\Respons;
 use App\Http\Controllers\Controller;
+use App\Models\Categories_cat_insts;
 use App\Models\Categories_differents;
+use App\Models\Categories_institutions;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -18,6 +20,8 @@ class Show extends Controller
                 'tax_id' => 'nullable|integer',
                 'type_cat' => 'nullable|integer',
                 'type' => 'nullable|integer',
+                'cat_id' => 'nullable|integer',
+
             ]);
 
             if ($validator->fails()) {
@@ -36,6 +40,22 @@ class Show extends Controller
 
                 $data = $query->orderBy('index', 'asc')->get();
 
+            } else if (!empty($request->type) && $request->type == 3) {
+                $query = Categories_institutions::where('type_cat', $request->type_cat);
+
+                if ($request->filled('tax_id')) {
+                    $query->where('tax_id', $request->tax_id);
+                }
+
+                $data = $query->orderBy('index', 'asc')->get();
+            } else if (!empty($request->type) && $request->type == 4) {
+                $query = Categories_cat_insts::query();
+
+                if ($request->filled('cat_id')) {
+                    $query->where('cat_id', $request->cat_id);
+                }
+
+                $data = $query->orderBy('index', 'asc')->get();
             } else {
                 $query = Category::where('type_cat', $request->type_cat);
 

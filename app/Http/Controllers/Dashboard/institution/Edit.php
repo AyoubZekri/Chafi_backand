@@ -20,7 +20,7 @@ public function Editinstitution(Request $request)
         $validator = Validator::make($request->all(), [
             'id' => 'required|integer|exists:institutions,id',
             'index' => 'nullable|integer',
-
+            "cat_id"=>"nullable|integer",
             'title' => 'nullable|string|max:255',
             'body' => 'nullable|string',
             'title_fr' => 'nullable|string|max:255',
