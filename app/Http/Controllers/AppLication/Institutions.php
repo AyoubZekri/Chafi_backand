@@ -14,8 +14,8 @@ class Institutions extends Controller
     {
         try {
             $validator = Validator::make($request->all(), [
-                'scope' => 'required|integer',
-                'type_institution' => 'nullable|integer',
+                // 'scope' => 'required|integer',
+                // 'type_institution' => 'nullable|integer',
                 'cat_id' => 'nullable|integer',
             ]);
 
@@ -31,14 +31,14 @@ class Institutions extends Controller
 
             $query = Institution::query();
 
-            if ($request->scope != 0) {
-                $query->where('scope', $request->scope);
-            }
+            // if ($request->scope != 0) {
+            //     $query->where('scope', $request->scope);
+            // }
 
-            if ($request->filled('type_institution')) {
-                $query->where('type_institution', $request->type_institution);
-            }
-            
+            // if ($request->filled('type_institution')) {
+            //     $query->where('type_institution', $request->type_institution);
+            // }
+
             if ($request->filled('cat_id')) {
                 $query->where('cat_id', $request->cat_id);
             }
