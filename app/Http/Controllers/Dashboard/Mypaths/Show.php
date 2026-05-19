@@ -27,6 +27,7 @@ class Show extends Controller
             }
 
             $query = Mypath::query()
+                ->orderBy('id', 'desc')
                 ->with([
                     'user:id,username,wilaya',
                     'activity:id,body,body_fr,code_activity,tax_id',
