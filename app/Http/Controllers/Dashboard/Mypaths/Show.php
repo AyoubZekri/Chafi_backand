@@ -48,6 +48,7 @@ public function show(Request $request)
             $mypathData['activity_name'] = $item->activity?->name;
             $mypathData['activity_name_fr'] = $item->activity?->name_fr;
             $mypathData['code_activity'] = $item->activity?->code_activity;
+            $mypathData['activity_tax_id'] = $item->activity?->tax_id;
             $mypathData['nataire_activitys_name'] = $item->nataire_activitys?->name;
             $mypathData['nataire_activitys_name_fr'] = $item->nataire_activitys?->name_fr;
 
