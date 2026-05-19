@@ -63,8 +63,8 @@ class Show extends Controller
                     // إضافة معرف الفئة الأب إلى الاستجابة
                     $item->parints_cat = optional($item->categories_cat_insts)->cat_id;
                     
-                    // إزالة العلاقة من النتيجة النهائية لجعل الـ JSON أنظف
-                    unset($item->categories_cat_insts);
+                    // إزالة العلاقة من النتيجة النهائية لجعل الـ JSON أنظف (فقط الايدي يبقى)
+                    $item->unsetRelation('categories_cat_insts');
 
                     return $item;
                 });
