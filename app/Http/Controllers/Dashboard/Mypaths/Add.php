@@ -39,9 +39,9 @@ class Add extends Controller
                 $data['activity_name'] = $activity?->name ?? null;
             }
 
-            Mypath::create($data);
+            $data = Mypath::create($data);
 
-            return Respons::success('تم الإنشاء بنجاح');
+            return Respons::success($data, 'تم الإنشاء بنجاح');
         } catch (\Exception $e) {
             return Respons::error(
                 'حدث خطأ أثناء الإنشاء',
