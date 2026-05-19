@@ -46,7 +46,7 @@ class Show extends Controller
                 $query->whereIn('cat_id', $childCategoryIds);
             }
 
-            $data = $query->with('laws.law') // بدون تعقيد
+            $data = $query->with(['laws.law', 'categories_cat_insts']) // تحميل الفئة الابن لجلب معرف الأب
                 ->orderBy('index', 'asc')
                 ->get()
                 ->map(function ($item) {
@@ -60,6 +60,11 @@ class Show extends Controller
                         ];
                     }));
 
+                    // إضافة معرف الفئة الأب إلى الاستجابة
+                    $item->parints_cat = optional($item->categories_cat_insts)->cat_id;
+                    
+                    // إزالة العلاقة من النتيجة النهائية لجعل الـ JSON أنظف
+                    unset($item->categories_cat_insts);
 
                     return $item;
                 });
