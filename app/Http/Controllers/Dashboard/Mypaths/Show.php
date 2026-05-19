@@ -29,7 +29,7 @@ class Show extends Controller
             $query = Mypath::query()
                 ->with([
                     'user:id,username,wilaya',
-                    'activity:id,name,name_fr,code_activity',
+                    'activity:id,body,body_fr,code_activity',"tax_id",
                     'nataire_activitys:id,name,name_fr'
                 ])
                 ->where('user_id', auth()->id());
