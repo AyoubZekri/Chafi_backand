@@ -23,6 +23,7 @@ class Edit extends Controller
                 'name' => 'nullable|string|max:255',
                 'name_fr' => 'nullable|string|max:255',
                 'type' => 'nullable|integer',
+                "cat_id" => "nullable|integer",
 
             ]);
 
@@ -37,11 +38,13 @@ class Edit extends Controller
             if (!empty($request->type) && $request->type == 2) {
                 unset($request->type);
                 unset($request->tax_id);
+                unset($request->cat_id);
                 $category = Categories_differents::find($request->id);
                 $category->update($validator->validated());
             } else if (!empty($request->type) && $request->type == 3) {
                 unset($request->type);
                 unset($request->tax_id);
+                unset($request->cat_id);
                 $category = Categories_institutions::find($request->id);
                 $category->update($validator->validated());
             } else if (!empty($request->type) && $request->type == 4) {
@@ -51,6 +54,8 @@ class Edit extends Controller
                 $category->update($validator->validated());
             } else {
                 unset($request->type);
+                                unset($request->cat_id);
+
                 $category = Category::find($request->id);
                 $category->update($validator->validated());
             }
