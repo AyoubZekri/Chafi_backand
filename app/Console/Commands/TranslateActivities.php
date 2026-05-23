@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Bonusesandcompensations;
 use Illuminate\Console\Command;
 use App\Models\Activity;
 use Stichoza\GoogleTranslate\GoogleTranslate;
@@ -20,18 +21,18 @@ class TranslateActivities extends Command
 
         $count = 0;
 
-        Activity::chunk(50, function ($activities) use ($translator, &$count) {
+        Bonusesandcompensations::chunk(50, function ($activities) use ($translator, &$count) {
 
             foreach ($activities as $activity) {
 
                 try {
 
-                    // if (!empty($activity->name) && empty($activity->name_fr)) {
-                    //     $activity->name_fr = $translator->translate($activity->name);
-                    // }
+                    $activity->name_fr = $translator->translate($activity->name);
+                    $this->info("Translated name ID: {$activity->name_fr}");
 
-                    $activity->body_fr = $translator->translate($activity->body);
-                    $this->info("Translated body ID: {$activity->body_fr}");
+
+                    // $activity->body_fr = $translator->translate($activity->body);
+                    // $this->info("Translated body ID: {$activity->body_fr}");
 
 
                     $activity->save();
