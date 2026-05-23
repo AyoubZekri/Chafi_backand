@@ -7,6 +7,7 @@ use App\Models\Categories_cat_insts;
 use App\Models\Categories_differents;
 use App\Models\Categories_institutions;
 use App\Models\Category;
+use App\Models\Different;
 use Illuminate\Console\Command;
 use App\Models\Activity;
 use Stichoza\GoogleTranslate\GoogleTranslate;
@@ -25,18 +26,20 @@ class TranslateActivities extends Command
 
         $count = 0;
 
-        Category::chunk(50, function ($activities) use ($translator, &$count) {
+        Different::chunk(50, function ($activities) use ($translator, &$count) {
 
             foreach ($activities as $activity) {
 
                 try {
 
-                    $activity->name_fr = $translator->translate($activity->name);
-                    $this->info("Translated name ID: {$activity->name_fr}");
+                    // $activity->name_fr = $translator->translate($activity->name);
+                    // $this->info("Translated name ID: {$activity->name_fr}");
 
+                    $activity->title_fr = $translator->translate($activity->title);
+                    $this->info("Translated title ID: {$activity->title_fr}");
 
-                    // $activity->body_fr = $translator->translate($activity->body);
-                    // $this->info("Translated body ID: {$activity->body_fr}");
+                    $activity->body_fr = $translator->translate($activity->body);
+                    $this->info("Translated body ID: {$activity->body_fr}");
 
 
                     $activity->save();
