@@ -12,6 +12,7 @@ use App\Models\DifferentLaw;
 use App\Models\Institution;
 use App\Models\InstitutionLaw;
 use App\Models\Law;
+use App\Models\LawTaxAndApp;
 use Illuminate\Console\Command;
 use App\Models\Activity;
 use Stichoza\GoogleTranslate\GoogleTranslate;
@@ -30,13 +31,13 @@ class TranslateActivities extends Command
 
         $count = 0;
 
-        Law::chunk(50, function ($activities) use ($translator, &$count) {
+        LawTaxAndApp::chunk(50, function ($activities) use ($translator, &$count) {
 
             foreach ($activities as $activity) {
 
                 try {
 
-                    $activity->name_fr = $translator->translate($activity->name);
+                    $activity->name_fr = $translator->translate($activity->name_ar);
                     $this->info("Translated name ID: {$activity->name_fr}");
 
                     // $activity->title_fr = $translator->translate($activity->title);
