@@ -16,6 +16,7 @@ use App\Models\LawTaxAndApp;
 use App\Models\NataireActivity;
 use App\Models\Notification;
 use App\Models\Post;
+use App\Models\TaxAndApp;
 use Illuminate\Console\Command;
 use App\Models\Activity;
 use Stichoza\GoogleTranslate\GoogleTranslate;
@@ -34,7 +35,7 @@ class TranslateActivities extends Command
 
         $count = 0;
 
-        Post::chunk(50, function ($activities) use ($translator, &$count) {
+        TaxAndApp::chunk(50, function ($activities) use ($translator, &$count) {
 
             foreach ($activities as $activity) {
 
@@ -43,8 +44,8 @@ class TranslateActivities extends Command
                     // $activity->name_fr = $translator->translate($activity->name);
                     // $this->info("Translated name ID: {$activity->name_fr}");
 
-                    $activity->title2_fr = $translator->translate($activity->title2);
-                    $this->info("Translated title2 ID: {$activity->title2_fr}");
+                    // $activity->title2_fr = $translator->translate($activity->title2);
+                    // $this->info("Translated title2 ID: {$activity->title2_fr}");
 
                     $activity->title_fr = $translator->translate($activity->title);
                     $this->info("Translated title ID: {$activity->title_fr}");
