@@ -9,4 +9,3 @@ Route::get('/', function () {
 });
 
 
-Route::get('/translate', [UserController::class, 'translateActivities']);

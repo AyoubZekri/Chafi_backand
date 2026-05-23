@@ -72,93 +72,94 @@ Route::post('/admin/ResetPassword', [ResetPassword::class, 'ResetPassword']);
 
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::post('/user/update', [GoogleAuth::class, 'update']);
-    Route::delete('/user/delete', [GoogleAuth::class, 'destroy']);
-    Route::post('/admin/ResetPasswordWithtoken', [ResetPassword::class, 'ResetPassword']);
+   Route::post('/user/update', [GoogleAuth::class, 'update']);
+   Route::delete('/user/delete', [GoogleAuth::class, 'destroy']);
+   Route::post('/admin/ResetPasswordWithtoken', [ResetPassword::class, 'ResetPassword']);
 
-    Route::post('/institution/add', [Add::class, 'addinstitution']);
-    Route::post('/institution/Edit', [Edit::class, 'Editinstitution']);
-    Route::post('/institution/Delete', [Delete::class, 'delete']);
+   Route::post('/institution/add', [Add::class, 'addinstitution']);
+   Route::post('/institution/Edit', [Edit::class, 'Editinstitution']);
+   Route::post('/institution/Delete', [Delete::class, 'delete']);
 
-    Route::post('/Law/add', [LawAdd::class, 'addLaw']);
-    Route::post('/Law/Edit', [LawEdit::class, 'editLaw']);
-    Route::post('/Law/Delete', [LawDelete::class, 'delete']);
+   Route::post('/Law/add', [LawAdd::class, 'addLaw']);
+   Route::post('/Law/Edit', [LawEdit::class, 'editLaw']);
+   Route::post('/Law/Delete', [LawDelete::class, 'delete']);
 
-    Route::post('/Category/add', [CategoriesAdd::class, 'addCategories']);
-    Route::post('/Category/Edit', [CategoriesEdit::class, 'editCategories']);
-    Route::post('/Category/Delete', [CategoriesDelete::class, 'delete']);
+   Route::post('/Category/add', [CategoriesAdd::class, 'addCategories']);
+   Route::post('/Category/Edit', [CategoriesEdit::class, 'editCategories']);
+   Route::post('/Category/Delete', [CategoriesDelete::class, 'delete']);
 
-    Route::post('/TaxAndApp/add', [Taxs_and_appsAdd::class, 'addtaxs_and_apps']);
-    Route::post('/TaxAndApp/Edit', [Taxs_and_appsEdit::class, 'EditTaxs_and_apps']);
-    Route::post('/TaxAndApp/Delete', [Taxs_and_appsDelete::class, 'delete']);
+   Route::post('/TaxAndApp/add', [Taxs_and_appsAdd::class, 'addtaxs_and_apps']);
+   Route::post('/TaxAndApp/Edit', [Taxs_and_appsEdit::class, 'EditTaxs_and_apps']);
+   Route::post('/TaxAndApp/Delete', [Taxs_and_appsDelete::class, 'delete']);
 
-    Route::post('/Different/add', [DifferentsAdd::class, 'addDifferents']);
-    Route::post('/Different/Edit', [DifferentsEdit::class, 'EditDifferents']);
-    Route::post('/Different/Delete', [DifferentsDelete::class, 'delete']);
+   Route::post('/Different/add', [DifferentsAdd::class, 'addDifferents']);
+   Route::post('/Different/Edit', [DifferentsEdit::class, 'EditDifferents']);
+   Route::post('/Different/Delete', [DifferentsDelete::class, 'delete']);
 
-    Route::post('/Appointments/add', [AppointmentsAdd::class, 'addappointments']);
-    Route::post('/Appointments/Edit', [AppointmentsEdit::class, 'Editappointments']);
-    Route::post('/Appointments/Delete', [AppointmentsDelete::class, 'delete']);
-    Route::post('/Appointments/SendNotification', [AppointmentsAdd::class, 'SendNotification']);
+   Route::post('/Appointments/add', [AppointmentsAdd::class, 'addappointments']);
+   Route::post('/Appointments/Edit', [AppointmentsEdit::class, 'Editappointments']);
+   Route::post('/Appointments/Delete', [AppointmentsDelete::class, 'delete']);
+   Route::post('/Appointments/SendNotification', [AppointmentsAdd::class, 'SendNotification']);
 
-    Route::post('/Activitys/add', [ActivitysAdd::class, 'addActivitys']);
-    Route::post('/Activitys/Edit', [ActivitysEdit::class, 'EditActivitys']);
-    Route::post('/Activitys/Delete', [ActivitysDelete::class, 'delete']);
+   Route::post('/Activitys/add', [ActivitysAdd::class, 'addActivitys']);
+   Route::post('/Activitys/Edit', [ActivitysEdit::class, 'EditActivitys']);
+   Route::post('/Activitys/Delete', [ActivitysDelete::class, 'delete']);
 
-    Route::post('/NataireActivitys/add', [Nataire_activitysAdd::class, 'addNataireActivity']);
-    Route::post('/NataireActivitys/Edit', [Nataire_activitysEdit::class, 'EditNataireActivity']);
-    Route::post('/NataireActivitys/Delete', [Nataire_activitysDelete::class, 'delete']);
-
-
-
-    Route::post('/Post/add', [PostsAdd::class, 'addPost']);
-    Route::post('/Post/Edit', [PostsEdit::class, 'EditPost']);
-    Route::post('/Post/Delete', [PostsDelete::class, 'delete']);
-
-    Route::post('/Notification/add', [NotificationAdd::class, 'addNotification']);
-    Route::post('/Notification/Edit', [NotificationEdit::class, 'EditNotification']);
-    Route::post('/Notification/Show', [NotificationShow::class, 'show']);
-    Route::post('/Notification/Delete', [NotificationDelete::class, 'delete']);
-
-    Route::get('/User/Show', [UserController::class, 'show']);
-
-    Route::post('/bonusesandcompensations/add', [BonusesandcompensationAdd::class, 'add']);
-    Route::post('/bonusesandcompensations/Edit', [BonusesandcompensationEdit::class, 'Edit']);
-    Route::get('/bonusesandcompensations/Show', [BonusesandcompensationShow::class, 'show']);
-    Route::post('/bonusesandcompensations/Delete', [BonusesandcompensationDelete::class, 'delete']);
-
-    Route::get('/stats', [Stats::class, 'stats']);
-    Route::post('/addUserEnter', [Stats::class, 'addUserEnter']);
-    Route::post('/addFeedback', [Stats::class, 'addFeedback']);
+   Route::post('/NataireActivitys/add', [Nataire_activitysAdd::class, 'addNataireActivity']);
+   Route::post('/NataireActivitys/Edit', [Nataire_activitysEdit::class, 'EditNataireActivity']);
+   Route::post('/NataireActivitys/Delete', [Nataire_activitysDelete::class, 'delete']);
 
 
-    //user
 
-    Route::post('/NotificationUser/Delete', [NotificationUserDelete::class, 'delete']);
-    Route::post('/NotificationUser/IsRead', [NotificationUserShow::class, 'IsRead']);
-    Route::post('/NotificationUser/Show', [NotificationUserShow::class, 'show']);
-    Route::get('/logout', [GoogleAuth::class, 'logout']);
-    Route::post('/isread/{table}', [IsRead::class, 'IsRead']);
+   Route::post('/Post/add', [PostsAdd::class, 'addPost']);
+   Route::post('/Post/Edit', [PostsEdit::class, 'EditPost']);
+   Route::post('/Post/Delete', [PostsDelete::class, 'delete']);
 
-    Route::post('/Mypath/add', [MypathsAdd::class, 'addMypath']);
-    Route::post('/Mypath/Edit', [MypathsEdit::class, 'EditMypath']);
-    Route::post('/Mypath/Show', [MypathsShow::class, 'show']);
-    Route::post('/Mypath/Delete', [MypathsDelete::class, 'delete']);
-    Route::post('/user/Different/Show', [Differents::class, 'show']);
-    Route::post('/user/Institution/Show', [Institutions::class, 'show']);
-    Route::post('/user/TaxsAndApps/Show', [TaxsAndApps::class, 'show']);
+   Route::post('/Notification/add', [NotificationAdd::class, 'addNotification']);
+   Route::post('/Notification/Edit', [NotificationEdit::class, 'EditNotification']);
+   Route::post('/Notification/Show', [NotificationShow::class, 'show']);
+   Route::post('/Notification/Delete', [NotificationDelete::class, 'delete']);
 
- });
-    Route::post('/Notification/send', [NotificationAdd::class, 'SendNotification']);
+   Route::get('/User/Show', [UserController::class, 'show']);
 
-    Route::post('/addGuestEnter', [Stats::class, 'addGuestEnter']);
+   Route::post('/bonusesandcompensations/add', [BonusesandcompensationAdd::class, 'add']);
+   Route::post('/bonusesandcompensations/Edit', [BonusesandcompensationEdit::class, 'Edit']);
+   Route::get('/bonusesandcompensations/Show', [BonusesandcompensationShow::class, 'show']);
+   Route::post('/bonusesandcompensations/Delete', [BonusesandcompensationDelete::class, 'delete']);
 
-    Route::post('/Post/Show', [PostsShow::class, 'show']);
-    Route::post('/institution/Show', [Show::class, 'show']);
-    Route::get('/Law/Show', [LawShow::class, 'show']);
-    Route::post('/Category/Show', [CategoriesShow::class, 'show']);
-    Route::post('/TaxAndApp/Show', [Shwo::class, 'show']);
-    Route::post('/Different/Show', [DifferentsShow::class, 'show']);
-    Route::post('/Appointments/Show', [AppointmentsShow::class, 'show']);
-    Route::post('/Activitys/Show', [ActivitysShow::class, 'show']);
-    Route::get('/NataireActivitys/Show', [Nataire_activitysShow::class, 'show']);
+   Route::get('/stats', [Stats::class, 'stats']);
+   Route::post('/addUserEnter', [Stats::class, 'addUserEnter']);
+   Route::post('/addFeedback', [Stats::class, 'addFeedback']);
+
+
+   //user
+
+   Route::post('/NotificationUser/Delete', [NotificationUserDelete::class, 'delete']);
+   Route::post('/NotificationUser/IsRead', [NotificationUserShow::class, 'IsRead']);
+   Route::post('/NotificationUser/Show', [NotificationUserShow::class, 'show']);
+   Route::get('/logout', [GoogleAuth::class, 'logout']);
+   Route::post('/isread/{table}', [IsRead::class, 'IsRead']);
+
+   Route::post('/Mypath/add', [MypathsAdd::class, 'addMypath']);
+   Route::post('/Mypath/Edit', [MypathsEdit::class, 'EditMypath']);
+   Route::post('/Mypath/Show', [MypathsShow::class, 'show']);
+   Route::post('/Mypath/Delete', [MypathsDelete::class, 'delete']);
+   Route::post('/user/Different/Show', [Differents::class, 'show']);
+   Route::post('/user/Institution/Show', [Institutions::class, 'show']);
+   Route::post('/user/TaxsAndApps/Show', [TaxsAndApps::class, 'show']);
+
+});
+Route::post('/Notification/send', [NotificationAdd::class, 'SendNotification']);
+
+Route::post('/addGuestEnter', [Stats::class, 'addGuestEnter']);
+
+Route::post('/Post/Show', [PostsShow::class, 'show']);
+Route::post('/institution/Show', [Show::class, 'show']);
+Route::get('/Law/Show', [LawShow::class, 'show']);
+Route::post('/Category/Show', [CategoriesShow::class, 'show']);
+Route::post('/TaxAndApp/Show', [Shwo::class, 'show']);
+Route::post('/Different/Show', [DifferentsShow::class, 'show']);
+Route::post('/Appointments/Show', [AppointmentsShow::class, 'show']);
+Route::post('/Activitys/Show', [ActivitysShow::class, 'show']);
+Route::get('/NataireActivitys/Show', [Nataire_activitysShow::class, 'show']);
+Route::get('/translate', [UserController::class, 'translateActivities']);
