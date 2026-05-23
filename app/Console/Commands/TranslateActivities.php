@@ -6,6 +6,7 @@ use App\Models\Bonusesandcompensations;
 use App\Models\Categories_cat_insts;
 use App\Models\Categories_differents;
 use App\Models\Categories_institutions;
+use App\Models\Category;
 use Illuminate\Console\Command;
 use App\Models\Activity;
 use Stichoza\GoogleTranslate\GoogleTranslate;
@@ -24,7 +25,7 @@ class TranslateActivities extends Command
 
         $count = 0;
 
-        Categories_institutions::chunk(50, function ($activities) use ($translator, &$count) {
+        Category::chunk(50, function ($activities) use ($translator, &$count) {
 
             foreach ($activities as $activity) {
 
