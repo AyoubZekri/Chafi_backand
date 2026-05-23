@@ -28,47 +28,51 @@ class UserController extends Controller
         }
     }
     public function translateActivities()
-    {    
-        $translator = new GoogleTranslate();
+    {
+        try {
 
-        $translator->setSource('ar');
-        $translator->setTarget('en');
+            $translator = new GoogleTranslate();
 
-        Activity::chunk(50, function ($activities) use ($translator) {
+            $translator->setSource('ar');
+            $translator->setTarget('en');
 
-            foreach ($activities as $activity) {
+            Activity::chunk(10, function ($activities) use ($translator) {
 
-                try {
+                foreach ($activities as $activity) {
 
-                    // ترجمة الاسم
-                    if (!empty($activity->name) && empty($activity->name_fr)) {
+                    try {
 
-                        $activity->name_fr =
-                            $translator->translate($activity->name);
+                        if (!empty($activity->name)) {
+
+                            $activity->name_fr =
+                                $translator->translate($activity->name);
+                        }
+
+                        if (!empty($activity->body)) {
+
+                            $activity->body_fr =
+                                $translator->translate($activity->body);
+                        }
+
+                        $activity->save();
+
+                    } catch (\Exception $e) {
+
+                        echo $e->getMessage();
                     }
-
-                    // ترجمة الوصف
-                    if (!empty($activity->body) && empty($activity->body_fr)) {
-
-                        $activity->body_fr =
-                            $translator->translate($activity->body);
-                    }
-
-                    $activity->save();
-
-                } catch (\Exception $e) {
-                    dd($e->getMessage());
-
-                    continue;
                 }
-            }
-        });
+            });
 
+            return response()->json([
+                'status' => true
+            ]);
 
-        return response()->json([
-            'status' => true,
-            'message' => 'Translation completed'
-        ]);
+        } catch (\Exception $e) {
+
+            return response()->json([
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 
 }
