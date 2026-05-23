@@ -14,6 +14,8 @@ use App\Models\InstitutionLaw;
 use App\Models\Law;
 use App\Models\LawTaxAndApp;
 use App\Models\NataireActivity;
+use App\Models\Notification;
+use App\Models\Post;
 use Illuminate\Console\Command;
 use App\Models\Activity;
 use Stichoza\GoogleTranslate\GoogleTranslate;
@@ -32,21 +34,26 @@ class TranslateActivities extends Command
 
         $count = 0;
 
-        NataireActivity::chunk(50, function ($activities) use ($translator, &$count) {
+        Post::chunk(50, function ($activities) use ($translator, &$count) {
 
             foreach ($activities as $activity) {
 
                 try {
 
-                    $activity->name_fr = $translator->translate($activity->name);
-                    $this->info("Translated name ID: {$activity->name_fr}");
+                    // $activity->name_fr = $translator->translate($activity->name);
+                    // $this->info("Translated name ID: {$activity->name_fr}");
 
-                    // $activity->title_fr = $translator->translate($activity->title);
-                    // $this->info("Translated title ID: {$activity->title_fr}");
-                    // if (!empty($activity->body)) {
-                    //     $activity->body_fr = $translator->translate($activity->body);
-                    //     $this->info("Translated body ID: {$activity->body_fr}");
-                    // }
+                    $activity->title2_fr = $translator->translate($activity->title2);
+                    $this->info("Translated title2 ID: {$activity->title2_fr}");
+
+                    $activity->title_fr = $translator->translate($activity->title);
+                    $this->info("Translated title ID: {$activity->title_fr}");
+
+
+                    if (!empty($activity->body)) {
+                        $activity->body_fr = $translator->translate($activity->body);
+                        $this->info("Translated body ID: {$activity->body_fr}");
+                    }
 
                     $activity->save();
                     $count++;
