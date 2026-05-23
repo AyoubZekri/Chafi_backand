@@ -26,14 +26,13 @@ class TranslateActivities extends Command
 
                 try {
 
-                    if (!empty($activity->name) && empty($activity->name_fr)) {
-                        $activity->name_fr = $translator->translate($activity->name);
-                    }
+                    // if (!empty($activity->name) && empty($activity->name_fr)) {
+                    //     $activity->name_fr = $translator->translate($activity->name);
+                    // }
 
-                    if (!empty($activity->body) && empty($activity->body_fr)) {
-                        $activity->body_fr = $translator->translate($activity->body);
-                        $this->info("Translated body ID: {$activity->body_fr}");
-                    }
+                    $activity->body_fr = $translator->translate($activity->body);
+                    $this->info("Translated body ID: {$activity->body_fr}");
+
 
                     $activity->save();
                     $count++;
