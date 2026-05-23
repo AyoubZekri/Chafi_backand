@@ -54,8 +54,7 @@ class Edit extends Controller
                 $category->update($validator->validated());
             } else {
                 unset($request->type);
-                                unset($request->cat_id);
-
+                unset($request->cat_id);
                 $category = Category::find($request->id);
                 $category->update($validator->validated());
             }
