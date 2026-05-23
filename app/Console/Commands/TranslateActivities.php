@@ -20,24 +20,27 @@ class TranslateActivities extends Command
 
         $count = 0;
 
-        Activity::chunk(50, function ($activities) use ($translator, &$count) {
+        Activity::chunkById(50, function ($activities) use ($translator, &$count) {
 
             foreach ($activities as $activity) {
 
                 try {
 
+                    $data = [];
+
                     if (!empty($activity->name) && empty($activity->name_fr)) {
-                        $activity->name_fr = $translator->translate($activity->name);
+                        $data['name_fr'] = $translator->translate($activity->name);
                     }
 
                     if (!empty($activity->body) && empty($activity->body_fr)) {
-                        $activity->body_fr = $translator->translate($activity->body);
+                        $data['body_fr'] = $translator->translate($activity->body);
                     }
 
-                    $activity->save();
-                    $count++;
-
-                    $this->info("Translated ID: {$activity->id}");
+                    if (!empty($data)) {
+                        $activity->update($data);
+                        $count++;
+                        $this->info("Translated ID: {$activity->id}");
+                    }
 
                 } catch (\Exception $e) {
                     $this->error("Error ID {$activity->id}: " . $e->getMessage());
@@ -46,7 +49,5 @@ class TranslateActivities extends Command
         });
 
         $this->info("DONE. Total translated: {$count}");
-
-        return 0;
     }
 }
