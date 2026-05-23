@@ -28,11 +28,11 @@ class TranslateActivities extends Command
 
                     $data = [];
 
-                    if (!empty($activity->name) && empty($activity->name_fr)) {
+                    if (filled($activity->name) && !filled($activity->name_fr)) {
                         $data['name_fr'] = $translator->translate($activity->name);
                     }
 
-                    if (!empty($activity->body) && empty($activity->body_fr)) {
+                    if (filled($activity->body) && !filled($activity->body_fr)) {
                         $data['body_fr'] = $translator->translate($activity->body);
                     }
 
