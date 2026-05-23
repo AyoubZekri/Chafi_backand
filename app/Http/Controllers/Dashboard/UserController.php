@@ -57,11 +57,13 @@ class UserController extends Controller
                     $activity->save();
 
                 } catch (\Exception $e) {
+                    dd($e->getMessage());
 
                     continue;
                 }
             }
         });
+
 
         return response()->json([
             'status' => true,
