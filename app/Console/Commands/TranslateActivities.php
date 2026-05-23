@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Models\Activity;
+use App\Models\Categories_cat_insts;
 use Stichoza\GoogleTranslate\GoogleTranslate;
 
 class TranslateActivities extends Command
@@ -20,7 +20,7 @@ class TranslateActivities extends Command
 
         $count = 0;
 
-        Activity::chunkById(50, function ($activities) use ($translator, &$count) {
+        Categories_cat_insts::chunkById(50, function ($activities) use ($translator, &$count) {
 
             foreach ($activities as $activity) {
 
@@ -28,13 +28,13 @@ class TranslateActivities extends Command
 
                     $data = [];
 
-                    // if (filled($activity->name) && !filled($activity->name_fr)) {
-                    //     $data['name_fr'] = $translator->translate($activity->name);
-                    // }
-
-                    if (filled($activity->body) && !filled($activity->body_fr)) {
-                        $data['body_fr'] = $translator->translate($activity->body);
+                    if (filled($activity->name) && !filled($activity->name_fr)) {
+                        $data['name_fr'] = $translator->translate($activity->name);
                     }
+
+                    // if (filled($activity->body) && !filled($activity->body_fr)) {
+                    //     $data['body_fr'] = $translator->translate($activity->body);
+                    // }
 
                     if (!empty($data)) {
                         $activity->update($data);
