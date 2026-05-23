@@ -37,10 +37,10 @@ class TranslateActivities extends Command
 
                     $activity->title_fr = $translator->translate($activity->title);
                     $this->info("Translated title ID: {$activity->title_fr}");
-
-                    $activity->body_fr = $translator->translate($activity->body);
-                    $this->info("Translated body ID: {$activity->body_fr}");
-
+                    if (!empty($activity->body)) {
+                        $activity->body_fr = $translator->translate($activity->body);
+                        $this->info("Translated body ID: {$activity->body_fr}");
+                    }
 
                     $activity->save();
                     $count++;
