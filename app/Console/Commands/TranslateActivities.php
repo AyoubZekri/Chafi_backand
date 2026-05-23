@@ -33,7 +33,7 @@ class TranslateActivities extends Command
 
                 try {
 
-                    $activity->name_fr = $translator->translate($activity->name);
+                    $activity->name_fr = $translator->translate($activity->name_ar);
                     $this->info("Translated name ID: {$activity->name_fr}");
 
                     // $activity->title_fr = $translator->translate($activity->title);
