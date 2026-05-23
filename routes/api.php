@@ -162,4 +162,3 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/Appointments/Show', [AppointmentsShow::class, 'show']);
     Route::post('/Activitys/Show', [ActivitysShow::class, 'show']);
     Route::get('/NataireActivitys/Show', [Nataire_activitysShow::class, 'show']);
-    Route::get('/translate', [UserController::class, 'translateActivities']);
