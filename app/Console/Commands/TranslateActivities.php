@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Appointment;
 use App\Models\Bonusesandcompensations;
 use App\Models\Categories_cat_insts;
 use App\Models\Categories_differents;
@@ -35,7 +36,7 @@ class TranslateActivities extends Command
 
         $count = 0;
 
-        TaxAndApp::chunk(50, function ($activities) use ($translator, &$count) {
+        Appointment::chunk(50, function ($activities) use ($translator, &$count) {
 
             foreach ($activities as $activity) {
 
@@ -47,13 +48,13 @@ class TranslateActivities extends Command
                     // $activity->title2_fr = $translator->translate($activity->title2);
                     // $this->info("Translated title2 ID: {$activity->title2_fr}");
 
-                    $activity->title_fr = $translator->translate($activity->title);
-                    $this->info("Translated title ID: {$activity->title_fr}");
+                    $activity->dependencies_fr = $translator->translate($activity->dependencies);
+                    $this->info("Translated dependencies ID: {$activity->dependencies_fr}");
 
 
-                    if (!empty($activity->body)) {
-                        $activity->body_fr = $translator->translate($activity->body);
-                        $this->info("Translated body ID: {$activity->body_fr}");
+                    if (!empty($activity->declaration)) {
+                        $activity->declaration_fr = $translator->translate($activity->declaration);
+                        $this->info("Translated declaration ID: {$activity->declaration_fr}");
                     }
 
                     $activity->save();
