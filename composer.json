@@ -15,7 +15,6 @@
         "laravel/sanctum": "4.0",
         "laravel/socialite": "5.18",
         "laravel/tinker": "^2.9",
-        "stichoza/google-translate-php": "^5.3",
         "twig/twig": "^3.22"
     },
     "require-dev": {
