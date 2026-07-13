@@ -6,6 +6,7 @@ use App\Http\Controllers\AppLication\IsRead;
 use App\Http\Controllers\AppLication\NotificationUser\Delete as NotificationUserDelete;
 use App\Http\Controllers\AppLication\NotificationUser\Show as NotificationUserShow;
 use App\Http\Controllers\AppLication\TaxsAndApps;
+use App\Http\Controllers\AppLication\FavoritesController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\GoogleAuth;
 use App\Http\Controllers\Dashboard\activitys\Add as ActivitysAdd;
@@ -147,6 +148,7 @@ Route::middleware('auth:sanctum')->group(function () {
    Route::post('/user/Different/Show', [Differents::class, 'show']);
    Route::post('/user/Institution/Show', [Institutions::class, 'show']);
    Route::post('/user/TaxsAndApps/Show', [TaxsAndApps::class, 'show']);
+   Route::post('/user/Favorites/Show', [FavoritesController::class, 'show']);
 
 });
 Route::post('/Notification/send', [NotificationAdd::class, 'SendNotification']);
