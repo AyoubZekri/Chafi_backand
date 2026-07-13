@@ -148,7 +148,6 @@ Route::middleware('auth:sanctum')->group(function () {
    Route::post('/user/Different/Show', [Differents::class, 'show']);
    Route::post('/user/Institution/Show', [Institutions::class, 'show']);
    Route::post('/user/TaxsAndApps/Show', [TaxsAndApps::class, 'show']);
-   Route::post('/user/Favorites/Show', [FavoritesController::class, 'show']);
 
 });
 Route::post('/Notification/send', [NotificationAdd::class, 'SendNotification']);
@@ -164,3 +163,4 @@ Route::post('/Different/Show', [DifferentsShow::class, 'show']);
 Route::post('/Appointments/Show', [AppointmentsShow::class, 'show']);
 Route::post('/Activitys/Show', [ActivitysShow::class, 'show']);
 Route::get('/NataireActivitys/Show', [Nataire_activitysShow::class, 'show']);
+Route::post('/user/Favorites/Show', [FavoritesController::class, 'show']);
