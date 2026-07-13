@@ -164,3 +164,4 @@ Route::post('/Appointments/Show', [AppointmentsShow::class, 'show']);
 Route::post('/Activitys/Show', [ActivitysShow::class, 'show']);
 Route::get('/NataireActivitys/Show', [Nataire_activitysShow::class, 'show']);
 Route::post('/user/Favorites/Show', [FavoritesController::class, 'show']);
+//

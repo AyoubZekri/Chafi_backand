@@ -52,4 +52,5 @@ class FavoritesController extends Controller
             'data' => $results
         ]);
     }
+    //
 }
