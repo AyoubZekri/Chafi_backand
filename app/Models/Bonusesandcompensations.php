@@ -11,6 +11,6 @@ class Bonusesandcompensations extends Model
     protected $table = 'bonuses_and_compensations';
 
 
-    protected $fillable = ['name_ar','name_fr','category','is_required',"type","has_special_logic"];
+    protected $fillable = ['name_ar','name_fr','category','is_required',"type","value_type","action_type","has_special_logic"];
 
 }

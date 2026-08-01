@@ -20,6 +20,8 @@ class Edit extends Controller
                 'category' => 'nullable|integer',
                 'is_required' => 'nullable|boolean',
                 'type' => 'nullable|string',
+                'value_type' => 'nullable|integer|in:1,2',
+                'action_type' => 'nullable|integer|in:1,2',
                 'has_special_logic' => 'nullable|boolean',
             ]);
 

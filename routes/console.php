@@ -12,3 +12,4 @@ Artisan::command('inspire', function () {
 Schedule::command('notifications:daily')->dailyAt("08:00");
 Schedule::command('appointments:notify')->dailyAt('08:00');
 Schedule::command('activities:translate')->dailyAt('02:00');
+Schedule::command('notifications:monthly-updates')->monthlyOn(1, '08:00');

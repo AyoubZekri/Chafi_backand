@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('differents', function (Blueprint $table) {
             $table->id();
             $table->integer('index');
-            $table->integer('type'); // 1=FAQ, 2=link, 3=misc
+            $table->integer('type'); // 1=FAQ, 2=link, 3=misc  4 = قاموس جبائي 
             $table->string('title');
             $table->text('body')->nullable();
             $table->string('title_fr');
