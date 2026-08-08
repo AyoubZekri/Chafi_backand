@@ -68,6 +68,7 @@ class Add extends Controller
             $notification->Status = 1;
             $notification->save();
             $tax_id = $notification->tax_id;
+            $userIds = [];
 
             if (!$tax_id) {
                 $service->sendNotificationToTopic(
@@ -75,13 +76,16 @@ class Add extends Controller
                     $request->title ?? $notification->title,
                     $request->body ?? $notification->content,
                 );
+                
+                $userIds = \App\Models\User::pluck('id')->toArray();
             } else {
-                $userTokens = \App\Models\Mypath::where('tax_id', $tax_id)
+                $usersData = \App\Models\Mypath::where('tax_id', $tax_id)
                     ->join('users', 'mypaths.user_id', '=', 'users.id')
-                    ->whereNotNull('users.token')
-                    ->pluck('users.token')
-                    ->unique()
-                    ->toArray();
+                    ->select('users.id', 'users.token')
+                    ->get();
+
+                $userIds = $usersData->pluck('id')->unique()->toArray();
+                $userTokens = $usersData->pluck('token')->filter()->unique()->toArray();
 
                 foreach ($userTokens as $token) {
                     $service->sendNotification(
@@ -89,6 +93,26 @@ class Add extends Controller
                         $request->title ?? $notification->title,
                         $request->body ?? $notification->content
                     );
+                }
+            }
+
+            if (!empty($userIds)) {
+                $now = \Carbon\Carbon::now();
+                $insertData = [];
+                foreach ($userIds as $userId) {
+                    $insertData[] = [
+                        'user_id' => $userId,
+                        'notification_id' => $notification->id,
+                        'is_read' => 0,
+                        'is_delete' => 0,
+                        'created_at' => $now,
+                        'updated_at' => $now,
+                    ];
+                }
+
+                $chunks = array_chunk($insertData, 1000);
+                foreach ($chunks as $chunk) {
+                    \App\Models\NotificationUsers::insert($chunk);
                 }
             }
 
