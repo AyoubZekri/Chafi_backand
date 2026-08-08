@@ -21,6 +21,9 @@ class Add extends Controller
                 'dependencies_fr' => 'nullable|string',
                 'deadline' => 'nullable|date_format:m-d',
                 'noticeDate' => 'nullable|date_format:m-d',
+                'appointment_dates' => 'nullable|array',
+                'appointment_dates.*.appointment_date' => 'nullable|string',
+                'appointment_dates.*.alert_date' => 'nullable|string',
             ]);
 
             if ($validator->fails()) {
@@ -42,7 +45,18 @@ class Add extends Controller
             }
             $data['index'] = $maxIndex ? $maxIndex + 1 : 1;
 
-            Appointment::create($data);
+            $appointment = Appointment::create($data);
+
+            if (!empty($request->appointment_dates)) {
+                foreach ($request->appointment_dates as $dateItem) {
+                    if (!empty($dateItem['appointment_date']) || !empty($dateItem['alert_date'])) {
+                        $appointment->appointmentDates()->create([
+                            'appointment_date' => $dateItem['appointment_date'] ?? null,
+                            'alert_date' => $dateItem['alert_date'] ?? null,
+                        ]);
+                    }
+                }
+            }
 
             return Respons::success('تم الإنشاء بنجاح');
         } catch (\Exception $e) {

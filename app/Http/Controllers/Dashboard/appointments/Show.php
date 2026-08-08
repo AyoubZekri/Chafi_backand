@@ -31,7 +31,7 @@ class Show extends Controller
                 $query->where('tax_id', $request->tax_id);
             }
 
-            $data = $query->orderBy('index', 'asc')->get();
+            $data = $query->with('appointmentDates')->orderBy('index', 'asc')->get();
             return Respons::success(
                  $data
             );

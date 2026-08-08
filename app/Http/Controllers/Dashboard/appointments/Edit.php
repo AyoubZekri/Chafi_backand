@@ -23,6 +23,9 @@ class Edit extends Controller
                 'dependencies_fr' => 'nullable|string',
                 'deadline' => 'nullable|date_format:m-d',
                 'noticeDate' => 'nullable|date_format:m-d',
+                'appointment_dates' => 'nullable|array',
+                'appointment_dates.*.appointment_date' => 'nullable|string',
+                'appointment_dates.*.alert_date' => 'nullable|string',
 
             ]);
 
@@ -62,6 +65,18 @@ class Edit extends Controller
             unset($data['id']);
 
             $Different->update($data);
+
+            if ($request->has('appointment_dates')) {
+                $Different->appointmentDates()->delete();
+                foreach ($request->appointment_dates as $dateItem) {
+                    if (!empty($dateItem['appointment_date']) || !empty($dateItem['alert_date'])) {
+                        $Different->appointmentDates()->create([
+                            'appointment_date' => $dateItem['appointment_date'] ?? null,
+                            'alert_date' => $dateItem['alert_date'] ?? null,
+                        ]);
+                    }
+                }
+            }
 
             return Respons::success($Different, 'تم التعديل بنجاح');
         } catch (\Exception $e) {

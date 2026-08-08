@@ -12,4 +12,9 @@ class Appointment extends Model
     protected $fillable = [
         "index",'tax_id','declaration',"declaration_fr",'noticeDate','deadline','dependencies',"dependencies_fr"
     ];
+
+    public function appointmentDates()
+    {
+        return $this->hasMany(AppointmentDate::class);
+    }
 }
