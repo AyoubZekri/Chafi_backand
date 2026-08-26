@@ -22,6 +22,11 @@ class Add extends Controller
                 'title_fr' => 'nullable|string|max:255',
                 'title2_fr' => 'nullable|string|max:255',
                 'body_fr' => 'nullable|string',
+                'read_time' => 'nullable|string|max:255',
+                'chafi_advice' => 'nullable|string',
+                'chafi_advice_fr' => 'nullable|string',
+                'legal_source' => 'nullable|string',
+                'legal_source_fr' => 'nullable|string',
             ]);
 
             if ($validator->fails()) {
