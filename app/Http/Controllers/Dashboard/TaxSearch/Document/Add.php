@@ -16,6 +16,7 @@ class Add extends Controller
             'title_ar' => 'required|string|max:255',
             'title_fr' => 'nullable|string|max:255',
             'year' => 'nullable|integer',
+            'file' => 'nullable|file|mimes:pdf,doc,docx|max:20480',
         ]);
 
         if ($validator->fails()) {
@@ -25,7 +26,12 @@ class Add extends Controller
             ]);
         }
 
-        $document = DocumentModel::create($request->all());
+        $data = $request->except('file');
+        if ($request->hasFile('file')) {
+            $data['file'] = $request->file('file')->store('TaxSearch', 'public');
+        }
+
+        $document = DocumentModel::create($data);
 
         return response()->json([
             'status' => true,

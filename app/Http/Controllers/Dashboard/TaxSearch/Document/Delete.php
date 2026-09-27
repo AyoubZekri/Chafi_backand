@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Dashboard\TaxSearch\Document;
 use App\Http\Controllers\Controller;
 use App\Models\Document as DocumentModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class Delete extends Controller
@@ -23,6 +24,9 @@ class Delete extends Controller
         }
 
         $document = DocumentModel::find($request->id);
+        if ($document->file && Storage::disk('public')->exists($document->file)) {
+            Storage::disk('public')->delete($document->file);
+        }
         $document->delete();
 
         return response()->json([

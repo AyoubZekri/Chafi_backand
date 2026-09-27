@@ -17,6 +17,7 @@ class Document extends Model
         'title_fr',
         'year',
         'source_file',
+        'file',
         'pages',
         'legal_basis',
         'preamble',
