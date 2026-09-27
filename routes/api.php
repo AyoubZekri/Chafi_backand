@@ -62,6 +62,20 @@ use App\Http\Controllers\Dashboard\taxs_and_apps\Delete as Taxs_and_appsDelete;
 use App\Http\Controllers\Dashboard\taxs_and_apps\Edit as Taxs_and_appsEdit;
 use App\Http\Controllers\Dashboard\taxs_and_apps\Shwo;
 use App\Http\Controllers\Dashboard\UserController;
+use App\Http\Controllers\Dashboard\TaxSearch\Document\Add as TaxSearchAdd;
+use App\Http\Controllers\Dashboard\TaxSearch\Document\Edit as TaxSearchEdit;
+use App\Http\Controllers\Dashboard\TaxSearch\Document\Delete as TaxSearchDelete;
+use App\Http\Controllers\Dashboard\TaxSearch\Document\Show as TaxSearchShow;
+
+use App\Http\Controllers\Dashboard\TaxSearch\Node\Add as TaxSearchNodeAdd;
+use App\Http\Controllers\Dashboard\TaxSearch\Node\Edit as TaxSearchNodeEdit;
+use App\Http\Controllers\Dashboard\TaxSearch\Node\Delete as TaxSearchNodeDelete;
+use App\Http\Controllers\Dashboard\TaxSearch\Node\Show as TaxSearchNodeShow;
+
+use App\Http\Controllers\Dashboard\TaxSearch\Article\Add as TaxSearchArticleAdd;
+use App\Http\Controllers\Dashboard\TaxSearch\Article\Edit as TaxSearchArticleEdit;
+use App\Http\Controllers\Dashboard\TaxSearch\Article\Delete as TaxSearchArticleDelete;
+use App\Http\Controllers\Dashboard\TaxSearch\Article\Show as TaxSearchArticleShow;
 
 Route::post('/google-login', [GoogleAuth::class, 'GoogleLogin']);
 Route::post('/user/login', [GoogleAuth::class, 'Login']);
@@ -110,8 +124,17 @@ Route::middleware('auth:sanctum')->group(function () {
    Route::post('/NataireActivitys/Edit', [Nataire_activitysEdit::class, 'EditNataireActivity']);
    Route::post('/NataireActivitys/Delete', [Nataire_activitysDelete::class, 'delete']);
 
+   Route::post('/TaxSearch/add', [TaxSearchAdd::class, 'addDocument']);
+   Route::post('/TaxSearch/Edit', [TaxSearchEdit::class, 'editDocument']);
+   Route::post('/TaxSearch/Delete', [TaxSearchDelete::class, 'delete']);
 
+   Route::post('/TaxSearch/Node/add', [TaxSearchNodeAdd::class, 'addNode']);
+   Route::post('/TaxSearch/Node/Edit', [TaxSearchNodeEdit::class, 'editNode']);
+   Route::post('/TaxSearch/Node/Delete', [TaxSearchNodeDelete::class, 'delete']);
 
+   Route::post('/TaxSearch/Article/add', [TaxSearchArticleAdd::class, 'addArticle']);
+   Route::post('/TaxSearch/Article/Edit', [TaxSearchArticleEdit::class, 'editArticle']);
+   Route::post('/TaxSearch/Article/Delete', [TaxSearchArticleDelete::class, 'delete']);
    Route::post('/Post/add', [PostsAdd::class, 'addPost']);
    Route::post('/Post/Edit', [PostsEdit::class, 'EditPost']);
    Route::post('/Post/Delete', [PostsDelete::class, 'delete']);
@@ -156,6 +179,9 @@ Route::post('/addGuestEnter', [Stats::class, 'addGuestEnter']);
 
 Route::post('/Post/Show', [PostsShow::class, 'show']);
 Route::post('/institution/Show', [Show::class, 'show']);
+Route::post('/TaxSearch/Show', [TaxSearchShow::class, 'show']);
+Route::post('/TaxSearch/Node/Show', [TaxSearchNodeShow::class, 'show']);
+Route::post('/TaxSearch/Article/Show', [TaxSearchArticleShow::class, 'show']);
 Route::get('/Law/Show', [LawShow::class, 'show']);
 Route::post('/Category/Show', [CategoriesShow::class, 'show']);
 Route::post('/TaxAndApp/Show', [Shwo::class, 'show']);
