@@ -8,6 +8,7 @@ use App\Models\Institution;
 use App\Models\TaxAndApp;
 use App\Models\Different;
 use App\Models\Post;
+use App\Models\Article;
 use Illuminate\Support\Facades\DB;
 
 class FavoritesController extends Controller
@@ -16,6 +17,10 @@ class FavoritesController extends Controller
     {
         // Expecting an array of favorites: [['item_id' => 1, 'item_type' => '8'], ...]
         $favorites = $request->input('favorites', []);
+        // المستخدم غير المسجل يرسل القائمة كنص JSON (form-data)
+        if (is_string($favorites)) {
+            $favorites = json_decode($favorites, true) ?: [];
+        }
         
         $results = [];
 
@@ -34,6 +39,14 @@ class FavoritesController extends Controller
                 $data = TaxAndApp::with('laws')->find($itemId);
             } elseif ($itemType == '10' || str_contains(strtolower($itemType), 'جزاءات')) {
                 $data = Different::with('laws')->find($itemId);
+            } elseif ($itemType == '12') {
+                // مادة من ملفات "جبايتك"
+                $data = Article::with(['document', 'node', 'notes', 'tables.cells'])->find($itemId);
+                if ($data) {
+                    // حقول موحدة يقرأها FavoriteModel في التطبيق
+                    $data->title = $data->label;
+                    $data->body = $data->text;
+                }
             } else {
                 // Try fetching from Posts (FAQs etc)
                 $data = Post::find($itemId);
