@@ -44,7 +44,9 @@ class Show extends Controller
             $query->where(function($q) use ($search) {
                 $q->where('text', 'like', "%{$search}%")
                   ->orWhere('label', 'like', "%{$search}%")
-                  ->orWhere('number', 'like', "%{$search}%");
+                  ->orWhere('number', 'like', "%{$search}%")
+                  ->orWhere('label_en', 'like', "%{$search}%")
+                  ->orWhere('text_en', 'like', "%{$search}%");
             });
         }
 

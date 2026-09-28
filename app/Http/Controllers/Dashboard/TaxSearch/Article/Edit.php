@@ -22,6 +22,8 @@ class Edit extends Controller
             'number_int' => 'nullable|integer',
             'sort_order' => 'nullable|integer',
             'text' => 'nullable|string',
+            'label_en' => 'nullable|string|max:255',
+            'text_en' => 'nullable|string',
             'is_repealed' => 'boolean',
             'page_start' => 'nullable|integer',
             'page_end' => 'nullable|integer',
