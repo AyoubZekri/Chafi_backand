@@ -47,9 +47,6 @@ class TranslateArticles extends Command
     // مدة الانتظار عند الحظر بالثواني، ثم التوقف
     private const BLOCK_WAITS = [60, 120, 300];
 
-    // رمز الاستثناء عند حظر Google
-    private const BLOCKED = 429;
-
     private int $endpoint = 0;
     private int $requests = 0;
 
@@ -116,10 +113,7 @@ class TranslateArticles extends Command
                 $done += $articles->count();
                 $bar->advance($articles->count());
             }
-        } catch (\RuntimeException $e) {
-            if ($e->getCode() !== self::BLOCKED) {
-                throw $e;
-            }
+        } catch (GoogleBlockedException $e) {
             $bar->clear();
             $this->newLine();
             $this->error($e->getMessage());
@@ -281,7 +275,7 @@ class TranslateArticles extends Command
 
     /**
      * طلب ترجمة واحد. عند الفشل يجرب الرابط الآخر، وعند الحظر ينتظر
-     * (1 ← 2 ← 5 دقائق)، ثم يرمي RuntimeException برمز BLOCKED.
+     * (1 ← 2 ← 5 دقائق)، ثم يرمي GoogleBlockedException.
      */
     private function request(string $text): string
     {
@@ -318,9 +312,8 @@ class TranslateArticles extends Command
 
             // كل الروابط فشلت: انتظار ثم إعادة المحاولة، أو التوقف
             if (!$waits) {
-                throw new \RuntimeException(
-                    "Google Translate حظر هذا السيرفر مؤقتاً (HTTP {$status}) بعد {$this->requests} طلب.",
-                    self::BLOCKED
+                throw new GoogleBlockedException(
+                    "Google Translate حظر هذا السيرفر مؤقتاً (HTTP {$status}) بعد {$this->requests} طلب."
                 );
             }
             $wait = array_shift($waits);
@@ -353,4 +346,8 @@ class TranslateArticles extends Command
         }
         return $out;
     }
+}
+
+class GoogleBlockedException extends \RuntimeException
+{
 }
