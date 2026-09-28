@@ -56,6 +56,8 @@ class Show extends Controller
                             'name_ar' => $law->name_ar,
                             'name_fr' => $law->name_fr,
                             'index_link' => $law->index_link,
+                            'document_id' => $law->document_id,
+                            'article_id'  => $law->article_id,
                             'pdf' => optional($law->law)->pdf,
                         ];
                     }));
