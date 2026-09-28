@@ -15,10 +15,30 @@ class UserController extends Controller
     public function show()
     {
         try {
-            $data = User::where('role', 'user')
+            $users = User::where('role', 'user')
                 ->withCount(['stats'])
                 ->with('feedback')
                 ->get();
+
+            // تجميع التقييمات حسب وقت الإرسال لتظهر كل عملية إضافة على حدى
+            $data = $users->map(function ($user) {
+                $userArray = $user->toArray();
+                
+                if (isset($userArray['feedback'])) {
+                    $groupedFeedbacks = collect($userArray['feedback'])->groupBy(function ($item) {
+                        return \Carbon\Carbon::parse($item['created_at'])->format('Y-m-d H:i:s');
+                    })->map(function ($group) {
+                        return [
+                            'date' => \Carbon\Carbon::parse($group->first()['created_at'])->format('Y-m-d H:i:s'),
+                            'types' => $group->pluck('type')->toArray()
+                        ];
+                    })->values()->toArray();
+                    
+                    $userArray['feedback'] = $groupedFeedbacks;
+                }
+                
+                return $userArray;
+            });
 
             return Respons::success(
                 $data

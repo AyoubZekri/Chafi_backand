@@ -14,10 +14,16 @@ class LawTaxAndApp extends Model
         'law_id',
         'taxs_and_app_id',
         'index_link',
+        'article_id',
     ];
 
     public function law()
     {
         return $this->belongsTo(Law::class);
+    }
+
+    public function article()
+    {
+        return $this->belongsTo(Article::class, 'article_id', 'id');
     }
 }

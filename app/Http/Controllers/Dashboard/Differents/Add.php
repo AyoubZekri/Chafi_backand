@@ -27,6 +27,7 @@ class Add extends Controller
                 'laws.*.name_ar' => 'nullable|string',
                 'laws.*.name_fr' => 'nullable|string',
                 'laws.*.index_link' => 'nullable|integer',
+                'laws.*.article_id' => 'nullable|integer',
 
                 'index_link' => 'nullable|string',
                 'calcul' => 'nullable|string|max:255',
@@ -53,6 +54,7 @@ class Add extends Controller
                     'name_ar' => $law['name_ar'] ?? null,
                     'name_fr' => $law['name_fr'] ?? null,
                     'index_link' => $law['index_link'] ?? null,
+                    'article_id' => $law['article_id'] ?? null,
                 ]);
             }
             DB::commit();

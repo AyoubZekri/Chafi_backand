@@ -14,11 +14,17 @@ class InstitutionLaw extends Model
         'law_id',
         'institution_id',
         'index_link',
+        'article_id',
     ];
 
 
     public function law()
     {
         return $this->belongsTo(Law::class, 'law_id', 'id');
+    }
+
+    public function article()
+    {
+        return $this->belongsTo(Article::class, 'article_id', 'id');
     }
 }

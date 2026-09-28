@@ -24,6 +24,8 @@ class GoogleAuth extends Controller
             "username"=>"sometimes|string",
             "numperPhone"=>"sometimes|string",
             "wilaya"=>"sometimes|string",
+            "is_taxpayer"=>"nullable|string",
+            "is_registered_tax_admin"=>"nullable|boolean",
         ]);
 
 
@@ -102,7 +104,9 @@ class GoogleAuth extends Controller
                 "numperPhone"=>$request->numperPhone,
                 "wilaya"=>$request->wilaya,
                 'password' => Hash::make("password@1234"),
-                "image"=>$profilePath
+                "image"=>$profilePath,
+                "is_taxpayer"=>$request->is_taxpayer,
+                "is_registered_tax_admin"=>$request->is_registered_tax_admin
             ]);
 
 
@@ -199,6 +203,8 @@ class GoogleAuth extends Controller
             'username' => 'sometimes|string',
             'numperPhone' => 'sometimes|integer',
             'wilaya' => 'sometimes|string',
+            'is_taxpayer' => 'nullable|string',
+            'is_registered_tax_admin' => 'nullable|boolean',
         ]);
 
         if ($validator->fails()) {
@@ -220,6 +226,12 @@ class GoogleAuth extends Controller
         }
         if ($request->has('wilaya')) {
             $user->wilaya = $request->wilaya;
+        }
+        if ($request->has('is_taxpayer')) {
+            $user->is_taxpayer = $request->is_taxpayer;
+        }
+        if ($request->has('is_registered_tax_admin')) {
+            $user->is_registered_tax_admin = $request->is_registered_tax_admin;
         }
 
         // تحديث الصورة إذا موجودة

@@ -20,7 +20,8 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'username','email','role','wilaya','numperPhone',
-        'image','gmail_id','token','password','notification_status'
+        'image','gmail_id','token','password','notification_status',
+        'is_taxpayer', 'is_registered_tax_admin'
     ];
 
     /**

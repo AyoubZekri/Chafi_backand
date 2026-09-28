@@ -306,8 +306,6 @@ class Stats extends Controller
 
             $userId = auth()->id();
 
-            Feedback::where('user_id', $userId)->delete();
-
             $data = [];
 
             foreach ($request->types as $type) {

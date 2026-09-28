@@ -14,10 +14,16 @@ class DifferentLaw extends Model
         'law_id',
         'different_id',
         'index_link',
+        'article_id',
     ];
 
     public function law()
     {
         return $this->belongsTo(Law::class);
+    }
+
+    public function article()
+    {
+        return $this->belongsTo(Article::class, 'article_id', 'id');
     }
 }
