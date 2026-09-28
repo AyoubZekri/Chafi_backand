@@ -14,6 +14,7 @@ class DifferentLaw extends Model
         'law_id',
         'different_id',
         'index_link',
+        'document_id',
         'article_id',
     ];
 
@@ -25,5 +26,10 @@ class DifferentLaw extends Model
     public function article()
     {
         return $this->belongsTo(Article::class, 'article_id', 'id');
+    }
+
+    public function document()
+    {
+        return $this->belongsTo(Document::class, 'document_id', 'id');
     }
 }

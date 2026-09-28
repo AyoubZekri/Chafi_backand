@@ -32,6 +32,7 @@ public function Editinstitution(Request $request)
             'laws.*.name_fr' => 'nullable|string',
             'laws.*.index_link' => 'nullable|integer',
             'laws.*.article_id' => 'nullable|integer',
+            'laws.*.document_id' => 'nullable|integer',
             'law_id'           => 'nullable|integer',
             'index_link'       => 'nullable|string',
             'calcul' => 'nullable|string|max:255',
@@ -88,6 +89,7 @@ public function Editinstitution(Request $request)
                     'name_fr'        => $law['name_fr'] ?? null,
                     'index_link'     => $law['index_link'] ?? null,
                     'article_id'     => $law['article_id'] ?? null,
+                    'document_id'    => $law['document_id'] ?? null,
                 ];
             }
 

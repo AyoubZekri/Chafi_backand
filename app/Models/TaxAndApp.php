@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 namespace App\Models;
 
@@ -12,7 +12,7 @@ class TaxAndApp extends Model
     protected $table = 'taxs_and_apps';
 
     protected $fillable = [
-        "index",'cat_id','title','body','title_fr','body_fr','law_id','index_link','calcul'
+        "index",'cat_id','title','body','title_fr','body_fr','law_id','index_link','calcul', 'document_id', 'article_id'
     ];
 
     public function category()
@@ -25,7 +25,6 @@ class TaxAndApp extends Model
         return $this->belongsTo(Law::class);
     }
 
-
     public function laws()
     {
         return $this->hasMany(LawTaxAndApp::class, 'taxs_and_app_id');
@@ -34,5 +33,15 @@ class TaxAndApp extends Model
     public function reads()
     {
         return $this->hasMany(ReadTaxAndApp::class);
+    }
+
+    public function document()
+    {
+        return $this->belongsTo(Document::class);
+    }
+
+    public function article()
+    {
+        return $this->belongsTo(Article::class);
     }
 }

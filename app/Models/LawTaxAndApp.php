@@ -14,6 +14,7 @@ class LawTaxAndApp extends Model
         'law_id',
         'taxs_and_app_id',
         'index_link',
+        'document_id',
         'article_id',
     ];
 
@@ -25,5 +26,10 @@ class LawTaxAndApp extends Model
     public function article()
     {
         return $this->belongsTo(Article::class, 'article_id', 'id');
+    }
+
+    public function document()
+    {
+        return $this->belongsTo(Document::class, 'document_id', 'id');
     }
 }

@@ -14,6 +14,7 @@ class InstitutionLaw extends Model
         'law_id',
         'institution_id',
         'index_link',
+        'document_id',
         'article_id',
     ];
 
@@ -26,5 +27,10 @@ class InstitutionLaw extends Model
     public function article()
     {
         return $this->belongsTo(Article::class, 'article_id', 'id');
+    }
+
+    public function document()
+    {
+        return $this->belongsTo(Document::class, 'document_id', 'id');
     }
 }
