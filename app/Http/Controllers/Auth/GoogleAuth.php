@@ -41,7 +41,7 @@ class GoogleAuth extends Controller
         DB::beginTransaction();
 
         $auth = (new Factory)
-            ->withServiceAccount(base_path(env('FIREBASE_CREDENTIALS')))
+            ->withServiceAccount(base_path(config('services.firebase.credentials')))
             ->createAuth();
 
 
@@ -146,7 +146,7 @@ class GoogleAuth extends Controller
         DB::beginTransaction();
 
         $auth = (new Factory)
-            ->withServiceAccount(base_path(env('FIREBASE_CREDENTIALS')))
+            ->withServiceAccount(base_path(config('services.firebase.credentials')))
             ->createAuth();
 
 

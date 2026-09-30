@@ -39,4 +39,10 @@ return [
         'client_id' => env('GOOGLE_CLIENT_ID'),
     ],
 
+
+    // مسار ملف مفتاح Firebase (يُقرأ من .env هنا حتى يعمل مع php artisan config:cache)
+    'firebase' => [
+        'credentials' => env('FIREBASE_CREDENTIALS'),
+    ],
+
 ];
