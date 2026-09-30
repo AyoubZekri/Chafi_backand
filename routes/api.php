@@ -57,6 +57,7 @@ use App\Http\Controllers\Dashboard\Posts\Delete as PostsDelete;
 use App\Http\Controllers\Dashboard\Posts\Edit as PostsEdit;
 use App\Http\Controllers\Dashboard\Posts\Show as PostsShow;
 use App\Http\Controllers\Dashboard\Stats;
+use App\Http\Controllers\Dashboard\FeedbackCompare;
 use App\Http\Controllers\Dashboard\taxs_and_apps\Add as Taxs_and_appsAdd;
 use App\Http\Controllers\Dashboard\taxs_and_apps\Delete as Taxs_and_appsDelete;
 use App\Http\Controllers\Dashboard\taxs_and_apps\Edit as Taxs_and_appsEdit;
@@ -154,6 +155,7 @@ Route::middleware('auth:sanctum')->group(function () {
    Route::get('/stats', [Stats::class, 'stats']);
    Route::post('/addUserEnter', [Stats::class, 'addUserEnter']);
    Route::post('/addFeedback', [Stats::class, 'addFeedback']);
+   Route::post('/Feedback/Compare', [FeedbackCompare::class, 'compare']);
 
 
    //user
