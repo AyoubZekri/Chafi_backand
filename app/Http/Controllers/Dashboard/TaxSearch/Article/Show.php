@@ -16,6 +16,7 @@ class Show extends Controller
             'document_id' => 'nullable|integer|exists:documents,id',
             'node_id' => 'nullable|integer|exists:nodes,id',
             'search' => 'nullable|string|max:255',
+            'ids' => 'nullable',
         ]);
 
         if ($validator->fails()) {
@@ -28,6 +29,14 @@ class Show extends Controller
         // جلب المواد مع العلاقات الهامة والجداول والملاحظات
         $query = Article::query()->with(['document', 'node', 'notes', 'tables.cells']);
         
+        // جلب مواد محددة بأرقامها (المواد المرتبطة بالقوانين في بطاقات التطبيق)
+        // تقبل مصفوفة أو نصاً مفصولاً بفواصل: ids=12,45,78
+        if ($request->filled('ids')) {
+            $ids = is_array($request->ids) ? $request->ids : explode(',', (string) $request->ids);
+            $ids = array_values(array_filter(array_map('intval', $ids)));
+            $query->whereIn('id', $ids);
+        }
+
         // جلب حسب الملف إذا تم توفيره
         if ($request->has('document_id') && !empty($request->document_id)) {
             $query->where('document_id', $request->document_id);
