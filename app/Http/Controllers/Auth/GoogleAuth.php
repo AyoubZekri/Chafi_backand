@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\Exception\Auth\UserNotFound;
 use Illuminate\Support\Facades\Http;
@@ -16,7 +17,44 @@ use Intervention\Image\Image;
 
 class GoogleAuth extends Controller
 {
+    /** إنشاء الحساب / الدخول بـ Google (route: google-login) */
     public function GoogleLogin(Request $request)
+    {
+        return $this->withErrorDetails('google-login', fn () => $this->googleLoginInner($request));
+    }
+
+    /** تسجيل الدخول (route: user/login) */
+    public function Login(Request $request)
+    {
+        return $this->withErrorDetails('user/login', fn () => $this->loginInner($request));
+    }
+
+    /**
+     * أي خطأ غير متوقع (Firebase، قاعدة البيانات...) يُسجَّل كاملاً في laravel.log
+     * ويُرجع نوعه ورسالته بدل "Server Error" حتى يطبعه التطبيق.
+     */
+    private function withErrorDetails(string $step, callable $action)
+    {
+        try {
+            return $action();
+        } catch (\Throwable $e) {
+            if (DB::transactionLevel() > 0) {
+                DB::rollBack();
+            }
+            Log::error("[auth:$step] " . get_class($e) . ': ' . $e->getMessage(), [
+                'uid' => request('uid'),
+                'trace' => $e->getTraceAsString(),
+            ]);
+            return response()->json([
+                'status' => 0,
+                'message' => 'خطأ في الخادم أثناء تسجيل الدخول',
+                'error' => class_basename($e) . ': ' . $e->getMessage(),
+                'step' => $step,
+            ], 500);
+        }
+    }
+
+    private function googleLoginInner(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'uid' => 'required|string',
@@ -126,7 +164,7 @@ class GoogleAuth extends Controller
 
     }
 
-    public function Login(Request $request)
+    private function loginInner(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'uid' => 'required|string',
