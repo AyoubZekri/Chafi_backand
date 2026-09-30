@@ -189,6 +189,8 @@ class Stats extends Controller
                     'daily_percent' => $dailyPercent, // نسبة دخول اليوم مقابل الاجمالي لكل الولايات
                 ];
             });
+            $taxpayer = $this->taxpayerStats();
+
             return Respons::success([
                 "totalUsersEnter" => $item->totalUser,
                 "totalGuestsEnter" => $item->totalG,
@@ -209,6 +211,8 @@ class Stats extends Controller
                 "tax1Percent" => $tax1Percent,
                 "tax2Percent" => $tax2Percent,
                 "tax3Percent" => $tax3Percent,
+                'taxpayer_types' => $taxpayer['types'],
+                'tax_registration' => $taxpayer['registration'],
                 'chart_stats_data' => $chartStatsData,
                 'chart_users_guests_data' => $chartUsersGuestsData,
                 'data' => $dashboard
@@ -218,6 +222,63 @@ class Stats extends Controller
         }
     }
 
+
+    /**
+     * توزيع المستخدمين حسب صفة المكلف بالضريبة، والتسجيل في الإدارة الجبائية
+     * (سؤال التسجيل يخص المؤسسات فقط). القيم القديمة المحفوظة كنص عربي
+     * تُحوَّل إلى الرمز الموحد، وغير المحدد يُحسب في "unknown".
+     */
+    private function taxpayerStats(): array
+    {
+        $rows = User::where('role', 'user')
+            ->select('is_taxpayer', 'is_registered_tax_admin', DB::raw('COUNT(*) as total'))
+            ->groupBy('is_taxpayer', 'is_registered_tax_admin')
+            ->get();
+
+        return $this->countTaxpayers($rows);
+    }
+
+    /**
+     * @param iterable $rows أسطر (is_taxpayer, is_registered_tax_admin, total)
+     */
+    public function countTaxpayers(iterable $rows): array
+    {
+        $codes = [
+            'startup', 'micro_enterprise', 'other_enterprise', 'student',
+            'researcher', 'tax_interested', 'private_accountant', 'public_accountant',
+        ];
+        $arabic = [
+            'مؤسسة ناشئة' => 'startup',
+            'مؤسسة مصغرة' => 'micro_enterprise',
+            'مؤسسة أخرى' => 'other_enterprise',
+            'مؤسسة اخرى' => 'other_enterprise',
+            'طالب جامعي' => 'student',
+            'باحث' => 'researcher',
+            'مهتم بالجباية' => 'tax_interested',
+            'مهتم بي الجباية' => 'tax_interested',
+            'محاسب القطاع الخاص' => 'private_accountant',
+            'محاسب القطاع العام' => 'public_accountant',
+        ];
+        $enterprises = ['startup', 'micro_enterprise', 'other_enterprise'];
+
+        $types = array_fill_keys($codes, 0) + ['unknown' => 0];
+        $registration = ['registered' => 0, 'not_registered' => 0, 'unknown' => 0];
+
+        foreach ($rows as $row) {
+            $value = trim((string) $row->is_taxpayer);
+            $code = in_array($value, $codes, true) ? $value : ($arabic[$value] ?? 'unknown');
+            $types[$code] += (int) $row->total;
+
+            if (in_array($code, $enterprises, true)) {
+                $key = $row->is_registered_tax_admin === null
+                    ? 'unknown'
+                    : ((int) $row->is_registered_tax_admin === 1 ? 'registered' : 'not_registered');
+                $registration[$key] += (int) $row->total;
+            }
+        }
+
+        return ['types' => $types, 'registration' => $registration];
+    }
 
     public function addUserEnter(Request $request)
     {
