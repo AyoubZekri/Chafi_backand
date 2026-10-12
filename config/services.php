@@ -45,4 +45,11 @@ return [
         'credentials' => env('FIREBASE_CREDENTIALS'),
     ],
 
+    // خدمة المساعد الذكي (ai_service: Python + LangGraph + Ollama)
+    'ai_chat' => [
+        'url' => env('AI_SERVICE_URL', 'http://127.0.0.1:8001'),
+        'key' => env('AI_SERVICE_KEY'),
+        'daily_limit' => env('AI_CHAT_DAILY_LIMIT', 30),
+    ],
+
 ];

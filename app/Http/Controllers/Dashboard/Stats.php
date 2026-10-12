@@ -257,7 +257,9 @@ class Stats extends Controller
             'مهتم بالجباية' => 'tax_interested',
             'مهتم بي الجباية' => 'tax_interested',
             'محاسب القطاع الخاص' => 'private_accountant',
+            'محاسب في القطاع الخاص' => 'private_accountant',
             'محاسب القطاع العام' => 'public_accountant',
+            'محاسب في القطاع العام' => 'public_accountant',
         ];
         $enterprises = ['startup', 'micro_enterprise', 'other_enterprise'];
 

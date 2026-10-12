@@ -7,6 +7,7 @@ use App\Http\Controllers\AppLication\NotificationUser\Delete as NotificationUser
 use App\Http\Controllers\AppLication\NotificationUser\Show as NotificationUserShow;
 use App\Http\Controllers\AppLication\TaxsAndApps;
 use App\Http\Controllers\AppLication\FavoritesController;
+use App\Http\Controllers\AppLication\ChatController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\GoogleAuth;
 use App\Http\Controllers\Dashboard\activitys\Add as ActivitysAdd;
@@ -163,6 +164,13 @@ Route::middleware('auth:sanctum')->group(function () {
    Route::post('/NotificationUser/Delete', [NotificationUserDelete::class, 'delete']);
    Route::post('/NotificationUser/IsRead', [NotificationUserShow::class, 'IsRead']);
    Route::post('/NotificationUser/Show', [NotificationUserShow::class, 'show']);
+
+   // المساعد الذكي (المحادثات)
+   Route::post('/Chat/Conversations', [ChatController::class, 'conversations']);
+   Route::post('/Chat/Messages', [ChatController::class, 'messages']);
+   Route::post('/Chat/Send', [ChatController::class, 'send']);
+   Route::post('/Chat/Rename', [ChatController::class, 'rename']);
+   Route::post('/Chat/Delete', [ChatController::class, 'delete']);
    Route::get('/logout', [GoogleAuth::class, 'logout']);
    Route::post('/isread/{table}', [IsRead::class, 'IsRead']);
 
