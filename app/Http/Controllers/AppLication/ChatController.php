@@ -100,10 +100,19 @@ class ChatController extends Controller
 
             if (!$response->successful()) {
                 Log::error('AI chat service error', ['status' => $response->status(), 'body' => $response->body()]);
-                return Respons::error('المساعد غير متاح حالياً، حاول لاحقاً', 503);
+                return Respons::error('ChafiBot غير متاح حالياً، حاول لاحقاً', 503);
             }
 
             $ai = $response->json();
+
+            // لم يجد المساعد جواباً في قاعدة البيانات: العملية فاشلة، ولا يُحفظ السؤال
+            // (ولا يُحسب من الحد اليومي لأنه لم يُحفظ)
+            if (($ai['found'] ?? true) === false) {
+                return Respons::error(
+                    $ai['answer'] ?: 'لم يتم العثور على إجابة',
+                    422
+                );
+            }
 
             // الحفظ بعد نجاح الإجابة فقط، حتى لا يبقى سؤال بدون جواب
             [$conversation, $userMessage, $assistantMessage] = DB::transaction(
@@ -141,7 +150,7 @@ class ChatController extends Controller
             ]);
         } catch (\Illuminate\Http\Client\ConnectionException $e) {
             Log::error('AI chat service unreachable', ['error' => $e->getMessage()]);
-            return Respons::error('المساعد غير متاح حالياً، حاول لاحقاً', 503);
+            return Respons::error('ChafiBot غير متاح حالياً، حاول لاحقاً', 503);
         } catch (\Throwable $e) {
             return Respons::error($e->getMessage());
         }
