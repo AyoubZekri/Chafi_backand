@@ -105,8 +105,8 @@ class ChatController extends Controller
     private function exchange(Request $request, ?ChatConversation $conversation, string $message,
                               ?ChatMessage $editing = null)
     {
-        // النموذج المحلي قد يأخذ أكثر من 30 ثانية
-        @set_time_limit(240);
+        // النموذج على المعالج قد يطول: لا حد لتنفيذ PHP، والانتظار حتى 10 دقائق
+        @set_time_limit(0);
 
         try {
             $user = $request->user();
@@ -135,7 +135,7 @@ class ChatController extends Controller
                     ->reverse()->values()->toArray();
             }
 
-            $response = Http::timeout(220)
+            $response = Http::timeout(600)
                 ->withHeaders(['X-AI-Key' => (string) config('services.ai_chat.key')])
                 ->post(rtrim(config('services.ai_chat.url'), '/') . '/chat', [
                     'message' => $message,
