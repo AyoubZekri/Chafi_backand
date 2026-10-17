@@ -169,6 +169,7 @@ Route::middleware('auth:sanctum')->group(function () {
    Route::post('/Chat/Conversations', [ChatController::class, 'conversations']);
    Route::post('/Chat/Messages', [ChatController::class, 'messages']);
    Route::post('/Chat/Send', [ChatController::class, 'send']);
+   Route::post('/Chat/Edit', [ChatController::class, 'edit']);
    Route::post('/Chat/Rename', [ChatController::class, 'rename']);
    Route::post('/Chat/Delete', [ChatController::class, 'delete']);
    Route::get('/logout', [GoogleAuth::class, 'logout']);

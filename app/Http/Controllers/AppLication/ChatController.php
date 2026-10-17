@@ -60,36 +60,80 @@ class ChatController extends Controller
             'conversation_id' => 'nullable|integer',
         ]);
 
+        $conversation = null;
+        if ($request->filled('conversation_id')) {
+            $conversation = $this->findOwned($request, $request->conversation_id);
+            if (!$conversation) {
+                return Respons::error('المحادثة غير موجودة', 404);
+            }
+        }
+
+        return $this->exchange($request, $conversation, trim($request->message));
+    }
+
+    /**
+     * تعديل سؤال سابق (مثل ChatGPT): يُحذف السؤال القديم وكل ما بعده من المحادثة،
+     * ثم يُرسل السؤال المعدّل مع المحادثة التي قبله فقط
+     */
+    public function edit(Request $request)
+    {
+        $request->validate([
+            'conversation_id' => 'required|integer',
+            'message_id' => 'required|integer',
+            'message' => 'required|string|max:2000',
+        ]);
+
+        $conversation = $this->findOwned($request, $request->conversation_id);
+        if (!$conversation) {
+            return Respons::error('المحادثة غير موجودة', 404);
+        }
+        $target = $conversation->messages()
+            ->where('id', $request->message_id)
+            ->where('role', 'user')
+            ->first();
+        if (!$target) {
+            return Respons::error('الرسالة غير موجودة', 404);
+        }
+
+        return $this->exchange($request, $conversation, trim($request->message), $target);
+    }
+
+    /**
+     * يرسل السؤال إلى المساعد ويحفظ السؤال والجواب.
+     * [$editing]: سؤال سابق يُستبدل (هو وما بعده) بالسؤال الجديد وجوابه
+     */
+    private function exchange(Request $request, ?ChatConversation $conversation, string $message,
+                              ?ChatMessage $editing = null)
+    {
         // النموذج المحلي قد يأخذ أكثر من 30 ثانية
         @set_time_limit(240);
 
         try {
             $user = $request->user();
-            $message = trim($request->message);
 
-            $conversation = null;
-            if ($request->filled('conversation_id')) {
-                $conversation = $this->findOwned($request, $request->conversation_id);
-                if (!$conversation) {
-                    return Respons::error('المحادثة غير موجودة', 404);
-                }
-            }
-
-            // حد يومي للرسائل لكل مستخدم
+            // حد يومي للرسائل لكل مستخدم (السؤال المعدَّل يحل محل القديم فلا يُحسب مرتين)
             $limit = (int) config('services.ai_chat.daily_limit', 30);
             $sentToday = ChatMessage::where('role', 'user')
                 ->whereDate('chat_messages.created_at', today())
                 ->whereHas('conversation', fn ($q) => $q->where('user_id', $user->id))
                 ->count();
+            if ($editing && $editing->created_at?->isToday()) {
+                $sentToday--;
+            }
             if ($limit > 0 && $sentToday >= $limit) {
                 return Respons::error('وصلت إلى الحد اليومي للأسئلة، حاول غداً', 429);
             }
 
-            // آخر رسائل المحادثة لفهم السياق
-            $history = $conversation
-                ? $conversation->messages()->orderByDesc('id')->limit(8)->get(['role', 'content'])
-                    ->reverse()->values()->toArray()
-                : [];
+            // آخر رسائل المحادثة لفهم السياق (عند التعديل: ما قبل السؤال المعدَّل فقط)
+            $history = [];
+            if ($conversation) {
+                $query = $conversation->messages();
+                if ($editing) {
+                    $query->where('id', '<', $editing->id);
+                }
+                $history = $query->orderByDesc('id')->limit(8)->get(['role', 'content'])
+                    ->reverse()->values()->toArray();
+            }
 
             $response = Http::timeout(220)
                 ->withHeaders(['X-AI-Key' => (string) config('services.ai_chat.key')])
@@ -108,7 +152,11 @@ class ChatController extends Controller
             // حتى "لم أجد إجابة" رسالة عادية في المحادثة (بصياغة لطيفة من المساعد)، لا خطأ
             // الحفظ بعد نجاح الإجابة فقط، حتى لا يبقى سؤال بدون جواب
             [$conversation, $userMessage, $assistantMessage] = DB::transaction(
-                function () use ($conversation, $user, $message, $ai) {
+                function () use ($conversation, $user, $message, $ai, $editing) {
+                    // التعديل: السؤال القديم وكل ما بعده يُستبدل
+                    if ($editing) {
+                        $conversation->messages()->where('id', '>=', $editing->id)->delete();
+                    }
                     if (!$conversation) {
                         $conversation = ChatConversation::create([
                             'user_id' => $user->id,
@@ -140,6 +188,8 @@ class ChatController extends Controller
                 'conversation' => $conversation->only(['id', 'title', 'created_at', 'updated_at']),
                 'user_message' => $userMessage,
                 'message' => $assistantMessage,
+                // عند التعديل: رقم الرسالة التي حُذفت منها المحادثة (هي وما بعدها)
+                'replaced_from' => $editing?->id,
                 'remaining_today' => $limit > 0 ? max(0, $limit - $sentToday - 1) : null,
             ]);
         } catch (\Illuminate\Http\Client\ConnectionException $e) {
