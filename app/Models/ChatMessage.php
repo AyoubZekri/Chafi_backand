@@ -17,11 +17,13 @@ class ChatMessage extends Model
         'content',
         'sources',
         'calculations',
+        'options',
     ];
 
     protected $casts = [
         'sources' => 'array',
         'calculations' => 'array',
+        'options' => 'array',
     ];
 
     public function conversation()

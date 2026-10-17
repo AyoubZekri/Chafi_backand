@@ -44,7 +44,7 @@ class ChatController extends Controller
 
             $messages = $conversation->messages()
                 ->orderBy('id')
-                ->get(['id', 'role', 'content', 'sources', 'calculations', 'created_at']);
+                ->get(['id', 'role', 'content', 'sources', 'calculations', 'options', 'created_at']);
 
             return Respons::success($messages);
         } catch (\Throwable $e) {
@@ -105,15 +105,7 @@ class ChatController extends Controller
 
             $ai = $response->json();
 
-            // لم يجد المساعد جواباً في قاعدة البيانات: العملية فاشلة، ولا يُحفظ السؤال
-            // (ولا يُحسب من الحد اليومي لأنه لم يُحفظ)
-            if (($ai['found'] ?? true) === false) {
-                return Respons::error(
-                    $ai['answer'] ?: 'لم يتم العثور على إجابة',
-                    422
-                );
-            }
-
+            // حتى "لم أجد إجابة" رسالة عادية في المحادثة (بصياغة لطيفة من المساعد)، لا خطأ
             // الحفظ بعد نجاح الإجابة فقط، حتى لا يبقى سؤال بدون جواب
             [$conversation, $userMessage, $assistantMessage] = DB::transaction(
                 function () use ($conversation, $user, $message, $ai) {
@@ -133,6 +125,8 @@ class ChatController extends Controller
                         'content' => $ai['answer'] ?? '',
                         'sources' => $ai['sources'] ?? [],
                         'calculations' => $ai['calculations'] ?? [],
+                        // مواضيع مقترحة عندما لا يفهم المساعد السؤال
+                        'options' => $ai['options'] ?? [],
                     ]);
 
                     // حتى تظهر المحادثة أولاً في القائمة
