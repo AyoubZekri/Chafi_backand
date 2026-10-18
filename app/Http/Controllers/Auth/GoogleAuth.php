@@ -64,6 +64,8 @@ class GoogleAuth extends Controller
             "wilaya"=>"sometimes|string",
             "is_taxpayer"=>"nullable|string",
             "is_registered_tax_admin"=>"nullable|boolean",
+            // سنة التسجيل: إجبارية للمسجل في الإدارة الجبائية
+            "registration_year"=>"nullable|required_if:is_registered_tax_admin,1|integer|min:1962|max:" . date('Y'),
         ]);
 
 
@@ -144,7 +146,8 @@ class GoogleAuth extends Controller
                 'password' => Hash::make("password@1234"),
                 "image"=>$profilePath,
                 "is_taxpayer"=>$request->is_taxpayer,
-                "is_registered_tax_admin"=>$request->is_registered_tax_admin
+                "is_registered_tax_admin"=>$request->is_registered_tax_admin,
+                "registration_year"=>$request->boolean('is_registered_tax_admin') ? $request->registration_year : null,
             ]);
 
 
@@ -243,6 +246,7 @@ class GoogleAuth extends Controller
             'wilaya' => 'sometimes|string',
             'is_taxpayer' => 'nullable|string',
             'is_registered_tax_admin' => 'nullable|boolean',
+            'registration_year' => 'nullable|required_if:is_registered_tax_admin,1|integer|min:1962|max:' . date('Y'),
         ]);
 
         if ($validator->fails()) {
@@ -270,6 +274,10 @@ class GoogleAuth extends Controller
         }
         if ($request->has('is_registered_tax_admin')) {
             $user->is_registered_tax_admin = $request->is_registered_tax_admin;
+            // غير مسجل: لا سنة تسجيل
+            $user->registration_year = $request->boolean('is_registered_tax_admin')
+                ? $request->registration_year
+                : null;
         }
 
         // تحديث الصورة إذا موجودة
