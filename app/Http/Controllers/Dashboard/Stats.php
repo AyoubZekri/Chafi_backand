@@ -213,6 +213,7 @@ class Stats extends Controller
                 "tax3Percent" => $tax3Percent,
                 'taxpayer_types' => $taxpayer['types'],
                 'tax_registration' => $taxpayer['registration'],
+                'registration_years' => $this->registrationYearStats(),
                 'chart_stats_data' => $chartStatsData,
                 'chart_users_guests_data' => $chartUsersGuestsData,
                 'data' => $dashboard
@@ -236,6 +237,44 @@ class Stats extends Controller
             ->get();
 
         return $this->countTaxpayers($rows);
+    }
+
+    /**
+     * عدد المسجلين في الإدارة الجبائية حسب سنة التسجيل، مجمّعين في فترات:
+     * السنوات القديمة في فترات طويلة، ومن 2020 كل سنة وحدها (هي الأكثر تسجيلاً)
+     */
+    private function registrationYearStats(): array
+    {
+        $counts = User::where('role', 'user')
+            ->where('is_registered_tax_admin', 1)
+            ->whereNotNull('registration_year')
+            ->select('registration_year', DB::raw('COUNT(*) as total'))
+            ->groupBy('registration_year')
+            ->pluck('total', 'registration_year');
+
+        $current = (int) date('Y');
+        $periods = [[1962, 1989], [1990, 1999], [2000, 2009], [2010, 2014], [2015, 2019]];
+        for ($year = 2020; $year <= $current; $year++) {
+            $periods[] = [$year, $year];
+        }
+
+        $result = [];
+        foreach ($periods as [$from, $to]) {
+            $total = 0;
+            foreach ($counts as $year => $count) {
+                if ($year >= $from && $year <= $to) {
+                    $total += (int) $count;
+                }
+            }
+            $result[] = [
+                'label' => $from === $to ? (string) $from : "$from-$to",
+                'from' => $from,
+                'to' => $to,
+                'total' => $total,
+            ];
+        }
+
+        return $result;
     }
 
     /**
