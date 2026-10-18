@@ -7,6 +7,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Activity;
 use Stichoza\GoogleTranslate\GoogleTranslate;
 use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 
 
@@ -47,6 +50,43 @@ class UserController extends Controller
             return Respons::error($e, 404);
         }
     }
+    /**
+     * حذف مستخدم من لوحة التحكم (للمسؤول فقط):
+     * يُحذف الحساب وكل بياناته (المحادثات، الإحصائيات، الآراء...) وصورته
+     */
+    public function delete(Request $request)
+    {
+        $request->validate(['id' => 'required|integer']);
+
+        if ($request->user()?->role !== 'admin') {
+            return Respons::error('ليس لديك صلاحيات', 403);
+        }
+
+        try {
+            $user = User::where('id', $request->id)->where('role', 'user')->first();
+            if (!$user) {
+                return Respons::error('المستخدم غير موجود', 404);
+            }
+
+            DB::transaction(function () use ($user) {
+                // جدول الإشعارات بدون حذف تلقائي: نحذف أسطره أولاً
+                DB::table('notification_users')->where('user_id', $user->id)->delete();
+                // جلسات الدخول في التطبيق
+                $user->tokens()->delete();
+                // باقي الجداول (المحادثات، الإحصائيات، الآراء، المسارات...) تُحذف تلقائياً
+                $user->delete();
+            });
+
+            if ($user->image && Storage::disk('public')->exists($user->image)) {
+                Storage::disk('public')->delete($user->image);
+            }
+
+            return Respons::success(null, 'تم الحذف بنجاح');
+        } catch (\Throwable $e) {
+            return Respons::error('حدث خطأ أثناء الحذف', 500, $e->getMessage());
+        }
+    }
+
     public function translateActivities()
     {
         try {

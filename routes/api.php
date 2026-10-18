@@ -147,6 +147,7 @@ Route::middleware('auth:sanctum')->group(function () {
    Route::post('/Notification/Delete', [NotificationDelete::class, 'delete']);
 
    Route::get('/User/Show', [UserController::class, 'show']);
+   Route::post('/User/Delete', [UserController::class, 'delete']);
 
    Route::post('/bonusesandcompensations/add', [BonusesandcompensationAdd::class, 'add']);
    Route::post('/bonusesandcompensations/Edit', [BonusesandcompensationEdit::class, 'Edit']);
