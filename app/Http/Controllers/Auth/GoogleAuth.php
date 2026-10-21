@@ -58,7 +58,7 @@ class GoogleAuth extends Controller
     {
         $validator = Validator::make($request->all(), [
             'uid' => 'required|string',
-            'token' => 'sometimes|string',
+            'token' => 'nullable|string',
             "username"=>"sometimes|string",
             "numperPhone"=>"sometimes|string",
             "wilaya"=>"sometimes|string",
@@ -98,7 +98,10 @@ class GoogleAuth extends Controller
         $user = User::where('email', $firebase->email)->first();
 
         if ($user) {
-            $user->token = $request->token;
+            // توكن الإشعارات اختياري: إذا فشل جلبه في التطبيق نحتفظ بالقديم
+            if ($request->filled('token')) {
+                $user->token = $request->token;
+            }
             $user->save();
             if ($user->isUser()) {
                 $token = $user->createToken('auth_token')->plainTextToken;
@@ -171,7 +174,7 @@ class GoogleAuth extends Controller
     {
         $validator = Validator::make($request->all(), [
             'uid' => 'required|string',
-            'token' => 'sometimes|string',
+            'token' => 'nullable|string',
         ]);
 
 
@@ -208,7 +211,10 @@ class GoogleAuth extends Controller
 
 
         if ($user) {
-            $user->token = $request->token;
+            // توكن الإشعارات اختياري: إذا فشل جلبه في التطبيق نحتفظ بالقديم
+            if ($request->filled('token')) {
+                $user->token = $request->token;
+            }
             $user->save();
             if ($user->isUser()) {
                 $token = $user->createToken('auth_token')->plainTextToken;
