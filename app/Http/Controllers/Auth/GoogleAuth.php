@@ -64,8 +64,10 @@ class GoogleAuth extends Controller
             "wilaya"=>"sometimes|string",
             "is_taxpayer"=>"nullable|string",
             "is_registered_tax_admin"=>"nullable|boolean",
-            // سنة التسجيل: إجبارية للمسجل في الإدارة الجبائية
-            "registration_year"=>"nullable|required_if:is_registered_tax_admin,1|integer|min:1962|max:" . date('Y'),
+            // للمسجل في الإدارة الجبائية: طبيعة الشخص والنظام الجبائي، وسنة التسجيل اختيارية
+            "person_type"=>"nullable|in:natural,legal",
+            "tax_system"=>"nullable|in:real,flat_rate,simplified",
+            "registration_year"=>"nullable|integer|min:1962|max:" . date('Y'),
         ]);
 
 
@@ -151,6 +153,8 @@ class GoogleAuth extends Controller
                 "is_taxpayer"=>$request->is_taxpayer,
                 "is_registered_tax_admin"=>$request->is_registered_tax_admin,
                 "registration_year"=>$request->boolean('is_registered_tax_admin') ? $request->registration_year : null,
+                "person_type"=>$request->boolean('is_registered_tax_admin') ? $request->person_type : null,
+                "tax_system"=>$request->boolean('is_registered_tax_admin') ? $request->tax_system : null,
             ]);
 
 
@@ -252,7 +256,9 @@ class GoogleAuth extends Controller
             'wilaya' => 'sometimes|string',
             'is_taxpayer' => 'nullable|string',
             'is_registered_tax_admin' => 'nullable|boolean',
-            'registration_year' => 'nullable|required_if:is_registered_tax_admin,1|integer|min:1962|max:' . date('Y'),
+            'person_type' => 'nullable|in:natural,legal',
+            'tax_system' => 'nullable|in:real,flat_rate,simplified',
+            'registration_year' => 'nullable|integer|min:1962|max:' . date('Y'),
         ]);
 
         if ($validator->fails()) {
@@ -280,10 +286,11 @@ class GoogleAuth extends Controller
         }
         if ($request->has('is_registered_tax_admin')) {
             $user->is_registered_tax_admin = $request->is_registered_tax_admin;
-            // غير مسجل: لا سنة تسجيل
-            $user->registration_year = $request->boolean('is_registered_tax_admin')
-                ? $request->registration_year
-                : null;
+            // غير مسجل: لا سنة تسجيل ولا طبيعة شخص ولا نظام جبائي
+            $registered = $request->boolean('is_registered_tax_admin');
+            $user->registration_year = $registered ? $request->registration_year : null;
+            $user->person_type = $registered ? $request->person_type : null;
+            $user->tax_system = $registered ? $request->tax_system : null;
         }
 
         // تحديث الصورة إذا موجودة
