@@ -299,7 +299,7 @@ class Stats extends Controller
 
         return $result;
     }
-
+//
     /**
      * @param iterable $rows أسطر (is_taxpayer, is_registered_tax_admin, total)
      */
