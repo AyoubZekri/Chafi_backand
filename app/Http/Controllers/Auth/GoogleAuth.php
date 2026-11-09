@@ -122,6 +122,15 @@ class GoogleAuth extends Controller
                 ], 403);
             }
         } else {
+            // حساب جديد: الولاية إجبارية (إحصائيات الدخول تعتمد عليها)
+            if (!$request->filled('wilaya')) {
+                DB::rollBack();
+                return response()->json([
+                    'status' => 0,
+                    'message' => 'يرجى اختيار الولاية',
+                ], 400);
+            }
+
             $profilePath = null;
 
             if ($firebase->photoUrl) {
@@ -253,7 +262,7 @@ class GoogleAuth extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'username' => 'sometimes|string',
             'numperPhone' => 'sometimes|integer',
-            'wilaya' => 'sometimes|string',
+            'wilaya' => 'sometimes|required|string',
             'is_taxpayer' => 'nullable|string',
             'is_registered_tax_admin' => 'nullable|boolean',
             'person_type' => 'nullable|in:natural,legal',

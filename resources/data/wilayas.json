@@ -1,0 +1,444 @@
+{
+  "regions": [
+    {
+      "code": 1,
+      "name_ar": "الشمال",
+      "name_fr": "Nord"
+    },
+    {
+      "code": 2,
+      "name_ar": "الهضاب العليا",
+      "name_fr": "Hauts Plateaux"
+    },
+    {
+      "code": 3,
+      "name_ar": "الجنوب",
+      "name_fr": "Sud"
+    }
+  ],
+  "wilayas": [
+    {
+      "code": "01",
+      "name_ar": "أدرار",
+      "name_fr": "Adrar",
+      "region": 3
+    },
+    {
+      "code": "02",
+      "name_ar": "الشلف",
+      "name_fr": "Chlef",
+      "region": 1
+    },
+    {
+      "code": "03",
+      "name_ar": "الأغواط",
+      "name_fr": "Laghouat",
+      "region": 3
+    },
+    {
+      "code": "04",
+      "name_ar": "أم البواقي",
+      "name_fr": "Oum El Bouaghi",
+      "region": 2
+    },
+    {
+      "code": "05",
+      "name_ar": "باتنة",
+      "name_fr": "Batna",
+      "region": 2
+    },
+    {
+      "code": "06",
+      "name_ar": "بجاية",
+      "name_fr": "Béjaïa",
+      "region": 1
+    },
+    {
+      "code": "07",
+      "name_ar": "بسكرة",
+      "name_fr": "Biskra",
+      "region": 3
+    },
+    {
+      "code": "08",
+      "name_ar": "بشار",
+      "name_fr": "Béchar",
+      "region": 3
+    },
+    {
+      "code": "09",
+      "name_ar": "البليدة",
+      "name_fr": "Blida",
+      "region": 1
+    },
+    {
+      "code": "10",
+      "name_ar": "البويرة",
+      "name_fr": "Bouira",
+      "region": 1
+    },
+    {
+      "code": "11",
+      "name_ar": "تمنراست",
+      "name_fr": "Tamanrasset",
+      "region": 3
+    },
+    {
+      "code": "12",
+      "name_ar": "تبسة",
+      "name_fr": "Tébessa",
+      "region": 2
+    },
+    {
+      "code": "13",
+      "name_ar": "تلمسان",
+      "name_fr": "Tlemcen",
+      "region": 1
+    },
+    {
+      "code": "14",
+      "name_ar": "تيارت",
+      "name_fr": "Tiaret",
+      "region": 2
+    },
+    {
+      "code": "15",
+      "name_ar": "تيزي وزو",
+      "name_fr": "Tizi Ouzou",
+      "region": 1
+    },
+    {
+      "code": "16",
+      "name_ar": "الجزائر",
+      "name_fr": "Alger",
+      "region": 1
+    },
+    {
+      "code": "17",
+      "name_ar": "الجلفة",
+      "name_fr": "Djelfa",
+      "region": 2
+    },
+    {
+      "code": "18",
+      "name_ar": "جيجل",
+      "name_fr": "Jijel",
+      "region": 1
+    },
+    {
+      "code": "19",
+      "name_ar": "سطيف",
+      "name_fr": "Sétif",
+      "region": 2
+    },
+    {
+      "code": "20",
+      "name_ar": "سعيدة",
+      "name_fr": "Saïda",
+      "region": 2
+    },
+    {
+      "code": "21",
+      "name_ar": "سكيكدة",
+      "name_fr": "Skikda",
+      "region": 1
+    },
+    {
+      "code": "22",
+      "name_ar": "سيدي بلعباس",
+      "name_fr": "Sidi Bel Abbès",
+      "region": 1
+    },
+    {
+      "code": "23",
+      "name_ar": "عنابة",
+      "name_fr": "Annaba",
+      "region": 1
+    },
+    {
+      "code": "24",
+      "name_ar": "قالمة",
+      "name_fr": "Guelma",
+      "region": 1
+    },
+    {
+      "code": "25",
+      "name_ar": "قسنطينة",
+      "name_fr": "Constantine",
+      "region": 1
+    },
+    {
+      "code": "26",
+      "name_ar": "المدية",
+      "name_fr": "Médéa",
+      "region": 1
+    },
+    {
+      "code": "27",
+      "name_ar": "مستغانم",
+      "name_fr": "Mostaganem",
+      "region": 1
+    },
+    {
+      "code": "28",
+      "name_ar": "المسيلة",
+      "name_fr": "M'Sila",
+      "region": 2
+    },
+    {
+      "code": "29",
+      "name_ar": "معسكر",
+      "name_fr": "Mascara",
+      "region": 1
+    },
+    {
+      "code": "30",
+      "name_ar": "ورقلة",
+      "name_fr": "Ouargla",
+      "region": 3
+    },
+    {
+      "code": "31",
+      "name_ar": "وهران",
+      "name_fr": "Oran",
+      "region": 1
+    },
+    {
+      "code": "32",
+      "name_ar": "البيض",
+      "name_fr": "El Bayadh",
+      "region": 2
+    },
+    {
+      "code": "33",
+      "name_ar": "إليزي",
+      "name_fr": "Illizi",
+      "region": 3
+    },
+    {
+      "code": "34",
+      "name_ar": "برج بوعريريج",
+      "name_fr": "Bordj Bou Arréridj",
+      "region": 2
+    },
+    {
+      "code": "35",
+      "name_ar": "بومرداس",
+      "name_fr": "Boumerdès",
+      "region": 1
+    },
+    {
+      "code": "36",
+      "name_ar": "الطارف",
+      "name_fr": "El Tarf",
+      "region": 1
+    },
+    {
+      "code": "37",
+      "name_ar": "تندوف",
+      "name_fr": "Tindouf",
+      "region": 3
+    },
+    {
+      "code": "38",
+      "name_ar": "تيسمسيلت",
+      "name_fr": "Tissemsilt",
+      "region": 2
+    },
+    {
+      "code": "39",
+      "name_ar": "الوادي",
+      "name_fr": "El Oued",
+      "region": 3
+    },
+    {
+      "code": "40",
+      "name_ar": "خنشلة",
+      "name_fr": "Khenchela",
+      "region": 2
+    },
+    {
+      "code": "41",
+      "name_ar": "سوق أهراس",
+      "name_fr": "Souk Ahras",
+      "region": 1
+    },
+    {
+      "code": "42",
+      "name_ar": "تيبازة",
+      "name_fr": "Tipaza",
+      "region": 1
+    },
+    {
+      "code": "43",
+      "name_ar": "ميلة",
+      "name_fr": "Mila",
+      "region": 1
+    },
+    {
+      "code": "44",
+      "name_ar": "عين الدفلى",
+      "name_fr": "Aïn Defla",
+      "region": 1,
+      "aliases": [
+        "عين الدفلة"
+      ]
+    },
+    {
+      "code": "45",
+      "name_ar": "النعامة",
+      "name_fr": "Naâma",
+      "region": 2
+    },
+    {
+      "code": "46",
+      "name_ar": "عين تموشنت",
+      "name_fr": "Aïn Témouchent",
+      "region": 1
+    },
+    {
+      "code": "47",
+      "name_ar": "غرداية",
+      "name_fr": "Ghardaïa",
+      "region": 3
+    },
+    {
+      "code": "48",
+      "name_ar": "غليزان",
+      "name_fr": "Relizane",
+      "region": 1
+    },
+    {
+      "code": "49",
+      "name_ar": "تيميمون",
+      "name_fr": "Timimoun",
+      "region": 3
+    },
+    {
+      "code": "50",
+      "name_ar": "برج باجي مختار",
+      "name_fr": "Bordj Badji Mokhtar",
+      "region": 3
+    },
+    {
+      "code": "51",
+      "name_ar": "أولاد جلال",
+      "name_fr": "Ouled Djellal",
+      "region": 3
+    },
+    {
+      "code": "52",
+      "name_ar": "بني عباس",
+      "name_fr": "Béni Abbès",
+      "region": 3
+    },
+    {
+      "code": "53",
+      "name_ar": "عين صالح",
+      "name_fr": "In Salah",
+      "region": 3
+    },
+    {
+      "code": "54",
+      "name_ar": "عين قزام",
+      "name_fr": "In Guezzam",
+      "region": 3
+    },
+    {
+      "code": "55",
+      "name_ar": "تقرت",
+      "name_fr": "Touggourt",
+      "region": 3
+    },
+    {
+      "code": "56",
+      "name_ar": "جانت",
+      "name_fr": "Djanet",
+      "region": 3
+    },
+    {
+      "code": "57",
+      "name_ar": "المغير",
+      "name_fr": "El M'Ghair",
+      "region": 3
+    },
+    {
+      "code": "58",
+      "name_ar": "المنيعة",
+      "name_fr": "El Meniaa",
+      "region": 3
+    },
+    {
+      "code": "59",
+      "name_ar": "أفلو",
+      "name_fr": "Aflou",
+      "region": 2,
+      "aliases": [
+        "آفلو"
+      ]
+    },
+    {
+      "code": "60",
+      "name_ar": "بريكة",
+      "name_fr": "Barika",
+      "region": 2
+    },
+    {
+      "code": "61",
+      "name_ar": "القنطرة",
+      "name_fr": "El Kantara",
+      "region": 3
+    },
+    {
+      "code": "62",
+      "name_ar": "بئر العاتر",
+      "name_fr": "Bir El Ater",
+      "region": 2,
+      "aliases": [
+        "بير العاتر"
+      ]
+    },
+    {
+      "code": "63",
+      "name_ar": "العريشة",
+      "name_fr": "El Aricha",
+      "region": 2
+    },
+    {
+      "code": "64",
+      "name_ar": "قصر الشلالة",
+      "name_fr": "Ksar Chellala",
+      "region": 2
+    },
+    {
+      "code": "65",
+      "name_ar": "عين وسارة",
+      "name_fr": "Aïn Oussara",
+      "region": 2
+    },
+    {
+      "code": "66",
+      "name_ar": "مسعد",
+      "name_fr": "Messaad",
+      "region": 2
+    },
+    {
+      "code": "67",
+      "name_ar": "قصر البخاري",
+      "name_fr": "Ksar El Boukhari",
+      "region": 2
+    },
+    {
+      "code": "68",
+      "name_ar": "بوسعادة",
+      "name_fr": "Bou Saâda",
+      "region": 2
+    },
+    {
+      "code": "69",
+      "name_ar": "الأبيض سيدي الشيخ",
+      "name_fr": "El Abiodh Sidi Cheikh",
+      "region": 2
+    }
+  ]
+}

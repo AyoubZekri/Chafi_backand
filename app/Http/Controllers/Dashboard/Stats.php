@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Function\Respons;
+use App\Function\Wilayas;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Mypath;
@@ -55,16 +56,20 @@ class Stats extends Controller
 
             $today = now()->toDateString();
 
-            $dashboardData = ModelsStats::select(
-                'state',
-                DB::raw('SUM(CASE WHEN type_user = 1 AND type_stats = 0 THEN 1 ELSE 0 END) as totalUser'),
-                DB::raw('SUM(CASE WHEN type_user = 2 AND type_stats = 0 THEN 1 ELSE 0 END) as totalG'),
-                DB::raw("SUM(CASE WHEN type_user = 1 AND type_stats = 0 AND open_date = '{$today}' THEN 1 ELSE 0 END) as dailyUser"),
-                DB::raw("SUM(CASE WHEN type_user = 2 AND type_stats = 0 AND open_date = '{$today}' THEN 1 ELSE 0 END) as dailyG"),
+            // الولاية = الولاية المسجلة في حساب المستخدم (حتى الدخولات القديمة)، ولا نعتمد
+            // موقع الهاتف أبداً: الزائر أو حساب بدون ولاية يُحسب في "Unknown"
+            $stateExpr = "CASE WHEN stats.type_user = 1 AND users.wilaya IS NOT NULL AND users.wilaya <> '' THEN users.wilaya ELSE 'Unknown' END";
 
-            )
-                ->where("type_stats", 0)
-                ->groupBy('state')
+            $dashboardData = ModelsStats::leftJoin('users', 'users.id', '=', 'stats.user_id')
+                ->select(
+                    DB::raw("$stateExpr as state"),
+                    DB::raw('SUM(CASE WHEN stats.type_user = 1 AND stats.type_stats = 0 THEN 1 ELSE 0 END) as totalUser'),
+                    DB::raw('SUM(CASE WHEN stats.type_user = 2 AND stats.type_stats = 0 THEN 1 ELSE 0 END) as totalG'),
+                    DB::raw("SUM(CASE WHEN stats.type_user = 1 AND stats.type_stats = 0 AND stats.open_date = '{$today}' THEN 1 ELSE 0 END) as dailyUser"),
+                    DB::raw("SUM(CASE WHEN stats.type_user = 2 AND stats.type_stats = 0 AND stats.open_date = '{$today}' THEN 1 ELSE 0 END) as dailyG"),
+                )
+                ->where('stats.type_stats', 0)
+                ->groupBy(DB::raw($stateExpr))
                 ->get();
 
             $allChartData = ModelsStats::select(
@@ -172,23 +177,35 @@ class Stats extends Controller
             ];
 
             $totalAllUsers = $dashboardData->sum(fn($item) => $item->totalUser + $item->totalG);
-            $dailyAllUsers = $dashboardData->sum(fn($item) => $item->dailyUser + $item->dailyG);
 
-            $dashboard = $dashboardData->map(function ($item) use ($totalAllUsers, $dailyAllUsers) {
-                $totalCount = $totalAllUsers; // ← مجموع كل الولايات
-                $dailyCount = $item->dailyUser + $item->dailyG;
+            // تجميع حسب رقم الولاية (أسماء مختلفة لنفس الولاية تُجمع معاً)، وغير المعروف في الأخير
+            $byCode = [];
+            foreach ($dashboardData as $item) {
+                $key = Wilayas::codeOf($item->state) ?? 'unknown';
+                $byCode[$key] ??= ['dailyUser' => 0, 'dailyG' => 0, 'totalUser' => 0, 'totalG' => 0];
+                foreach ($byCode[$key] as $field => $value) {
+                    $byCode[$key][$field] = $value + (int) $item->$field;
+                }
+            }
+            uksort($byCode, fn($a, $b) => ($a === 'unknown') <=> ($b === 'unknown') ?: strcmp($a, $b));
 
-                $dailyPercent = $totalCount > 0 ? round(($dailyCount * 100) / $totalCount, 2) : 0;
+            $dashboard = collect($byCode)->map(function ($counts, $code) use ($totalAllUsers) {
+                $wilaya = Wilayas::find((string) $code);
+                $dailyCount = $counts['dailyUser'] + $counts['dailyG'];
 
                 return [
-                    'state' => $item->state,
-                    'dailyUser' => $item->dailyUser,
-                    'dailyG' => $item->dailyG,
-                    'totalUser' => $item->totalUser,
-                    'totalG' => $item->totalG,
-                    'daily_percent' => $dailyPercent, // نسبة دخول اليوم مقابل الاجمالي لكل الولايات
+                    'code' => $wilaya['code'] ?? '',
+                    'state' => $wilaya['name_ar'] ?? 'غير محدد',
+                    'state_fr' => $wilaya['name_fr'] ?? 'Non défini',
+                    'region' => $wilaya['region'] ?? 0,
+                    'dailyUser' => $counts['dailyUser'],
+                    'dailyG' => $counts['dailyG'],
+                    'totalUser' => $counts['totalUser'],
+                    'totalG' => $counts['totalG'],
+                    // نسبة دخول اليوم مقابل الاجمالي لكل الولايات
+                    'daily_percent' => $totalAllUsers > 0 ? round(($dailyCount * 100) / $totalAllUsers, 2) : 0,
                 ];
-            });
+            })->values();
             $taxpayer = $this->taxpayerStats();
 
             return Respons::success([
@@ -218,6 +235,7 @@ class Stats extends Controller
                 'tax_systems' => $this->registeredBreakdown('tax_system', ['real', 'flat_rate', 'simplified']),
                 'chart_stats_data' => $chartStatsData,
                 'chart_users_guests_data' => $chartUsersGuestsData,
+                'regions' => Wilayas::regions(),
                 'data' => $dashboard
             ]);
         } catch (\Exception $e) {
@@ -369,7 +387,8 @@ class Stats extends Controller
                     'type_stats' => $type_stats
                 ],
                 [
-                    'state' => $data['state'] ?? "",
+                    // رقم ولاية الحساب فقط (موقع الهاتف لا يُعتمد)
+                    'state' => Wilayas::codeOf(auth()->user()?->wilaya) ?? 'Unknown',
                     'type_user' => 1,
                     'user_id' => auth()->id(),
                 ]
@@ -386,7 +405,8 @@ class Stats extends Controller
         try {
             $validator = Validator::make($request->all(), [
                 'device_id' => 'required|string',
-                'state' => 'required|string',
+                // النسخ القديمة ترسل موقع الهاتف: لم يعد يُعتمد
+                'state' => 'nullable|string',
                 'type_stats' => 'nullable|integer',
             ]);
 
@@ -406,7 +426,8 @@ class Stats extends Controller
                     'type_stats' => $type_stats
                 ],
                 [
-                    'state' => $data['state'] ?? "",
+                    // الزائر ليس له ولاية مسجلة
+                    'state' => 'Unknown',
                     'type_user' => 2,
                 ]
             );
