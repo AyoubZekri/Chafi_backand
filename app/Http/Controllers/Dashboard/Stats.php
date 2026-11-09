@@ -57,19 +57,19 @@ class Stats extends Controller
             $today = now()->toDateString();
 
             // الولاية = الولاية المسجلة في حساب المستخدم (حتى الدخولات القديمة)، ولا نعتمد
-            // موقع الهاتف أبداً: الزائر أو حساب بدون ولاية يُحسب في "Unknown"
-            $stateExpr = "CASE WHEN stats.type_user = 1 AND users.wilaya IS NOT NULL AND users.wilaya <> '' THEN users.wilaya ELSE 'Unknown' END";
-
+            // موقع الهاتف أبداً: الزائر أو حساب بدون ولاية يُحسب في "Unknown".
+            // التجميع بالأعمدة نفسها (ONLY_FULL_GROUP_BY)، واختيار الولاية يتم في PHP بالأسفل
             $dashboardData = ModelsStats::leftJoin('users', 'users.id', '=', 'stats.user_id')
                 ->select(
-                    DB::raw("$stateExpr as state"),
+                    'stats.type_user',
+                    'users.wilaya',
                     DB::raw('SUM(CASE WHEN stats.type_user = 1 AND stats.type_stats = 0 THEN 1 ELSE 0 END) as totalUser'),
                     DB::raw('SUM(CASE WHEN stats.type_user = 2 AND stats.type_stats = 0 THEN 1 ELSE 0 END) as totalG'),
                     DB::raw("SUM(CASE WHEN stats.type_user = 1 AND stats.type_stats = 0 AND stats.open_date = '{$today}' THEN 1 ELSE 0 END) as dailyUser"),
                     DB::raw("SUM(CASE WHEN stats.type_user = 2 AND stats.type_stats = 0 AND stats.open_date = '{$today}' THEN 1 ELSE 0 END) as dailyG"),
                 )
                 ->where('stats.type_stats', 0)
-                ->groupBy(DB::raw($stateExpr))
+                ->groupBy('stats.type_user', 'users.wilaya')
                 ->get();
 
             $allChartData = ModelsStats::select(
@@ -181,7 +181,7 @@ class Stats extends Controller
             // تجميع حسب رقم الولاية (أسماء مختلفة لنفس الولاية تُجمع معاً)، وغير المعروف في الأخير
             $byCode = [];
             foreach ($dashboardData as $item) {
-                $key = Wilayas::codeOf($item->state) ?? 'unknown';
+                $key = ((int) $item->type_user === 1 ? Wilayas::codeOf($item->wilaya) : null) ?? 'unknown';
                 $byCode[$key] ??= ['dailyUser' => 0, 'dailyG' => 0, 'totalUser' => 0, 'totalG' => 0];
                 foreach ($byCode[$key] as $field => $value) {
                     $byCode[$key][$field] = $value + (int) $item->$field;
