@@ -214,6 +214,8 @@ class Stats extends Controller
                 'taxpayer_types' => $taxpayer['types'],
                 'tax_registration' => $taxpayer['registration'],
                 'registration_years' => $this->registrationYearStats(),
+                'person_types' => $this->registeredBreakdown('person_type', ['natural', 'legal']),
+                'tax_systems' => $this->registeredBreakdown('tax_system', ['real', 'flat_rate', 'simplified']),
                 'chart_stats_data' => $chartStatsData,
                 'chart_users_guests_data' => $chartUsersGuestsData,
                 'data' => $dashboard
@@ -272,6 +274,27 @@ class Stats extends Controller
                 'to' => $to,
                 'total' => $total,
             ];
+        }
+
+        return $result;
+    }
+
+    /**
+     * توزيع المسجلين في الإدارة الجبائية حسب عمود (طبيعة الشخص أو النظام الجبائي)،
+     * وغير المحدد (مستخدمون قدامى قبل إضافة الحقل) يُحسب في "unknown"
+     */
+    private function registeredBreakdown(string $column, array $codes): array
+    {
+        $counts = User::where('role', 'user')
+            ->where('is_registered_tax_admin', 1)
+            ->select($column, DB::raw('COUNT(*) as total'))
+            ->groupBy($column)
+            ->pluck('total', $column);
+
+        $result = array_fill_keys($codes, 0) + ['unknown' => 0];
+        foreach ($counts as $value => $total) {
+            $key = in_array($value, $codes, true) ? $value : 'unknown';
+            $result[$key] += (int) $total;
         }
 
         return $result;
